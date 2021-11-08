@@ -4,6 +4,8 @@ const v = {
 
         file : 'regioes.json',
 
+        raw : null,
+
         read : () => {
 
             fetch(v.data.file)
@@ -17,8 +19,6 @@ const v = {
 
             })
             .then(data => {
-
-                console.log(data);
 
                 v.ctrl.loaded_data(data);
 
@@ -52,11 +52,60 @@ const v = {
 
     },
 
+    map : {
+
+        proj : () => {
+
+            let h = v.sizings.h;
+            let w = v.sizings.w;
+            
+            return d3.geoMercator()
+              .center([-50, -15])
+              //.rotate([10, 0])
+              .scale(500)
+              .translate([w / 2, h / 2])
+
+        },
+
+        render : () => {
+    
+            let data = v.data.raw;
+
+            let feats = data.features;
+            //   topojson.feature(
+            //     topodata, 
+            //     topodata.objects.provincia)
+            //   .features;
+
+            let proj = v.map.proj();
+
+            //console.log(proj)
+
+            let svg = d3.select(v.elems.svg);
+
+            svg.append("g")
+              .classed('container-regioes', true)
+              .selectAll("path.vis-regiao")
+              .data(feats)
+              .join("path")
+              .classed('vis-regiao', true)
+              .attr("fill", 'white')
+              .attr("stroke", 'khaki')
+              .attr("d", d3.geoPath().projection(proj))
+            ;
+
+    
+        }
+
+    },
+
     ctrl : {
 
         loaded_data : (data) => {
 
-            console.log(data);
+            v.data.raw = data;
+
+            v.map.render();
 
         },
 
