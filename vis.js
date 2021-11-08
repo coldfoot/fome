@@ -89,6 +89,7 @@ const v = {
               .data(feats)
               .join("path")
               .classed('vis-regiao', true)
+              .attr('data-name', d => d.properties.name_region)
               .attr("d", d3.geoPath().projection(proj))
             ;
 
@@ -108,6 +109,8 @@ const v = {
         },
 
         init : () => {
+
+
 
             v.sizings.get();
             v.data.read();
