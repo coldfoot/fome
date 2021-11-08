@@ -17,3 +17,15 @@ main {
     margin-right: auto;
 
 }
+
+/* = = = = =
+   = VIS = =
+   = = = = = */
+
+svg {
+
+    outline: 1px dotted lime;
+    height: 400px;
+    width: 100%;
+
+}
