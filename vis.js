@@ -28,6 +28,30 @@ const v = {
 
     },
 
+    elems : {
+
+        svg : 'svg.vis',
+        cont : 'div.svg-container'
+
+    },
+
+    sizings : {
+
+        w : null,
+        h : null,
+        margin : 30,
+
+        get : () => {
+
+            const svg = document.querySelector(v.elems.svg);
+
+            v.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+            v.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+
+        }
+
+    },
+
     ctrl : {
 
         loaded_data : (data) => {
@@ -38,6 +62,7 @@ const v = {
 
         init : () => {
 
+            v.sizings.get();
             v.data.read();
 
         }
