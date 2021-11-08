@@ -29,3 +29,9 @@ svg {
     width: 100%;
 
 }
+
+path.vis-regiao {
+
+    fill : white;
+    stroke: gray;
+}

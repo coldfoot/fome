@@ -89,8 +89,6 @@ const v = {
               .data(feats)
               .join("path")
               .classed('vis-regiao', true)
-              .attr("fill", 'white')
-              .attr("stroke", 'khaki')
               .attr("d", d3.geoPath().projection(proj))
             ;
 
