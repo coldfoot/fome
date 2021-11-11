@@ -1,0 +1,37 @@
+* {
+
+    box-sizing: border-box;
+
+}
+
+main {
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+}
+
+.main-content {
+
+    max-width: 620px;
+    margin-right: auto;
+
+}
+
+/* = = = = =
+   = VIS = =
+   = = = = = */
+
+svg {
+
+    outline: 1px dotted lime;
+    height: 400px;
+    width: 100%;
+
+}
+
+path.vis-regiao {
+
+    fill : white;
+    stroke: gray;
+}
