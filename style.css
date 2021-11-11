@@ -4,17 +4,44 @@
 
 }
 
-main {
+.limited-width {
 
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    max-width: 580px;
+    margin: 0 auto;
 
 }
 
-.main-content {
+article {
 
-    max-width: 620px;
-    margin-right: auto;
+    position: relative; /*faz ficar na frente*/
+
+}
+
+article .step {
+
+    min-height: 60vh;
+
+}
+
+article p {
+
+    max-width: 400px;
+    margin: 0 auto;
+
+    background-color: white;
+    padding: 1.5rem;
+    border: 3px solid #343434;
+
+}
+
+.sticky {
+
+    position: sticky;
+    width: 100vw;
+    background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);
+    height: 60vh;
+    top: 10vh; 
+    left: 0;
 
 }
 
