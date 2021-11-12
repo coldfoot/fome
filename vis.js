@@ -159,22 +159,44 @@ const v = {
 
     },
 
+    scroller : {
+
+        monitora : () => { 
+            
+            gsap.to(
+                '.sticky', {
+
+                    rotate: 90,
+
+                    scrollTrigger: {
+                        trigger: '.step3',
+                        markers: false,
+                        pin: false,   // pin the trigger element while active
+                        start: "50% bottom", // when the top of the trigger hits the top of the viewport
+                        end: "100% bottom", // end after scrolling 500px beyond the start
+                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                    }
+                }
+            )
+
+        }
+
+    },
+
     ctrl : {
 
         loaded_data : (data) => {
 
             v.data.raw = data;
-
             v.map.render();
 
         },
 
         init : () => {
 
-
-
-            v.sizings.get();
-            v.data.read();
+            //v.sizings.get();
+            //v.data.read();
+            v.scroller.monitora();
 
         }
 
