@@ -1,0 +1,95 @@
+* {
+
+    box-sizing: border-box;
+
+}
+
+.limited-width {
+
+    max-width: 580px;
+    margin: 0 auto;
+
+}
+
+article {
+
+    position: relative; /*faz ficar na frente*/
+
+}
+
+article .step {
+
+    min-height: 60vh;
+
+}
+
+article p {
+
+    max-width: 400px;
+    margin: 0 auto;
+
+    background-color: white;
+    padding: 1.5rem;
+    border: 3px solid #343434;
+
+}
+
+.sticky {
+
+    position: sticky;
+    width: 100vw;
+    background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);
+    height: 60vh;
+    top: 10vh; 
+    left: 0;
+
+}
+
+/* = = = = =
+   = VIS = =
+   = = = = = */
+
+svg {
+
+    outline: 1px dotted lime;
+    height: 400px;
+    width: 100%;
+
+}
+
+path.vis-regiao {
+
+    fill : white;
+    stroke: gray;
+}
+
+
+.sticky {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.sticky p {
+    padding: 2rem;
+    background-color: khaki;
+    border: 2px solid #444;
+}
+
+#sticky2 {
+    top: 100vh;
+}
+
+article {
+
+    border: 1px solid goldenrod;
+
+}
+
+.scrolly-container {
+
+    outline: 2px dotted tomato;
+
+}
