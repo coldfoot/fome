@@ -161,17 +161,23 @@ const v = {
 
     scroller : {
 
+        render : {
+
+            test : (step) => document.querySelector('.sticky p').innerHTML = step
+
+        },
+
         monitora : () => { 
 
-            ScrollTrigger.create({
-             trigger: '.step',
-             start: 'center center',
-             end: 'bottom top',
-             toggleClass: '.visible', //this toggles the specified CSS class on the trigger element
-             onEnter: ({trigger}) => {console.log('on enter', trigger)}, //this fires the drawPoints function when the trigger enters the scroller from above
-             //onUpdate : (target, i) => {console.log('on update', target, i)}
+            // ScrollTrigger.create({
+            //  trigger: '.step',
+            //  start: 'center center',
+            //  end: 'bottom top',
+            //  toggleClass: '.visible', //this toggles the specified CSS class on the trigger element
+            //  onEnter: ({trigger}) => {console.log('on enter', trigger)}, //this fires the drawPoints function when the trigger enters the scroller from above
+            //  //onUpdate : (target, i) => {console.log('on update', target, i)}
             
-            });
+            // });
             
             gsap.to(
                 '.sticky', {
@@ -179,8 +185,8 @@ const v = {
                     rotate: 90,
 
                     scrollTrigger: {
-                        trigger: '.step3',
-                        markers: true,
+                        trigger: '[data-step="3"]',
+                        markers: false,
                         pin: false,   // pin the trigger element while active
                         start: "top 75%", // when the top of the trigger hits the top of the viewport
                         end: "bottom 75%", // end after scrolling 500px beyond the start
@@ -190,6 +196,37 @@ const v = {
                     //onUpdate : () => { console.log('opa'); }
                 }
             );
+
+            const steps = document.querySelectorAll('.step');
+
+            steps.forEach( el => {
+
+                const passo = el.dataset.step;
+
+                console.log('setting up ', passo);
+
+                gsap.to(
+                    el, {
+
+                        //backgroundColor: 'tomato',
+
+                        scrollTrigger: {
+                            trigger: el,
+                            markers: true,
+                            toggleClass: 'active',
+                            pin: false,   // pin the trigger element while active
+                            start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                            end: "75% 40%", // end after scrolling 500px beyond the start,
+                            onEnter: ({trigger}) => v.scroller.render.test(trigger.dataset.step),
+                            onEnterBack: ({trigger}) => v.scroller.render.test(trigger.dataset.step),
+                            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        },
+
+                    }
+                )
+
+
+            })
 
             
 

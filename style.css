@@ -94,8 +94,29 @@ article {
 
 }
 
-.step3 p {
+.step {
+
+    margin-bottom: 5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.step p {
+    transition: all .4s;
+}
+
+/*.step3 p {
 
     background-color: tomato;
+
+}*/
+
+.active p {
+
+    outline: 10px solid dodgerblue;
+    background-color: tomato;
+
 
 }
