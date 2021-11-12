@@ -162,6 +162,16 @@ const v = {
     scroller : {
 
         monitora : () => { 
+
+            ScrollTrigger.create({
+             trigger: '.step',
+             start: 'center center',
+             end: 'bottom top',
+             toggleClass: '.visible', //this toggles the specified CSS class on the trigger element
+             onEnter: ({trigger}) => {console.log('on enter', trigger)}, //this fires the drawPoints function when the trigger enters the scroller from above
+             //onUpdate : (target, i) => {console.log('on update', target, i)}
+            
+            });
             
             gsap.to(
                 '.sticky', {
@@ -180,6 +190,8 @@ const v = {
                     //onUpdate : () => { console.log('opa'); }
                 }
             );
+
+            
 
 
 
