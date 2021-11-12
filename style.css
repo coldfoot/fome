@@ -4,12 +4,19 @@
 
 }
 
-.limited-width {
+.limited-width, h1 {
 
     max-width: 580px;
     margin: 0 auto;
 
 }
+
+h1 { 
+
+    text-align: center;
+
+}
+
 
 article {
 
@@ -116,7 +123,24 @@ article {
 .active p {
 
     outline: 10px solid dodgerblue;
-    background-color: tomato;
+    background-color: steelblue;
+    color: white;
+    border-color: white;
+
+
+}
+
+.out-of-flow {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+circle {
+
 
 
 }

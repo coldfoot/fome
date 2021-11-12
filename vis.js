@@ -178,6 +178,25 @@ const v = {
             //  //onUpdate : (target, i) => {console.log('on update', target, i)}
             
             // });
+
+            gsap.to(
+                'circle', {
+
+                    y : '100vh',
+                    x : '100vw',
+
+                    scrollTrigger: {
+                        trigger: '[data-step="4"]',
+                        markers: false,
+                        pin: false,   // pin the trigger element while active
+                        start: "top 75%", // when the top of the trigger hits the top of the viewport
+                        end: "bottom 75%", // end after scrolling 500px beyond the start
+                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                    },
+
+                    //onUpdate : () => { console.log('opa'); }
+                }
+            );
             
             gsap.to(
                 '.sticky', {
@@ -186,6 +205,24 @@ const v = {
 
                     scrollTrigger: {
                         trigger: '[data-step="3"]',
+                        markers: false,
+                        pin: false,   // pin the trigger element while active
+                        start: "top 75%", // when the top of the trigger hits the top of the viewport
+                        end: "bottom 75%", // end after scrolling 500px beyond the start
+                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                    },
+
+                    //onUpdate : () => { console.log('opa'); }
+                }
+            );
+
+            gsap.to(
+                '.sticky', {
+
+                    rotate: -360,
+
+                    scrollTrigger: {
+                        trigger: '[data-step="5"]',
                         markers: false,
                         pin: false,   // pin the trigger element while active
                         start: "top 75%", // when the top of the trigger hits the top of the viewport
