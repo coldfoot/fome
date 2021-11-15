@@ -30,30 +30,6 @@ const v = {
 
     },
 
-    elems : {
-
-        svg : 'svg.vis',
-        cont : 'div.svg-container'
-
-    },
-
-    sizings : {
-
-        w : null,
-        h : null,
-        margin : 30,
-
-        get : () => {
-
-            const svg = document.querySelector(v.elems.svg);
-
-            v.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
-            v.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
-
-        }
-
-    },
-
     map : {
 
         proj : () => {
@@ -187,7 +163,31 @@ const v = {
 
             }
 
-        }
+        },
+
+        elems : {
+
+            svg : 'svg.vis',
+            cont : 'div.svg-container'
+    
+        },
+    
+        sizings : {
+    
+            w : null,
+            h : null,
+            margin : 30,
+    
+            get : () => {
+    
+                const svg = document.querySelector(v.vis.elems.svg);
+    
+                v.vis.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                v.vis.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+    
+            }
+    
+        },
 
     },
 
@@ -348,7 +348,7 @@ const v = {
 
         init : () => {
 
-            //v.sizings.get();
+            v.vis.sizings.get();
             //v.data.read();
             v.vis.data.summarise();
             v.scroller.monitora();
