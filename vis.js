@@ -178,7 +178,7 @@ const v = {
     
             w : null,
             h : null,
-            margin : 30,
+            margin : 40,
     
             get : () => {
     
@@ -215,10 +215,11 @@ const v = {
     
                 const w = v.vis.sizings.w;
                 const h = v.vis.sizings.h;
+                const margin = v.vis.sizings.margin;
     
                 v.vis.data.root = d3.treemap()
                   .tile(d3.treemapBinary)
-                  .size([w, h])
+                  .size([w-2*margin, h-2*margin])
                   .round(true)
                   (d3.hierarchy(data).sum(d => d.valor))
     
@@ -229,13 +230,15 @@ const v = {
                 const root = v.vis.data.root;
     
                 const svg = d3.select(v.vis.elems.svg);
+
+                const margin = v.vis.sizings.margin;
     
                 const leaf = svg.selectAll("rect")
                     .data(root.leaves())
                     .join("rect")
                     .classed('rect', true)
-                    .attr("x", d => d.x0)
-                    .attr('y', d => d.y0)
+                    .attr("x", d => margin+d.x0)
+                    .attr('y', d => margin+ d.y0)
                     .attr("width", d => (d.x1 - d.x0))
                     .attr("height", d => (d.y1 - d.y0))
                     .attr("fill", d => v.vis.colors[d.data.cat])
@@ -406,6 +409,9 @@ const v = {
             v.vis.sizings.get();
             //v.data.read();
             v.vis.data.summarise();
+            v.vis.treemap.prepare();
+            v.vis.treemap.draw();
+
             v.scroller.monitora();
 
         }
