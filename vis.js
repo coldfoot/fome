@@ -100,6 +100,97 @@ const v = {
 
     },
 
+    vis : {
+
+        data : {
+            
+            raw : [
+
+                {
+                    fonte : 'PNAD 2004',
+                    'Segurança Alimentar' : 0.648,
+                    'Insegurança Alimentar' : 0.138,
+                    'Insegurança Alimentar Moderada' : 0.12,
+                    'Insegurança Alimentar Grave' : 0.095,
+                },
+
+                {
+                    fonte : 'PNAD 2009',
+                    'Segurança Alimentar' : 0.696,
+                    'Insegurança Alimentar' : 0.158,
+                    'Insegurança Alimentar Moderada' : 0.08,
+                    'Insegurança Alimentar Grave' : 0.066,
+                },
+
+                {
+                    fonte : 'PNAD 2013',
+                    'Segurança Alimentar' : 0.771,
+                    'Insegurança Alimentar' : 0.126,
+                    'Insegurança Alimentar Moderada' : 0.061,
+                    'Insegurança Alimentar Grave' : 0.042,
+                },
+
+                {
+                    fonte : 'POF 2018',
+                    'Segurança Alimentar' : 0.633,
+                    'Insegurança Alimentar' : 0.207,
+                    'Insegurança Alimentar Moderada' : 0.101,
+                    'Insegurança Alimentar Grave' : 0.058,
+                },
+
+                {
+                    fonte : 'Inquérito Vigisan 2020',
+                    'Segurança Alimentar' : 0.448,
+                    'Insegurança Alimentar' : 0.347,
+                    'Insegurança Alimentar Moderada' : 0.115,
+                    'Insegurança Alimentar Grave' : 0.09,
+                }
+            ],
+
+            summary_line : null,
+
+            summary_tree : null,
+
+            summarise : () => {
+
+                const data = v.vis.data.raw;
+
+                // line
+
+                v.vis.data.summary_line = data.map(d => (
+                    
+                    {
+                        fonte : d.fonte,
+                        'Segurança Alimentar' : d['Segurança Alimentar'],
+                        'Insegurança Alimentar' : d['Insegurança Alimentar'] + d['Insegurança Alimentar Moderada'] + d['Insegurança Alimentar Grave']
+
+                    }
+                ));
+
+                // tree
+
+                const temp = data.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0];
+
+                const subtotal_inseguranca = v.vis.data.summary_line.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0]['Insegurança Alimentar'];
+
+                const categorias = Object.keys(temp).filter(d => d != 'fonte' & d != 'Segurança Alimentar');
+
+                console.log(Object.keys(temp));
+
+                v.vis.data.summary_tree = categorias.map(cat => (
+                    {
+                        cat : cat,
+                        valor : temp[cat] / subtotal_inseguranca
+
+                    }
+                ))
+
+            }
+
+        }
+
+    },
+
     animation : {
 
         test : () => {
@@ -259,6 +350,7 @@ const v = {
 
             //v.sizings.get();
             //v.data.read();
+            v.vis.data.summarise();
             v.scroller.monitora();
 
         }
