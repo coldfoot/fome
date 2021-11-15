@@ -200,6 +200,48 @@ const v = {
 
         },
 
+        line : {
+
+            path_gen_seg : null,
+            path_gen_inseg : null,
+            y : d3.scaleLinear(),
+            x : d3.scaleOrdinal(),
+
+            prepare : () => {
+
+                const w = v.vis.sizings.w;
+                const h = v.vis.sizings.h;
+                const margin = v.vis.sizings.margin;
+
+                // scales 
+
+                const ticks_x = v.vis.data.summary_line.map(d => d.fonte);
+
+                v.vis.line.x
+                  .domain(ticks_x)
+                  .range([
+                      margin,
+                      w - margin
+                  ]);
+
+                v.vis.line.y
+                  .domain([0,1])
+                  .range([h-margin, margin]);
+
+
+                // line
+
+                v.vis.line.path_gen_seg = d3.line()
+                  .x(d => v.vis.line.x(d => d.fonte))
+                  .y(d => v.vis.line.y(d => d['Segurança Alimentar']));
+
+                v.vis.line.path_gen_inseg = d3.line()
+                  .x(d => v.vis.line.x(d => d.fonte))
+                  .y(d => v.vis.line.y(d => d['Insegurança Alimentar']));
+
+            } 
+
+        },
 
         treemap : {
 
