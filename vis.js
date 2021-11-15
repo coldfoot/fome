@@ -127,6 +127,8 @@ const v = {
 
             summary_tree : null,
 
+            root : null,
+
             summarise : () => {
 
                 const data = v.vis.data.raw;
@@ -188,6 +190,59 @@ const v = {
             }
     
         },
+
+        colors : {
+
+            'Segurança Alimentar' : 'green',
+            'Insegurança Alimentar' : 'goldenrod',
+            'Insegurança Alimentar Moderada' : 'dodgerblue',
+            'Insegurança Alimentar Grave' : 'tomato',
+
+        },
+
+
+        treemap : {
+
+            prepare : function() {
+    
+                const data = {
+                    
+                    children : v.vis.data.summary_tree//.map(d => d.valor)
+    
+                };
+    
+                //console.log(data);
+    
+                const w = v.vis.sizings.w;
+                const h = v.vis.sizings.h;
+    
+                v.vis.data.root = d3.treemap()
+                  .tile(d3.treemapBinary)
+                  .size([w, h])
+                  .round(true)
+                  (d3.hierarchy(data).sum(d => d.valor))
+    
+            },
+    
+            draw : function() {
+    
+                const root = v.vis.data.root;
+    
+                const svg = d3.select(v.vis.elems.svg);
+    
+                const leaf = svg.selectAll("rect")
+                    .data(root.leaves())
+                    .join("rect")
+                    .classed('rect', true)
+                    .attr("x", d => d.x0)
+                    .attr('y', d => d.y0)
+                    .attr("width", d => (d.x1 - d.x0))
+                    .attr("height", d => (d.y1 - d.y0))
+                    .attr("fill", d => v.vis.colors[d.data.cat])
+    
+            }
+
+        }
 
     },
 
