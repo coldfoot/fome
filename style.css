@@ -4,10 +4,23 @@
 
 }
 
+body {
+
+    background-color: khaki;
+    line-height: 1.4;
+
+}
+
 .limited-width, h1 {
 
     max-width: 580px;
     margin: 0 auto;
+
+}
+
+.section-intro {
+
+    margin-bottom: 2rem;
 
 }
 
@@ -24,28 +37,41 @@ article {
 
 }
 
-article .step {
+article .step-wrapper {
 
     min-height: 60vh;
 
 }
 
-article p {
+article .step {
 
     max-width: 400px;
     margin: 0 auto;
-
     background-color: white;
     padding: 1.5rem;
     border: 3px solid #343434;
 
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.time {
+
+    font-weight: bold;
+
+}
+
+.description {
+    flex-grow: 1;
+    margin-left: 1rem;
 }
 
 .sticky {
 
     position: sticky;
     width: 100vw;
-    background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);
+    /*background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);*/
     height: 60vh;
     top: 10vh; 
     left: 0;
@@ -70,6 +96,11 @@ path.vis-regiao {
     stroke: gray;
 }
 
+.section-final {
+
+    margin-top: 10rem;
+
+}
 
 .sticky {
 
@@ -91,13 +122,40 @@ path.vis-regiao {
 
 article {
 
-    border: 1px solid goldenrod;
+    /*border: 1px solid goldenrod;*/
+
+}
+
+img[data-comida] {
+
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .5s, transform 1s;
+    transform: translateX(-10%);
+
+
+}
+
+[data-comida="leite"] {
+
+    left: 30%;
+    top: 5%;
+    width: 50px;
+
+}
+
+[data-comida="prato"] {
+
+    left: 40%;
+    top: 5%;
+    width: 150px;
 
 }
 
 .scrolly-container {
 
-    outline: 2px dotted tomato;
+    /*outline: 2px dotted tomato;*/
 
 }
 
@@ -110,8 +168,10 @@ article {
     align-items: center;
 }
 
-.step p {
+.step {
+
     transition: all .4s;
+    opacity: 0.5;
 }
 
 /*.step3 p {
@@ -120,12 +180,13 @@ article {
 
 }*/
 
-.active p {
+.active {
 
-    outline: 10px solid dodgerblue;
+    opacity: 1;
+    /*outline: 10px solid dodgerblue;
     background-color: steelblue;
     color: white;
-    border-color: white;
+    border-color: white;*/
 
 
 }

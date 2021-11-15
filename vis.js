@@ -163,41 +163,32 @@ const v = {
 
         render : {
 
-            test : (step) => document.querySelector('.sticky p').innerHTML = step
+            test : (step) => document.querySelector('.sticky p').innerHTML = step,
+
+            food : (comida) => {
+                
+                if (comida == "3") {
+
+                    const imgs = document.querySelectorAll('[data-comida]');
+                    imgs.forEach(img => {
+                        img.style.transform = "translate(120vh, -30px)";
+                    })
+                    
+                } else {
+
+                    const img = document.querySelector('[data-comida="' + comida + '"]');
+                
+                    img.style.opacity = 1;
+                    img.style.transform = "translate(0,0)";
+
+                }
+
+            }
 
         },
 
         monitora : () => { 
-
-            // ScrollTrigger.create({
-            //  trigger: '.step',
-            //  start: 'center center',
-            //  end: 'bottom top',
-            //  toggleClass: '.visible', //this toggles the specified CSS class on the trigger element
-            //  onEnter: ({trigger}) => {console.log('on enter', trigger)}, //this fires the drawPoints function when the trigger enters the scroller from above
-            //  //onUpdate : (target, i) => {console.log('on update', target, i)}
-            
-            // });
-
-            gsap.to(
-                'circle', {
-
-                    y : '100vh',
-                    x : '100vw',
-
-                    scrollTrigger: {
-                        trigger: '[data-step="4"]',
-                        markers: false,
-                        pin: false,   // pin the trigger element while active
-                        start: "top 75%", // when the top of the trigger hits the top of the viewport
-                        end: "bottom 75%", // end after scrolling 500px beyond the start
-                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-                    },
-
-                    //onUpdate : () => { console.log('opa'); }
-                }
-            );
-            
+          
             gsap.to(
                 '.sticky', {
 
@@ -205,24 +196,6 @@ const v = {
 
                     scrollTrigger: {
                         trigger: '[data-step="3"]',
-                        markers: false,
-                        pin: false,   // pin the trigger element while active
-                        start: "top 75%", // when the top of the trigger hits the top of the viewport
-                        end: "bottom 75%", // end after scrolling 500px beyond the start
-                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-                    },
-
-                    //onUpdate : () => { console.log('opa'); }
-                }
-            );
-
-            gsap.to(
-                '.sticky', {
-
-                    rotate: -360,
-
-                    scrollTrigger: {
-                        trigger: '[data-step="5"]',
                         markers: false,
                         pin: false,   // pin the trigger element while active
                         start: "top 75%", // when the top of the trigger hits the top of the viewport
@@ -249,13 +222,13 @@ const v = {
 
                         scrollTrigger: {
                             trigger: el,
-                            markers: true,
+                            markers: false,
                             toggleClass: 'active',
                             pin: false,   // pin the trigger element while active
                             start: "25% 60%", // when the top of the trigger hits the top of the viewport
                             end: "75% 40%", // end after scrolling 500px beyond the start,
-                            onEnter: ({trigger}) => v.scroller.render.test(trigger.dataset.step),
-                            onEnterBack: ({trigger}) => v.scroller.render.test(trigger.dataset.step),
+                            onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                            onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
                         },
 
