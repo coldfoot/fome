@@ -239,7 +239,31 @@ const v = {
                   .x(d => v.vis.line.x(d => d.fonte))
                   .y(d => v.vis.line.y(d => d['Insegurança Alimentar']));
 
-            } 
+            },
+
+            draw : () => {
+
+                const svg = d3.select(v.vis.elems.svg);
+
+                const data = v.vis.data.summary_line;
+
+                const linha_seg = svg.append("path.seguranca")
+                    .datum(data)
+                    .attr("class", "line seguranca")
+                    .attr("d", v.vis.line.path_gen_seg)
+                    .attr('stroke', 'green')
+                    .attr('stroke-width', 3)
+                    .attr('fill', 'none');
+
+                const linha_inseg = svg.append("path.inseguranca")
+                    .datum(data)
+                    .attr("class", "line inseguranca")
+                    .attr("d", v.vis.line.path_gen_inseg)
+                    .attr('stroke', 'tomato')
+                    .attr('stroke-width', 3)
+                    .attr('fill', 'none');
+
+            }
 
         },
 
@@ -453,6 +477,9 @@ const v = {
             v.vis.data.summarise();
             v.vis.treemap.prepare();
             v.vis.treemap.draw();
+
+            v.vis.line.prepare();
+            v.vis.line.draw();
 
             v.scroller.monitora();
 
