@@ -7,12 +7,62 @@ library(jsonlite)
 #regioes <- geobr::read_region()
 saveRDS(regioes, 'regioes.rds')
 
+estados <- geobr::read_state()
 br <- geobr::read_country()
+geobr::re
 
 n_ne <- regioes %>%
   filter(name_region %in% c('Norte', 'Nordeste')) %>%
   st_combine() %>%
   st_union(by_feature = T, is_coverage = T)
+
+# centro_sul2 <- regioes %>%
+#   filter(name_region %in% c('Sul', 'Sudeste', 'Centro Oeste')) %>%
+#   group_by() %>%
+#   summarise()
+# 
+# ggplot(centro_sul2) + geom_sf()
+
+# sul <- regioes %>% filter(name_region == 'Sul')
+# sudeste <- regioes %>% filter(name_region == 'Sudeste')
+# centrooeste <- regioes %>% filter(name_region == 'Centro Oeste')
+# jsonlite::write_json(sf_geojson(sul), 'sul.geojson')
+
+# # tentando no mapshaper
+# for (reg in c('Sul', 'Sudeste', 'Centro Oeste')) {
+#   
+#   df <- regioes %>% filter(name_region == reg)
+#   
+#   jsonlite::write_json(sf_geojson(df), paste0(reg, '.geojson'))
+#   
+# }
+
+# centro_sul <- regioes %>%
+#   filter(name_region %in% c('Sul', 'Sudeste', 'Centro Oeste')) %>%
+#   select(name_region) %>%
+#   mutate(regiao = 'Centro Sul')
+
+#write_file(sf_geojson(centro_sul, simplify = TRUE, digits = 6), 'centrosul.json')
+
+regioes_com_centro_sul <- regioes %>%
+  select(name_region) %>%
+  mutate(new_region = ifelse(
+    name_region %in% c('Sul', 'Sudeste', 'Centro Oeste'),
+    'Centro Sul',
+    name_region)) %>%
+  group_by(new_region) %>%
+  summarise()
+
+regioes_com_centro_sul <- sf::st_simplify(regioes_com_centro_sul, dTolerance = .025)
+
+ggplot(regioes_com_centro_sul) + geom_sf()
+
+write_file(
+  sf_geojson(regioes_com_centro_sul, simplify = TRUE, digits = 6),
+  'regioes_com_centrosul.json')
+
+
+
 
 cs <- st_difference(br, n_ne)
 
