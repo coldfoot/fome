@@ -105,7 +105,7 @@ const v = {
               .data(feats)
               .join("path")
               .classed('vis-regiao', true)
-              .attr('data-name', d => d.properties.new_region)
+              .attr('data-map-regiao', d => d.properties.new_region)
               .attr("d", d3.geoPath().projection(proj))
             ;
 
@@ -461,54 +461,76 @@ const v = {
 
         monitora : () => { 
           
+            // gsap.to(
+            //     '.sticky', {
+
+            //         rotate: 90,
+
+            //         scrollTrigger: {
+            //             trigger: '[data-step="3"]',
+            //             markers: false,
+            //             pin: false,   // pin the trigger element while active
+            //             start: "top 75%", // when the top of the trigger hits the top of the viewport
+            //             end: "bottom 75%", // end after scrolling 500px beyond the start
+            //             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+            //         },
+
+            //         //onUpdate : () => { console.log('opa'); }
+            //     }
+            // );
+
             gsap.to(
-                '.sticky', {
-
-                    rotate: 90,
-
-                    scrollTrigger: {
-                        trigger: '[data-step="3"]',
+                '[data-map-regiao]',
+                {
+                    scrollTrigger : {
+                        trigger: '[data-step="2004"]',
                         markers: false,
+                        toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
-                        start: "top 75%", // when the top of the trigger hits the top of the viewport
-                        end: "bottom 75%", // end after scrolling 500px beyond the start
-                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        scrub: 1
                     },
 
-                    //onUpdate : () => { console.log('opa'); }
-                }
-            );
+                    x : (target, i) => {
+                        //const regiao = target.dataset
+                        //console.log(regiao); 
+                        return 30
+                    },
+                    y : -30
+                })
+            ;
 
-            const steps = document.querySelectorAll('.step');
+            // const steps = document.querySelectorAll('.step');
 
-            steps.forEach( el => {
+            // steps.forEach( el => {
 
-                const passo = el.dataset.step;
+            //     const passo = el.dataset.step;
 
-                console.log('setting up ', passo);
+            //     console.log('setting up ', passo);
 
-                gsap.to(
-                    el, {
+            //     gsap.to(
+            //         el, {
 
-                        //backgroundColor: 'tomato',
+            //             //backgroundColor: 'tomato',
 
-                        scrollTrigger: {
-                            trigger: el,
-                            markers: false,
-                            toggleClass: 'active',
-                            pin: false,   // pin the trigger element while active
-                            start: "25% 60%", // when the top of the trigger hits the top of the viewport
-                            end: "75% 40%", // end after scrolling 500px beyond the start,
-                            onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                            onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-                        },
+            //             scrollTrigger: {
+            //                 trigger: el,
+            //                 markers: false,
+            //                 toggleClass: 'active',
+            //                 pin: false,   // pin the trigger element while active
+            //                 start: "25% 60%", // when the top of the trigger hits the top of the viewport
+            //                 end: "75% 40%", // end after scrolling 500px beyond the start,
+            //                 onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+            //                 onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+            //                 scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+            //             },
 
-                    }
-                )
+            //         }
+            //     )
 
 
-            })
+            // })
 
             
 
@@ -533,6 +555,8 @@ const v = {
             v.vis.line.prepare();
             v.vis.line.draw();
 
+            v.scroller.monitora();
+
         },
 
         init : () => {
@@ -544,9 +568,6 @@ const v = {
             //v.vis.treemap.prepare();
             //v.vis.treemap.draw();
 
-
-
-            //v.scroller.monitora();
 
         }
 
