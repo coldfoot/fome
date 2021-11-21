@@ -2,9 +2,11 @@ const v = {
 
     data : {
 
-        file : 'regioes_com_centrosul.json',
+        file : 'data.json', //'regioes_com_centrosul.json',
 
         raw : null,
+
+        map : null,
 
         path_data : null,
 
@@ -70,7 +72,7 @@ const v = {
 
         render : () => {
     
-            let data = v.data.raw;
+            let data = v.data.map;
 
             let feats = data.features;
             //   topojson.feature(
@@ -506,7 +508,8 @@ const v = {
 
         loaded_data : (data) => {
 
-            v.data.raw = data;
+            v.data.raw = data.tabular;
+            v.data.map = JSON.parse(data.map);
             v.map.render();
 
         },

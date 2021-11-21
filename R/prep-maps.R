@@ -7,14 +7,13 @@ library(jsonlite)
 #regioes <- geobr::read_region()
 saveRDS(regioes, 'regioes.rds')
 
-estados <- geobr::read_state()
-br <- geobr::read_country()
-geobr::re
+# estados <- geobr::read_state()
+# br <- geobr::read_country()
 
-n_ne <- regioes %>%
-  filter(name_region %in% c('Norte', 'Nordeste')) %>%
-  st_combine() %>%
-  st_union(by_feature = T, is_coverage = T)
+# n_ne <- regioes %>%
+#   filter(name_region %in% c('Norte', 'Nordeste')) %>%
+#   st_combine() %>%
+#   st_union(by_feature = T, is_coverage = T)
 
 # centro_sul2 <- regioes %>%
 #   filter(name_region %in% c('Sul', 'Sudeste', 'Centro Oeste')) %>%
@@ -62,23 +61,11 @@ write_file(
   'regioes_com_centrosul.json')
 
 
-
-
-cs <- st_difference(br, n_ne)
-
-ggplot(cs) + geom_sf()
-
-centro <- sf::st_combine(cs) %>%
-  sf::st_union(by_feature = T, is_coverage = T )
-
-centro_sul <- sf::st_join(cs_, cs[3,'geom'])
-
-centro_sul$code_region <- 6
-centro_sul$name_region <- 'Centro Sul'
+# read data ---------------------------------------------------------------
 
 tab_names <- data.frame(
-  `região` = c('norte', 'nordeste', 'sul', 'centro-sul', 'sudeste', 'centro-oeste'),
-  name_region = c('Norte', 'Nordeste', 'Sul', 'Centro Sul', 'Sudeste', 'Centro Oeste')
+  `região` =    c('brasil', 'norte', 'nordeste', 'sul', 'centro-sul', 'sudeste', 'centro-oeste'),
+  name_region = c('Brasil', 'Norte', 'Nordeste', 'Sul', 'Centro Sul', 'Sudeste', 'Centro Oeste')
 )
 
 data_raw <- read.csv("dados - Desnutrição infantil.csv")
@@ -93,8 +80,22 @@ ggplot(data_pre %>% filter(`região` != 'brasil')) + geom_line(
       color = `região`)
 )
 
-ggplot(regioes) + geom_sf()
+data_pre_centro_sul <- data_pre %>%
+  filter(ano <= 1996, name_region %in% c('Norte', 'Nordeste', 'Centro Sul'))
 
-regioes_json <- geojsonsf::sf_geojson(regioes, simplify = TRUE, digits = 6)
+# ggplot(regioes) + geom_sf()
+# 
+# regioes_json <- geojsonsf::sf_geojson(regioes, simplify = TRUE, digits = 6)
+# 
+# write_file(regioes_json, '../regioes.json')
 
-write_file(regioes_json, '../regioes.json')
+
+
+# output ------------------------------------------------------------------
+
+output <- list(
+  tabular = data_pre_centro_sul,
+  map = sf_geojson(regioes_com_centro_sul, simplify = TRUE, digits = 6)
+)
+
+write_json(output, '../data.json')
