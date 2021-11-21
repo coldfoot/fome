@@ -32,6 +32,19 @@ const v = {
 
     },
 
+    utils : {
+
+        unique : (array, coluna) => {
+
+            const lista = array.map(d => d[coluna]);
+
+            return lista.filter( (d, i, arr) => arr.indexOf(d) == i )
+
+        }
+
+
+    },
+
     map : {
 
         elems : {
@@ -245,20 +258,20 @@ const v = {
 
         line : {
 
-            path_gen_seg : null,
-            path_gen_inseg : null,
+            path_gen : null,
+
             y : d3.scaleLinear(),
-            x : d3.scaleBand(),
+            x : d3.scaleTime(),
 
             prepare : () => {
 
-                const w = v.vis.sizings.w;
-                const h = v.vis.sizings.h;
+                const w = v.map.sizings.w;
+                const h = v.map.sizings.h;
                 const margin = v.vis.sizings.margin;
 
                 // scales 
 
-                const ticks_x = v.vis.data.summary_line.map(d => d.fonte);
+                const ticks_x = d3.extent(v.data.raw, d => d.date);
 
                 v.vis.line.x
                   .domain(ticks_x)
@@ -268,19 +281,15 @@ const v = {
                   ]);
 
                 v.vis.line.y
-                  .domain([0,1])
+                  .domain(d3.extent(v.data.raw, d => d.valor))
                   .range([h-margin, margin]);
 
 
                 // line
 
-                v.vis.line.path_gen_seg = d3.line()
-                  .x(d => v.vis.line.x(d.fonte))
-                  .y(d => v.vis.line.y(d['Segurança Alimentar']));
-
-                v.vis.line.path_gen_inseg = d3.line()
-                  .x(d => v.vis.line.x(d.fonte))
-                  .y(d => v.vis.line.y(d['Insegurança Alimentar']));
+                v.vis.line.path_gen = d3.line()
+                  .x(d => v.vis.line.x(d.date))
+                  .y(d => v.vis.line.y(d.valor));
 
             },
 
@@ -288,23 +297,28 @@ const v = {
 
                 const svg = d3.select(v.vis.elems.svg);
 
-                const data = v.vis.data.summary_line;
+                const data = v.data.raw;
 
-                const linha_seg = svg.append("path")
-                    .datum(data)
-                    .attr("class", "line seguranca")
-                    .attr("d", v.vis.line.path_gen_seg)
-                    .attr('stroke', 'green')
-                    .attr('stroke-width', 3)
-                    .attr('fill', 'none');
+                const regioes = ['Norte', 'Nordeste', 'Centro Sul'];
 
-                const linha_inseg = svg.append("path")
-                    .datum(data)
-                    .attr("class", "line inseguranca")
-                    .attr("d", v.vis.line.path_gen_inseg)
-                    .attr('stroke', 'tomato')
-                    .attr('stroke-width', 3)
-                    .attr('fill', 'none');
+                regioes.forEach(regiao => {
+
+                    const mini_data = data.filter(d => d.name_region == regiao);
+
+                    console.log(mini_data);
+
+                    svg.append("path")
+                      .datum(mini_data)
+                      .attr("class", "line")
+                      .attr('data-regiao', regiao)
+                      .attr("d", v.vis.line.path_gen)
+                      .attr('stroke', 'green')
+                      .attr('stroke-width', 3)
+                      .attr('fill', 'none')
+                    ;
+
+
+                })
 
             }
 
@@ -508,9 +522,16 @@ const v = {
 
         loaded_data : (data) => {
 
-            v.data.raw = data.tabular;
+            v.data.raw = data.tabular.filter(d => d.metodologia == 'estatura x idade (NCHS/OMS 1987)');
+            v.data.raw.forEach(d => {
+                d.date = new Date(d.ano, 0, 1)
+            })
+                           
             v.data.map = JSON.parse(data.map);
             v.map.render();
+
+            v.vis.line.prepare();
+            v.vis.line.draw();
 
         },
 
@@ -523,8 +544,7 @@ const v = {
             //v.vis.treemap.prepare();
             //v.vis.treemap.draw();
 
-            //v.vis.line.prepare();
-            //v.vis.line.draw();
+
 
             //v.scroller.monitora();
 
