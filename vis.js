@@ -48,8 +48,8 @@ const v = {
     
                 const svg = document.querySelector(v.vis.elems.svg);
     
-                v.vis.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
-                v.vis.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+                v.map.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                v.map.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
     
             }
     
@@ -61,10 +61,10 @@ const v = {
             let w = v.map.sizings.w;
             
             return d3.geoMercator()
-              .center([-30, -20])
+              .center([-55, -15])
               //.rotate([10, 0])
-              .scale(500)
-              //.translate([w / 2, h / 2])
+              .scale(400)
+              .translate([w / 2, h / 2])
 
         },
 
@@ -95,6 +95,24 @@ const v = {
             ;
 
     
+        },
+
+        draw_circle_around_map : () => {
+
+            let { w, h } = v.map.sizings;
+
+            console.log(w,h);
+
+            h0 = h;
+
+            //h = 2 * h / 3; // pq quero que o mapa ocupe 2/3 do svg
+
+            const d = w > h ? h : w;
+
+            let svg = d3.select(v.map.elems.svg);
+
+            svg.append('circle').attr('cx', w/2).attr('cy', h/2).attr('r', d/2).attr('stroke', 'blue').attr('fill', 'transparent');
+
         }
 
     },
