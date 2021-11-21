@@ -7,6 +7,7 @@
 :root {
 
     --title-color: #943a20;
+    --h2-color: #993113;
     --font-color: #2C2C2C;
 
 }
@@ -33,7 +34,6 @@
 body {
 
     background-color: khaki;
-    line-height: 1.4;
     font-family: GT-Sectra;
     font-size: 20px;
     line-height: 1.6;
@@ -67,6 +67,29 @@ h1 {
     text-transform: uppercase;
     font-size: 84px;
     color: var(--title-color);
+
+}
+
+h2 {
+
+    color: var(--h2-color);
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 1.5em;
+
+}
+
+h2::before {
+
+    width: 100px;
+    height: 1px;
+    margin: 0 auto;
+    margin-bottom: 1.5em;
+    background-color: #ccc;
+    border-bottom: 2px solid var(--font-color);
+    opacity: .4;
+    content: '';
+    display: block;
 
 }
 
