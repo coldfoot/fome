@@ -2,7 +2,7 @@ const v = {
 
     data : {
 
-        file : 'regioes.json',
+        file : 'regioes_com_centrosul.json',
 
         raw : null,
 
@@ -32,16 +32,39 @@ const v = {
 
     map : {
 
+        elems : {
+
+            svg : 'svg.vis'
+
+        },
+
+        sizings : {
+    
+            w : null,
+            h : null,
+            margin : 40,
+    
+            get : () => {
+    
+                const svg = document.querySelector(v.vis.elems.svg);
+    
+                v.vis.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                v.vis.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+    
+            }
+    
+        },
+
         proj : () => {
 
-            let h = v.sizings.h;
-            let w = v.sizings.w;
+            let h = v.map.sizings.h;
+            let w = v.map.sizings.w;
             
             return d3.geoMercator()
-              .center([-50, -15])
+              .center([-30, -20])
               //.rotate([10, 0])
               .scale(500)
-              .translate([w / 2, h / 2])
+              //.translate([w / 2, h / 2])
 
         },
 
@@ -59,7 +82,7 @@ const v = {
 
             //console.log(proj)
 
-            let svg = d3.select(v.elems.svg);
+            let svg = d3.select(v.map.elems.svg);
 
             svg.append("g")
               .classed('container-regioes', true)
@@ -67,7 +90,7 @@ const v = {
               .data(feats)
               .join("path")
               .classed('vis-regiao', true)
-              .attr('data-name', d => d.properties.name_region)
+              .attr('data-name', d => d.properties.new_region)
               .attr("d", d3.geoPath().projection(proj))
             ;
 
@@ -472,16 +495,17 @@ const v = {
 
         init : () => {
 
-            v.vis.sizings.get();
-            //v.data.read();
-            v.vis.data.summarise();
-            v.vis.treemap.prepare();
-            v.vis.treemap.draw();
+            //v.vis.sizings.get();
+            v.map.sizings.get();
+            v.data.read();
+            //v.vis.data.summarise();
+            //v.vis.treemap.prepare();
+            //v.vis.treemap.draw();
 
-            v.vis.line.prepare();
-            v.vis.line.draw();
+            //v.vis.line.prepare();
+            //v.vis.line.draw();
 
-            v.scroller.monitora();
+            //v.scroller.monitora();
 
         }
 
