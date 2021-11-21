@@ -84,12 +84,19 @@ h2::before {
     width: 100px;
     height: 1px;
     margin: 0 auto;
+    font-size: 20px;
     margin-bottom: 1.5em;
     background-color: #ccc;
     border-bottom: 2px solid var(--font-color);
     opacity: .4;
     content: '';
     display: block;
+
+}
+
+p {
+
+    margin-bottom: 1.5em;
 
 }
 
@@ -133,7 +140,7 @@ article .step {
 .sticky {
 
     position: sticky;
-    width: 100vw;
+    /*width: 100vw;*/
     /*background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);*/
     height: 60vh;
     top: 10vh; 
@@ -144,6 +151,12 @@ article .step {
 /* = = = = =
    = VIS = =
    = = = = = */
+
+.svg-container {
+
+    width: 100%;
+
+}
 
 svg {
 
@@ -167,9 +180,9 @@ path.vis-regiao {
 
 .sticky {
 
-    display: flex;
+    /*display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;*/
 
 }
 
