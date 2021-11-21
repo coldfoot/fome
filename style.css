@@ -4,16 +4,46 @@
 
 }
 
+:root {
+
+    --title-color: #943a20;
+    --font-color: #2C2C2C;
+
+}
+
+/* * * * *
+ F O N T S
+ * * * * */
+
+@font-face {
+    font-family: "GT-Sectra";
+    src: url("fonts/GT-Sectra-Regular.woff") format('woff');
+}
+
+@font-face {
+    font-family: "FaktPro";
+    src: url("fonts/FaktPro-Bold.woff") format('woff');
+}
+
+@font-face {
+    font-family: "Rainer";
+    src: url("fonts/Rainer-Bold.woff") format('woff');
+}
+
 body {
 
     background-color: khaki;
     line-height: 1.4;
+    font-family: GT-Sectra;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--font-color);
 
 }
 
 .limited-width, h1 {
 
-    max-width: 580px;
+    max-width: 528px;
     margin: 0 auto;
 
 }
@@ -33,6 +63,10 @@ body {
 h1 { 
 
     text-align: center;
+    font-family: Rainer;
+    text-transform: uppercase;
+    font-size: 84px;
+    color: var(--title-color);
 
 }
 
