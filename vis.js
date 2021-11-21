@@ -205,7 +205,7 @@ const v = {
             path_gen_seg : null,
             path_gen_inseg : null,
             y : d3.scaleLinear(),
-            x : d3.scaleOrdinal(),
+            x : d3.scaleBand(),
 
             prepare : () => {
 
@@ -232,12 +232,12 @@ const v = {
                 // line
 
                 v.vis.line.path_gen_seg = d3.line()
-                  .x(d => v.vis.line.x(d => d.fonte))
-                  .y(d => v.vis.line.y(d => d['Segurança Alimentar']));
+                  .x(d => v.vis.line.x(d.fonte))
+                  .y(d => v.vis.line.y(d['Segurança Alimentar']));
 
                 v.vis.line.path_gen_inseg = d3.line()
-                  .x(d => v.vis.line.x(d => d.fonte))
-                  .y(d => v.vis.line.y(d => d['Insegurança Alimentar']));
+                  .x(d => v.vis.line.x(d.fonte))
+                  .y(d => v.vis.line.y(d['Insegurança Alimentar']));
 
             },
 
@@ -247,7 +247,7 @@ const v = {
 
                 const data = v.vis.data.summary_line;
 
-                const linha_seg = svg.append("path.seguranca")
+                const linha_seg = svg.append("path")
                     .datum(data)
                     .attr("class", "line seguranca")
                     .attr("d", v.vis.line.path_gen_seg)
@@ -255,7 +255,7 @@ const v = {
                     .attr('stroke-width', 3)
                     .attr('fill', 'none');
 
-                const linha_inseg = svg.append("path.inseguranca")
+                const linha_inseg = svg.append("path")
                     .datum(data)
                     .attr("class", "line inseguranca")
                     .attr("d", v.vis.line.path_gen_inseg)
