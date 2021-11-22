@@ -602,10 +602,15 @@ const v = {
               .filter(d => v.data.info_from_data.anos.indexOf(+d.dataset.linechartStep) >= 0)
             // ou seja, estou pegando todos os steps que sejam anos da lista de anos que aparecem nos dados
 
-            anos_steps.forEach(el => {
+            anos_steps.forEach( (el, i) => {
 
                 const ano = +el.dataset.linechartStep;
                 const this_circle = `[data-circle-ano="${ano}"]`;
+                const this_segment = `[data-line-ano="${ano}"]`;
+
+                // dados para o segmento, para atualizar o x2, y2
+                const segment_data = v.vis.line.mini_data['Brasil'].filter(d => d.ano == ano)[0];
+                //console.log(segment_data);
 
                 console.log(el, this_circle);   
 
@@ -627,7 +632,33 @@ const v = {
                         //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                         scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
                     }
-                })
+                });
+
+                if (i > 0) {
+
+                    // porque não tem segmento pro primeiro ano
+                    const {x2, y2} = segment_data;
+                    console.log(x2, y2);
+
+                    gsap.to(this_segment, {
+
+                        attr : {x2: x2, y2: y2},
+    
+                        scrollTrigger: {
+                            trigger: el,
+                            markers: false,
+                            toggleClass: 'active',
+                            pin: false,   // pin the trigger element while active
+                            start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                            end: "75% 40%", // end after scrolling 500px beyond the start,
+                            //onEnter : console.log(this_circle),
+                            //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                            //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                            scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        }
+                    })
+
+                }
 
             })
 
