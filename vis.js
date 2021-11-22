@@ -38,6 +38,7 @@ const v = {
 
     },
 
+
     utils : {
 
         unique : (array, coluna) => {
@@ -46,8 +47,18 @@ const v = {
 
             return lista.filter( (d, i, arr) => arr.indexOf(d) == i )
 
-        }
+        },
 
+        get_color : (color) => {
+
+            const root = document.documentElement;
+
+            const style = getComputedStyle( root );
+            const value = style.getPropertyValue( `--${color}-color` );
+
+            return value;
+
+        }
 
     },
 
@@ -368,6 +379,28 @@ const v = {
 
         points_brasil : {
 
+            draw : () => {
+
+                const data = v.data.raw.filter(d => d.name_region == 'Brasil');
+
+                console.log(data);
+
+                const {x,y} = v.vis.line; // para pegar as funções de escala, .x e .y
+
+                const svg = d3.select(v.vis.elems.svg);
+
+                svg
+                  .selectAll('circle.points-brasil')
+                  .data(data)
+                  .join('circle')
+                  .classed('points-brasil', true)
+                  .attr('data-circle-ano', d => d.ano)
+                  .attr('cx', d => x(d.date))
+                  .attr('cy', d => y(d.valor))
+                  .attr('r', 20);
+
+            }
+
 
 
         },
@@ -519,10 +552,15 @@ const v = {
             anos_steps.forEach(el => {
 
                 const ano = +el.dataset.linechartStep;
+                const this_circle = `[data-circle-ano="${ano}"]`;
 
-                gsap.to(el, {
+                console.log(el, this_circle);   
 
-                //backgroundColor: 'tomato',
+                gsap.to(this_circle, {
+
+                    r : 5,
+                    opacity : 1,
+                    fill: v.utils.get_color('title'),
 
                     scrollTrigger: {
                         trigger: el,
@@ -531,9 +569,10 @@ const v = {
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                        onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        //onEnter : console.log(this_circle),
+                        //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
                     }
                 })
 
@@ -656,6 +695,7 @@ const v = {
             v.vis.line.prepare();
             v.vis.line.draw();
             v.vis.line.draw_axis();
+            v.vis.points_brasil.draw();
 
             v.scroller.monitora();
 

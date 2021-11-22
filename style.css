@@ -183,6 +183,15 @@ path.line {
     /*transform-origin: 250px 200px;*/
 }
 
+circle.points-brasil {
+
+    opacity: 0;
+    /* vai ser alterado no scroll*/
+    fill: none;
+    stroke: var(--title-color);
+
+}
+
 path.vis-regiao {
 
     fill : white;
