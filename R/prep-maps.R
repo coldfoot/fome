@@ -94,7 +94,7 @@ data_pre_centro_sul <- data_pre %>%
 # output ------------------------------------------------------------------
 
 output <- list(
-  tabular = data_pre_centro_sul,
+  tabular = data_pre,#data_pre_centro_sul,
   map = sf_geojson(regioes_com_centro_sul, simplify = TRUE, digits = 6)
 )
 
