@@ -289,6 +289,8 @@ const v = {
 
             path_gen : null,
 
+            mini_data : {},
+
             y : d3.scaleLinear(),
             x : d3.scaleTime(),
 
@@ -307,14 +309,50 @@ const v = {
                   .range([
                       margin,
                       w - margin
-                  ]);
+                  ])
+                ;
 
                 v.vis.line.y
                   .domain([0, d3.max(v.data.raw, d => d.valor)])
-                  .range([h-margin, margin]);
+                  .range([h-margin, margin])
+                ;
 
+                // mini_data
 
-                // line
+                // essas estruturas de dados intermediários são a alma do negócio...
+
+                for (regiao of ['Brasil']) {
+
+                    const dados_filtrados = v.data.raw.filter(d => d.name_region == regiao);
+
+                    const mini_data = dados_filtrados.map((d,i) => {
+
+                        if (i > 0) {
+
+                            const d_anterior = dados_filtrados[i-1];
+
+                            return (
+
+                                {
+                                    'ano' : d.ano,
+                                    x1 : v.vis.line.x(d_anterior.date),
+                                    y1 : v.vis.line.y(d_anterior.valor),
+                                    x2 : v.vis.line.x(d.date),
+                                    y2 : v.vis.line.y(d.valor),
+        
+                                }
+
+                            )
+
+                        }
+
+                    })
+
+                    v.vis.line.mini_data[regiao] = mini_data;
+
+                }
+
+                // line_gen
 
                 v.vis.line.path_gen = d3.line()
                   .x(d => v.vis.line.x(d.date))
@@ -350,6 +388,8 @@ const v = {
 
                 const svg = d3.select(v.vis.elems.svg);
 
+                /*
+
                 const data = v.data.raw;
 
                 const regioes = ['Norte', 'Nordeste', 'Centro Sul'];
@@ -371,7 +411,7 @@ const v = {
                     ;
 
 
-                })
+                })*/
 
             }
 
