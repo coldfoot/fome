@@ -66,6 +66,15 @@ const v = {
                 v.map.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
                 v.map.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
     
+            },
+
+            set : () => {
+
+                const {w, h} = v.map.sizings;
+                console.log(w,h);
+                const svg = document.querySelector(v.vis.elems.svg);
+                svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
+
             }
     
         },
@@ -310,7 +319,7 @@ const v = {
                     svg.append("path")
                       .datum(mini_data)
                       .attr("class", "line")
-                      .attr('data-regiao', regiao)
+                      .attr('data-line-regiao', regiao)
                       .attr("d", v.vis.line.path_gen)
                       .attr('stroke', 'green')
                       .attr('stroke-width', 3)
@@ -492,12 +501,33 @@ const v = {
                         scrub: 1
                     },
 
-                    x : (target, i) => {
-                        //const regiao = target.dataset
-                        //console.log(regiao); 
-                        return 30
+                    x : (i, target) => {
+
+                        const regiao = target.dataset.mapRegiao;
+                        console.log(regiao); 
+
+                        if (regiao == 'Nordeste') {
+                            return 30
+                        }
+
+                        if (regiao == 'Norte') {
+                            return -30
+                        }
+
                     },
-                    y : -30
+
+                    y : (i, target) => {
+
+                        const regiao = target.dataset.mapRegiao;
+
+                        if (regiao == 'Centro Sul') {
+                            return 30
+                        }
+
+                        return -30
+
+                    }
+
                 })
             ;
 
@@ -563,6 +593,7 @@ const v = {
 
             //v.vis.sizings.get();
             v.map.sizings.get();
+            v.map.sizings.set();
             v.data.read();
             //v.vis.data.summarise();
             //v.vis.treemap.prepare();

@@ -166,6 +166,10 @@ svg {
 
 }
 
+path.line {
+    /*transform-origin: 250px 200px;*/
+}
+
 path.vis-regiao {
 
     fill : white;
