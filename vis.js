@@ -10,6 +10,12 @@ const v = {
 
         path_data : null,
 
+        info_from_data : {
+
+            anos : null
+
+        },
+
         read : () => {
 
             fetch(v.data.file)
@@ -57,7 +63,7 @@ const v = {
     
             w : null,
             h : null,
-            margin : 40,
+            margin : null,
     
             get : () => {
     
@@ -74,6 +80,9 @@ const v = {
                 console.log(w,h);
                 const svg = document.querySelector(v.vis.elems.svg);
                 svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
+
+                const menor = Math.min(w,h);
+                v.map.sizings.margin = 0.1 * menor
 
             }
     
@@ -276,7 +285,7 @@ const v = {
 
                 const w = v.map.sizings.w;
                 const h = v.map.sizings.h;
-                const margin = v.vis.sizings.margin;
+                const margin = v.map.sizings.margin * 2;
 
                 // scales 
 
@@ -290,7 +299,7 @@ const v = {
                   ]);
 
                 v.vis.line.y
-                  .domain(d3.extent(v.data.raw, d => d.valor))
+                  .domain([0, d3.max(v.data.raw, d => d.valor)])
                   .range([h-margin, margin]);
 
 
@@ -299,6 +308,30 @@ const v = {
                 v.vis.line.path_gen = d3.line()
                   .x(d => v.vis.line.x(d.date))
                   .y(d => v.vis.line.y(d.valor));
+
+            },
+
+            draw_axis : () => {
+
+                const svg = d3.select(v.vis.elems.svg);
+                const margin = v.map.sizings.margin * 2;
+                const h = v.map.sizings.h;
+
+                const yAxis = d3.axisLeft()
+                  .scale(v.vis.line.y);
+
+                const xAxis = d3.axisBottom()
+                  .scale(v.vis.line.x);
+
+                svg.append("g") 
+                  .attr("class", "axis x-axis")
+                  .attr("transform", "translate(0," + (h-margin) + ")")
+                  .call(xAxis);
+
+                svg.append("g") 
+                  .attr("class", "axis y-axis")
+                  .attr("transform", `translate(${margin},0)`)
+                  .call(yAxis);
 
             },
 
@@ -330,6 +363,12 @@ const v = {
                 })
 
             }
+
+        },
+
+        points_brasil : {
+
+
 
         },
 
@@ -469,30 +508,60 @@ const v = {
         },
 
         monitora : () => { 
+
+            // para os pontos do linechart
+            const anos = v.data.info_from_data.anos;
+
+            const anos_steps = Array.from(document.querySelectorAll('[data-linechart-step]'))
+              .filter(d => v.data.info_from_data.anos.indexOf(+d.dataset.linechartStep) >= 0)
+            // ou seja, estou pegando todos os steps que sejam anos da lista de anos que aparecem nos dados
+
+            anos_steps.forEach(el => {
+
+                const ano = +el.dataset.linechartStep;
+
+                gsap.to(el, {
+
+                //backgroundColor: 'tomato',
+
+                    scrollTrigger: {
+                        trigger: el,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                    }
+                })
+
+            })
+
+            gsap.to(
+                'g.axis',
+                {
+                    scrollTrigger : {
+                        trigger: '[data-linechart-step="1975"]',
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        scrub: 1
+                    },
+
+                    opacity : 1
+
+                })
+            ;
           
-            // gsap.to(
-            //     '.sticky', {
-
-            //         rotate: 90,
-
-            //         scrollTrigger: {
-            //             trigger: '[data-step="3"]',
-            //             markers: false,
-            //             pin: false,   // pin the trigger element while active
-            //             start: "top 75%", // when the top of the trigger hits the top of the viewport
-            //             end: "bottom 75%", // end after scrolling 500px beyond the start
-            //             scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-            //         },
-
-            //         //onUpdate : () => { console.log('opa'); }
-            //     }
-            // );
-
             gsap.to(
                 '[data-map-regiao]',
                 {
                     scrollTrigger : {
-                        trigger: '[data-step="2004"]',
+                        trigger: '[data-linechart-step="atual"]',
                         markers: false,
                         toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
@@ -574,16 +643,19 @@ const v = {
 
         loaded_data : (data) => {
 
-            v.data.raw = data.tabular.filter(d => d.metodologia == 'estatura x idade (NCHS/OMS 1987)');
+            v.data.raw = data.tabular;//.filter(d => d.metodologia == 'estatura x idade (NCHS/OMS 1987)');
             v.data.raw.forEach(d => {
                 d.date = new Date(d.ano, 0, 1)
             })
+
+            v.data.info_from_data.anos = v.utils.unique(v.data.raw, 'ano');
                            
             v.data.map = JSON.parse(data.map);
             v.map.render();
 
             v.vis.line.prepare();
             v.vis.line.draw();
+            v.vis.line.draw_axis();
 
             v.scroller.monitora();
 
