@@ -160,11 +160,24 @@ article .step {
 
 svg {
 
-    outline: 1px dotted lime;
     height: 400px;
     width: 100%;
 
 }
+
+/*g.main-container {
+    perspective-origin: 500% 200%;
+}
+
+g.main-container g {
+    transform: perspective(400px) rotateY(45deg);
+}*/
+
+g.axis {
+    opacity : 0; 
+}
+/* vai ser alterado no scroll */
+
 
 path.line {
     /*transform-origin: 250px 200px;*/
