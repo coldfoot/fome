@@ -192,6 +192,13 @@ circle.points-brasil {
 
 }
 
+line.segmentos-brasil {
+
+    stroke: var(--title-color);
+    stroke-width: 2px;
+
+}
+
 path.vis-regiao {
 
     fill : white;

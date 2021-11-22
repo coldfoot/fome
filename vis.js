@@ -348,7 +348,7 @@ const v = {
 
                     })
 
-                    v.vis.line.mini_data[regiao] = mini_data;
+                    v.vis.line.mini_data[regiao] = mini_data.slice(1);
 
                 }
 
@@ -387,6 +387,19 @@ const v = {
             draw : () => {
 
                 const svg = d3.select(v.vis.elems.svg);
+
+                const data = v.vis.line.mini_data['Brasil'];
+
+                svg.selectAll('line.segmentos-brasil')
+                  .data(data)
+                  .join('line')
+                  .classed('segmentos-brasil', true)
+                  .attr('data-line-ano', d => d.ano)
+                  .attr('x1', d => d.x1)
+                  .attr('x2', d => d.x1) // vai ser atualizado no scroll
+                  .attr('y1', d => d.y1)
+                  .attr('y2', d => d.y1) // vai ser atualizado no scroll
+                ;
 
                 /*
 
