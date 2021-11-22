@@ -90,6 +90,14 @@ data_pre_centro_sul <- data_pre %>%
 # write_file(regioes_json, '../regioes.json')
 
 
+# exploracoes -------------------------------------------------------------
+
+ggplot(data_pre) +
+  geom_histogram(aes(x = valor, fill = name_region), bins = 100) #+ 
+  #facet_wrap(~name_region)
+
+ggplot(data_pre) +
+  geom_point(aes(x = valor, y = name_region, color = ano))
 
 # output ------------------------------------------------------------------
 
