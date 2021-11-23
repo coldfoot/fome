@@ -479,6 +479,28 @@ const v = {
                   .attr('opacity', (d,i) => i == 2 ? 0 : 1) // para excluir a linha ligando 1996 a 1996 :/
                 ;
 
+            },
+
+            move_line_regiao : (regiao) => {
+
+                const mapa = document.querySelector(`[data-map-regiao="${regiao}"]`).getBBox();
+                const g_line = document.querySelector(`[data-container-linha-regiao="${regiao}"]`).getBBox();
+
+                const x0 = g_line.x;
+                const y0 = g_line.y + g_line.height;
+                const ratio = mapa.width / g_line.width;
+                const tx = (mapa.x - g_line.x/ratio)/ratio;
+                const ty = (mapa.y + mapa.height - ( g_line.y + g_line.height)/ratio)/ratio;
+
+                
+
+                console.log(tx, ty, x0, y0, ratio);
+
+
+
+
+
+
             }
 
         },
@@ -778,6 +800,7 @@ const v = {
                 })
             ;
           
+            /*
             gsap.to(
                 '[data-map-regiao]',
                 {
@@ -825,7 +848,7 @@ const v = {
                     }
 
                 })
-            ;
+            ;*/
 
             // const steps = document.querySelectorAll('.step');
 
