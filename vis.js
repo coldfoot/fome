@@ -763,11 +763,11 @@ const v = {
                         const regiao = target.dataset.mapRegiao;
                         console.log(regiao); 
 
-                        if (regiao == 'Nordeste') {
+                        if (['Nordeste', 'Sudeste'].includes(regiao)) {
                             return 30
                         }
 
-                        if (regiao == 'Norte') {
+                        if (['Norte', 'Centro Oeste'].includes(regiao)) {
                             return -30
                         }
 
@@ -777,8 +777,14 @@ const v = {
 
                         const regiao = target.dataset.mapRegiao;
 
-                        if ( ['Sul', 'Centro Oeste', 'Sudeste'].includes(regiao) ) {
+                        if ( ['Centro Oeste', 'Sudeste'].includes(regiao) ) {
                             return 30
+                        }
+
+                        if (regiao == 'Sul') {
+
+                            return 60
+
                         }
 
                         return -30
