@@ -134,7 +134,7 @@ const v = {
               .data(feats)
               .join("path")
               .classed('vis-regiao', true)
-              .attr('data-map-regiao', d => d.properties.new_region)
+              .attr('data-map-regiao', d => d.properties.name_region)
               .attr("d", d3.geoPath().projection(proj))
             ;
 
@@ -157,7 +157,12 @@ const v = {
 
             svg.append('circle').attr('cx', w/2).attr('cy', h/2).attr('r', d/2).attr('stroke', 'blue').attr('fill', 'transparent');
 
-        }
+        },
+
+        color : d3.scaleThreshold()
+          .domain([10, 20, 30, 40])
+          .range(['#ffffe0', '#a5d5d8', '#73a2c6', '#4771b2', '#00429d'])
+
 
     },
 
@@ -712,7 +717,7 @@ const v = {
 
                         const regiao = target.dataset.mapRegiao;
 
-                        if (regiao == 'Centro Sul') {
+                        if ( ['Sul', 'Centro Oeste', 'Sudeste'].includes(regiao) ) {
                             return 30
                         }
 

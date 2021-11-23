@@ -103,7 +103,7 @@ ggplot(data_pre) +
 
 output <- list(
   tabular = data_pre,#data_pre_centro_sul,
-  map = sf_geojson(regioes_com_centro_sul, simplify = TRUE, digits = 6)
+  map = sf_geojson(regioes, simplify = TRUE, digits = 6)
 )
 
 write_json(output, '../data.json')
