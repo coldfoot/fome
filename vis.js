@@ -318,7 +318,7 @@ const v = {
                 ;
 
                 v.vis.line.y
-                  .domain([0, d3.max(v.data.raw, d => d.valor)])
+                  .domain([0, 50])//d3.max(v.data.raw, d => d.valor)])
                   .range([h-margin, margin])
                 ;
 
@@ -386,6 +386,41 @@ const v = {
                   .attr("class", "axis y-axis")
                   .attr("transform", `translate(${margin},0)`)
                   .call(yAxis);
+
+            },
+
+            draw_color_axis : () => {
+
+                const svg = d3.select(v.vis.elems.svg);
+                const intervalos = v.map.color.domain();
+                const cores = v.map.color.range();
+                //intervalos.push(50);
+                const margin = v.map.sizings.margin * 2;
+                console.log(intervalos, intervalos.length);
+
+                const g = svg.append('g').classed('color-axis', true);
+
+                console.log(g);
+
+                for (let i = 0; i <= intervalos.length; i++) {
+
+                    let p = i == 4 ? 50 : intervalos[i];
+
+                    console.log(i, p);
+
+                    g
+                      .append('rect')
+                      .classed('color-axis-key', true)
+                      .attr('x', margin - 3)
+                      .attr('y', v.vis.line.y(p))
+                      .attr('width', 6)
+                      .attr('height', v.vis.line.y(0)-v.vis.line.y(10))
+                      .attr('fill', cores[i])
+                    ;
+
+                }
+
+                //g.attr('transform', `translate(0, ${-margin})`);
 
             },
 
@@ -811,6 +846,7 @@ const v = {
             v.vis.line.prepare();
             v.vis.line.draw();
             v.vis.line.draw_axis();
+            v.vis.line.draw_color_axis();
             v.vis.points_brasil.draw();
 
             v.scroller.monitora();
