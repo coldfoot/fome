@@ -492,6 +492,21 @@ const v = {
                   .attr('cy', d => y(d.valor))
                   .attr('r', 20);
 
+                  // labels
+
+                  const cont = d3.select(v.vis.elems.cont);
+
+                  cont
+                    .selectAll('span.labels-points-brasil')
+                    .data(data)
+                    .join('span')
+                    .classed('labels-points-brasil', true)
+                    .attr('data-label-brasil-ano', d => d.ano)
+                    .style('left', d => x(d.date) + 'px')
+                    .style('top', d => y(d.valor) + 'px')
+                    .text(d => d.valor);
+
+
             }
 
 
@@ -648,6 +663,7 @@ const v = {
                 const ano = +el.dataset.linechartStep;
                 const this_circle = `[data-circle-ano="${ano}"]`;
                 const this_segment = `[data-line-ano="${ano}"]`;
+                const this_label = `[data-label-brasil-ano="${ano}"]`;
                 const map_data = v.data.raw.filter(d => d.ano == ano);
 
                 // dados para o segmento, para atualizar o x2, y2
@@ -669,10 +685,13 @@ const v = {
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        //onEnter : console.log(this_circle),
+                        onEnter : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 1 ),
+                        onEnterBack : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 0 ),
+                        onLeaveBack : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 0 ),
+                        toggleActions: 'play none reverse reverse'
                         //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                         //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                        scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        //scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
                     }
                 });
 
@@ -694,7 +713,7 @@ const v = {
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        toggleActions: 'play none reverse none'
+                        toggleActions: 'play none reverse reverse'
 
                     }
                 });
@@ -716,10 +735,11 @@ const v = {
                             pin: false,   // pin the trigger element while active
                             start: "25% 60%", // when the top of the trigger hits the top of the viewport
                             end: "75% 40%", // end after scrolling 500px beyond the start,
+                            toggleActions: 'play none reverse reverse'
                             //onEnter : console.log(this_circle),
                             //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                             //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                            scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                            //scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
                         }
                     })
 
