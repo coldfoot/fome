@@ -12,7 +12,8 @@ const v = {
 
         info_from_data : {
 
-            anos : null
+            anos : null,
+            regioes : null,
 
         },
 
@@ -326,7 +327,7 @@ const v = {
 
                 // essas estruturas de dados intermediários são a alma do negócio...
 
-                for (regiao of ['Brasil']) {
+                for (regiao of v.data.info_from_data.regioes) {
 
                     const dados_filtrados = v.data.raw.filter(d => d.region == regiao);
 
@@ -430,41 +431,53 @@ const v = {
 
                 const data = v.vis.line.mini_data['Brasil'];
 
-                svg.selectAll('line.segmentos-brasil')
-                  .data(data)
-                  .join('line')
-                  .classed('segmentos-brasil', true)
-                  .attr('data-line-ano', d => d.ano)
-                  .attr('x1', d => d.x1)
-                  .attr('x2', d => d.x1) // vai ser atualizado no scroll
-                  .attr('y1', d => d.y1)
-                  .attr('y2', d => d.y1) // vai ser atualizado no scroll
-                ;
-
-                /*
-
-                const data = v.data.raw;
-
-                const regioes = ['Norte', 'Nordeste', 'Centro Sul'];
+                const regioes = v.data.info_from_data.regioes;
 
                 regioes.forEach(regiao => {
 
-                    const mini_data = data.filter(d => d.name_region == regiao);
-
-                    console.log(mini_data);
-
-                    svg.append("path")
-                      .datum(mini_data)
-                      .attr("class", "line")
-                      .attr('data-line-regiao', regiao)
-                      .attr("d", v.vis.line.path_gen)
-                      .attr('stroke', 'green')
-                      .attr('stroke-width', 3)
-                      .attr('fill', 'none')
+                    const g = svg
+                      .append('g')
+                      .classed('container-linha-regiao', true)
+                      .attr('data-container-linha-regiao', regiao)
                     ;
 
+                    g.selectAll('line.segmentos')
+                        .data(data)
+                        .join('line')
+                        .classed('line-segmentos', true)
+                        .classed('segmentos-brasil', regiao == 'Brasil')
+                        .attr('data-line-regiao', regiao)
+                        .attr('data-line-ano', d => d.ano)
+                        .attr('x1', d => d.x1)
+                        .attr('x2', d => regiao == 'Brasil' ? d.x1 : d.x2) // vai ser atualizado no scroll
+                        .attr('y1', d => d.y1)
+                        .attr('y2', d => regiao == 'Brasil' ? d.y1 : d.y2) // vai ser atualizado no scroll
+                    ;
 
-                })*/
+                    // todas as linhas vão ficar com as coordenadas do Brasil, até o momento em que vão ser transicionadas para as respectivas regioes.
+
+                })
+
+            },
+
+            show_line_regiao : (regiao) => {
+
+                const g_regiao = d3.select(`[data-container-linha-regiao="${regiao}"]`);
+
+                g_regiao.style('opacity', 1);
+
+                const mini_data = v.vis.line.mini_data[regiao];
+
+                console.log(regiao, mini_data);
+
+                g_regiao
+                  .selectAll('line')
+                  .transition()
+                  .duration(500)
+                  .attr('y1', d => mini_data.filter(row => row.ano == d.ano)[0].y1)
+                  .attr('y2', d => mini_data.filter(row => row.ano == d.ano)[0].y2)
+                  .attr('opacity', (d,i) => i == 2 ? 0 : 1) // para excluir a linha ligando 1996 a 1996 :/
+                ;
 
             }
 
@@ -662,7 +675,7 @@ const v = {
 
                 const ano = +el.dataset.linechartStep;
                 const this_circle = `[data-circle-ano="${ano}"]`;
-                const this_segment = `[data-line-ano="${ano}"]`;
+                const this_segment = `line.segmentos-brasil[data-line-ano="${ano}"]`;
                 const this_label = `[data-label-brasil-ano="${ano}"]`;
                 const map_data = v.data.raw.filter(d => d.ano == ano);
 
@@ -863,6 +876,7 @@ const v = {
             })
 
             v.data.info_from_data.anos = v.utils.unique(v.data.raw, 'ano');
+            v.data.info_from_data.regioes = v.utils.unique(v.data.raw, 'region');
                            
             v.data.map = JSON.parse(data.map);
             v.map.render();

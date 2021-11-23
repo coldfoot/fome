@@ -210,7 +210,31 @@ span.labels-points-brasil {
 
 }
 
-line.segmentos-brasil {
+g.container-linha-regiao {
+
+    opacity: 0;
+
+}
+
+g.container-linha-regiao line {
+
+    stroke : var(--font-color);
+
+}
+
+g.container-linha-regiao .axis {
+
+    opacity : 0;
+
+}
+
+g.container-linha-regiao[data-container-linha-regiao="Brasil"] {
+
+    opacity: 1;
+
+}
+
+g.container-linha-regiao line.segmentos-brasil {
 
     stroke: var(--title-color);
     stroke-width: 2px;
