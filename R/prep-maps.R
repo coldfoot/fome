@@ -68,10 +68,16 @@ tab_names <- data.frame(
   name_region = c('Brasil', 'Norte', 'Nordeste', 'Sul', 'Centro Sul', 'Sudeste', 'Centro Oeste')
 )
 
+tab_centro_sul <- data.frame(
+  name_region = c('Brasil', 'Norte', 'Nordeste', 'Centro Sul', 'Centro Sul', 'Centro Sul',   'Sul', 'Sudeste', 'Centro Oeste'),
+  region      = c('Brasil', 'Norte', 'Nordeste', 'Sul',        'Sudeste',    'Centro Oeste', 'Sul', 'Sudeste', 'Centro Oeste')
+)
+
 data_raw <- read.csv("dados - Desnutrição infantil.csv")
 data_pre <- data_raw %>%
   left_join(tab_names) %>%
-  mutate(valor = as.numeric(str_replace(valor, ',', '.')))
+  mutate(valor = as.numeric(str_replace(valor, ',', '.'))) %>%
+  left_join(tab_centro_sul)
 
 ggplot(data_pre %>% filter(`região` != 'brasil')) + geom_line(
   aes(x = ano,
