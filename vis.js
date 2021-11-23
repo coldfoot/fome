@@ -328,7 +328,7 @@ const v = {
 
                 for (regiao of ['Brasil']) {
 
-                    const dados_filtrados = v.data.raw.filter(d => d.name_region == regiao);
+                    const dados_filtrados = v.data.raw.filter(d => d.region == regiao);
 
                     const mini_data = dados_filtrados.map((d,i) => {
 
@@ -439,7 +439,7 @@ const v = {
 
             draw : () => {
 
-                const data = v.data.raw.filter(d => d.name_region == 'Brasil');
+                const data = v.data.raw.filter(d => d.region == 'Brasil');
 
                 console.log(data);
 
@@ -607,11 +607,13 @@ const v = {
               .filter(d => v.data.info_from_data.anos.indexOf(+d.dataset.linechartStep) >= 0)
             // ou seja, estou pegando todos os steps que sejam anos da lista de anos que aparecem nos dados
 
+            // isso aqui vai ser disparado com cada step
             anos_steps.forEach( (el, i) => {
 
                 const ano = +el.dataset.linechartStep;
                 const this_circle = `[data-circle-ano="${ano}"]`;
                 const this_segment = `[data-line-ano="${ano}"]`;
+                const map_data = v.data.raw.filter(d => d.ano == ano);
 
                 // dados para o segmento, para atualizar o x2, y2
                 const segment_data = v.vis.line.mini_data['Brasil'].filter(d => d.ano == ano)[0];
@@ -624,6 +626,31 @@ const v = {
                     r : 5,
                     opacity : 1,
                     fill: v.utils.get_color('title'),
+
+                    scrollTrigger: {
+                        trigger: el,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        //onEnter : console.log(this_circle),
+                        //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
+                        scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                    }
+                });
+
+                gsap.to('[data-map-regiao]', {
+
+                    fill: (i, target) => {
+
+                        const regiao = target.dataset.mapRegiao;
+                        const data_regiao = map_data.filter(d => d.region == regiao)[0]
+                        console.log(regiao, i, data_regiao, v.map.color(data_regiao.valor));
+                        return v.map.color(data_regiao.valor);
+                    },
+
 
                     scrollTrigger: {
                         trigger: el,
