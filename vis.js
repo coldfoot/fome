@@ -676,7 +676,7 @@ const v = {
                     }
                 });
 
-                gsap.to('[data-map-regiao]', {
+                gsap.set('[data-map-regiao]', {
 
                     fill: (i, target) => {
 
@@ -690,14 +690,12 @@ const v = {
                     scrollTrigger: {
                         trigger: el,
                         markers: false,
-                        toggleClass: 'active',
+                        //toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        //onEnter : console.log(this_circle),
-                        //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                        //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
-                        scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+                        toggleActions: 'play none reverse none'
+
                     }
                 });
 
