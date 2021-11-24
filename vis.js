@@ -1190,6 +1190,38 @@ const bar = {
 
     },
 
+    scroller : {
+
+        params : {
+
+            step1 : '.esse-elemento, .esse-outro',
+            step2 : ''
+
+        },
+
+        set : () => {
+
+            const params = bar.scroller.params;
+
+            const steps = Object.keys(params);
+
+            steps.forEach(step => {
+
+                gsap.to(params[step], {
+
+                    // scrollTrigger
+                })
+
+
+            })
+
+
+
+
+         }
+
+    },
+
     ctrl : {
 
         init : () => {
