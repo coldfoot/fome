@@ -105,6 +105,11 @@ ggplot(data_pre) +
 ggplot(data_pre) +
   geom_point(aes(x = valor, y = name_region, color = ano))
 
+ggplot(data_pre %>% filter(region == 'Centro Oeste'), 
+       aes(y = valor, x = ano, color = ano)) +
+  geom_point() +
+  geom_line()
+
 # output ------------------------------------------------------------------
 
 output <- list(
