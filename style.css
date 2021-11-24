@@ -36,7 +36,7 @@
 
 body {
 
-    background-color: khaki;
+    /*background-color: khaki;*/
     font-family: GT-Sectra;
     font-size: 20px;
     line-height: 1.6;
@@ -254,8 +254,8 @@ g.container-linha-regiao line.segmentos-brasil {
 
 path.vis-regiao {
 
-    fill: gray;
-    stroke: khaki;
+    fill: lightgray;
+    stroke: var(--font-color);
 }
 
 .section-final {
