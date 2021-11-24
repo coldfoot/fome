@@ -942,7 +942,7 @@ const bar = {
             {
                 ano : 2004,
                 'Segurança Alimentar' : 0.647,
-                'Insegurança Alimentar' : 0.138,
+                'Insegurança Alimentar Leve' : 0.138,
                 'Insegurança Alimentar Moderada' : 0.12,
                 'Insegurança Alimentar Grave' : 0.095,
             },
@@ -950,7 +950,7 @@ const bar = {
             {
                 ano : 2009,
                 'Segurança Alimentar' : 0.696,
-                'Insegurança Alimentar' : 0.158,
+                'Insegurança Alimentar Leve' : 0.158,
                 'Insegurança Alimentar Moderada' : 0.08,
                 'Insegurança Alimentar Grave' : 0.066,
             },
@@ -958,7 +958,7 @@ const bar = {
             {
                 ano : 2013,
                 'Segurança Alimentar' : 0.771,
-                'Insegurança Alimentar' : 0.126,
+                'Insegurança Alimentar Leve' : 0.126,
                 'Insegurança Alimentar Moderada' : 0.061,
                 'Insegurança Alimentar Grave' : 0.042,
             },
@@ -966,7 +966,7 @@ const bar = {
             {
                 ano : 2018,
                 'Segurança Alimentar' : 0.634,
-                'Insegurança Alimentar' : 0.207,
+                'Insegurança Alimentar Leve' : 0.207,
                 'Insegurança Alimentar Moderada' : 0.101,
                 'Insegurança Alimentar Grave' : 0.058,
             },
@@ -974,7 +974,7 @@ const bar = {
             {
                 ano : 2020,
                 'Segurança Alimentar' : 0.448,
-                'Insegurança Alimentar' : 0.347,
+                'Insegurança Alimentar Leve' : 0.347,
                 'Insegurança Alimentar Moderada' : 0.115,
                 'Insegurança Alimentar Grave' : 0.09,
             }
@@ -1044,7 +1044,7 @@ const bar = {
 
         order : [
             'Segurança Alimentar', 
-            'Insegurança Alimentar',
+            'Insegurança Alimentar Leve',
             'Insegurança Alimentar Moderada',
             'Insegurança Alimentar Grave'
         ],
@@ -1194,8 +1194,26 @@ const bar = {
 
         params : {
 
-            step1 : '.esse-elemento, .esse-outro',
-            step2 : ''
+        /* 
+        4 O quarto segmento do gráfico de barras empilhadas é adicionado.
+        5 Uma segunda barra é adicionada ao gráfico com seu primeiro segmento.
+        6 O segundo segmento é adicionado.
+        7 O terceiro segmento é adicionado.
+        8 O quarto segmento é adicionado.
+        9 Uma terceira barra é adicionada ao gráfico com seu primeiro segmento.
+        10 Adiciona as outras três barras na mesma interação.
+        11 Adiciona uma quarta barra completa na mesma interação.
+        12 Adiciona uma quinta barra completa na mesma interação.
+        */
+
+            // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
+            '1' : '[data-bar-ano="2004"][data-bar-grupo="Segurança Alimentar"]',
+
+            // 2 O segundo segmento do gráfico de barras empilhadas é adicionado.
+            '2' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Leve"]',
+
+            // 3 O terceiro segmento do gráfico de barras empilhadas é adicionado.
+            '3' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Moderada"]'
 
         },
 
@@ -1207,16 +1225,25 @@ const bar = {
 
             steps.forEach(step => {
 
+                const seletor_step = `[data-barchart-step="${step}"]`;
+
                 gsap.to(params[step], {
 
-                    // scrollTrigger
+                    opacity : 1,
+
+                    scrollTrigger: {
+                        trigger: seletor_step,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        toggleActions: 'play play reverse reverse'
+                    }
                 })
 
 
             })
-
-
-
 
          }
 
@@ -1234,7 +1261,7 @@ const bar = {
 
             bar.draw();
 
-
+            bar.scroller.set();
 
         }
 
