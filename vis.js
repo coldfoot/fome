@@ -1190,18 +1190,31 @@ const bar = {
 
     },
 
+    horizontal_bars : {
+
+        scales : {
+
+            margin_left : () => bar.sizings.margin * 2,
+
+            y : d3.scaleBand(),
+
+            x : d3.scaleLinear(),
+
+            set : () => {
+
+                const data = bar.data.raw.filter(d => d.ano == '2020');
+
+                //
+            }
+
+        }
+
+
+    },
+
     scroller : {
 
         params : {
-
-        /* 
-        
-
-        
-
-        11 Adiciona uma quarta barra completa na mesma interação.
-
-        */
 
             // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
             '1' : '[data-bar-ano="2004"][data-bar-grupo="Segurança Alimentar"]',
@@ -1238,10 +1251,6 @@ const bar = {
 
             // 12 Adiciona uma quinta barra completa na mesma interação.
             '12' : '[data-bar-ano="2020"]'
-
-
-
-
 
         },
 
