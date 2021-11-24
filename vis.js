@@ -1028,12 +1028,7 @@ const bar = {
 
             const data = bar.data.raw;
 
-            const order = [
-                'Segurança Alimentar', 
-                'Insegurança Alimentar',
-                'Insegurança Alimentar Moderada',
-                'Insegurança Alimentar Grave'
-            ];
+            const order = bar.params.order;
 
             const stack = d3.stack()
               .keys(order)
@@ -1042,6 +1037,19 @@ const bar = {
             bar.data.stacked = stack(data);
 
         }
+
+    },
+
+    params : {
+
+        order : [
+            'Segurança Alimentar', 
+            'Insegurança Alimentar',
+            'Insegurança Alimentar Moderada',
+            'Insegurança Alimentar Grave'
+        ],
+
+        colors : ['#ffb491', '#d36f51', '#92391f', '#530000']
 
     },
 
@@ -1110,10 +1118,56 @@ const bar = {
               .range([h-margin, margin])
             ;
 
-
-
+            // color
+            bar.scales.color
+              .domain(bar.params.order)
+              .range(bar.params.colors)
+            ;
 
         }
+
+    },
+
+    draw : () => {
+
+        const svg = d3.select(bar.elems.svg);
+        const group_data = bar.data.stacked;
+
+        const { x, y, color } = bar.scales;
+
+        // // o stack é assim:
+        // // um elemento por grupo (seguranca, inseguranca grave etc.)
+        // // dentro desse elemento, tem um "key", que é o nome do grupo
+        // // e tem um array, com um elemento para cada categoria do eixo x, 
+        // // em que cada elemento é um array de dois elementos, y0 e y1.
+        // // além disso, cada elemento desses (esses da categoria do eixo x) tem um  "data", que traz todo os dados para
+        // // essa categoria do eixo x. então lá dentro tem um data.ano, que é o ano, no caso do nosso exemplo.
+
+        // bars
+
+        group_data.forEach(group => {
+
+            const g = svg.append('g').classed('barchart-group-container', true).attr('data-barchard-group', group.key);
+
+            g.selectAll('rect.segalim')
+              .data(group)
+              .join('rect')
+              .classed('rect.segalim', true)
+              .attr('data-bar-ano', d => d.data.ano)
+              .attr('data-bar-grupo', group.key)
+              .attr('x', d => x(d.data.ano))
+              .attr('y', d => y(d[1]))
+              .attr('height', d=> y(d[0]) - y(d[1]))
+              .attr('width', x.bandwidth()/2)
+              .attr('fill', color(group.key))
+            ;
+
+        })
+
+
+
+
+
 
     },
 
@@ -1125,6 +1179,10 @@ const bar = {
             bar.sizings.set();
 
             bar.data.prepare_stack();
+            bar.scales.set();
+
+            bar.draw();
+
 
 
         }
