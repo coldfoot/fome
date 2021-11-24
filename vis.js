@@ -723,7 +723,7 @@ const v = {
                         onEnter : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 1 ),
                         onEnterBack : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 0 ),
                         onLeaveBack : () => document.querySelectorAll(this_label).forEach( label => label.style.opacity = 0 ),
-                        toggleActions: 'play none reverse reverse'
+                        toggleActions: 'play play reverse reverse'
                         //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                         //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                         //scrub: 0, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
@@ -748,7 +748,7 @@ const v = {
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        toggleActions: 'play none reverse reverse'
+                        toggleActions: 'play play reverse reverse'
 
                     }
                 });
@@ -770,7 +770,7 @@ const v = {
                             pin: false,   // pin the trigger element while active
                             start: "25% 60%", // when the top of the trigger hits the top of the viewport
                             end: "75% 40%", // end after scrolling 500px beyond the start,
-                            toggleActions: 'play none reverse reverse'
+                            toggleActions: 'play play reverse reverse'
                             //onEnter : console.log(this_circle),
                             //onEnter: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
                             //onEnterBack: ({trigger}) => v.scroller.render.food(trigger.dataset.step),
