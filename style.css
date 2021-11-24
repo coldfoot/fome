@@ -155,7 +155,7 @@ article .step {
    = VIS = =
    = = = = = */
 
-.svg-container {
+.svg-container, .vis-segalim-container {
 
     width: 100%;
     position: relative;

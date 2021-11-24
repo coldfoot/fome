@@ -932,3 +932,206 @@ const v = {
 }
 
 v.ctrl.init();
+
+const bar = {
+
+    data : {
+            
+        raw : [
+
+            {
+                ano : 2004,
+                'Segurança Alimentar' : 0.647,
+                'Insegurança Alimentar' : 0.138,
+                'Insegurança Alimentar Moderada' : 0.12,
+                'Insegurança Alimentar Grave' : 0.095,
+            },
+
+            {
+                ano : 2009,
+                'Segurança Alimentar' : 0.696,
+                'Insegurança Alimentar' : 0.158,
+                'Insegurança Alimentar Moderada' : 0.08,
+                'Insegurança Alimentar Grave' : 0.066,
+            },
+
+            {
+                ano : 2013,
+                'Segurança Alimentar' : 0.771,
+                'Insegurança Alimentar' : 0.126,
+                'Insegurança Alimentar Moderada' : 0.061,
+                'Insegurança Alimentar Grave' : 0.042,
+            },
+
+            {
+                ano : 2018,
+                'Segurança Alimentar' : 0.634,
+                'Insegurança Alimentar' : 0.207,
+                'Insegurança Alimentar Moderada' : 0.101,
+                'Insegurança Alimentar Grave' : 0.058,
+            },
+
+            {
+                ano : 2020,
+                'Segurança Alimentar' : 0.448,
+                'Insegurança Alimentar' : 0.347,
+                'Insegurança Alimentar Moderada' : 0.115,
+                'Insegurança Alimentar Grave' : 0.09,
+            }
+        ],
+
+        stacked : null,
+
+        summary_line : null,
+
+        summary_tree : null,
+
+        root : null,
+
+        summarise : () => {
+
+            const data = v.vis.data.raw;
+
+            // line
+
+            v.vis.data.summary_line = data.map(d => (
+                
+                {
+                    fonte : d.fonte,
+                    'Segurança Alimentar' : d['Segurança Alimentar'],
+                    'Insegurança Alimentar' : d['Insegurança Alimentar'] + d['Insegurança Alimentar Moderada'] + d['Insegurança Alimentar Grave']
+
+                }
+            ));
+
+            // tree
+
+            const temp = data.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0];
+
+            const subtotal_inseguranca = v.vis.data.summary_line.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0]['Insegurança Alimentar'];
+
+            const categorias = Object.keys(temp).filter(d => d != 'fonte' & d != 'Segurança Alimentar');
+
+            console.log(Object.keys(temp));
+
+            v.vis.data.summary_tree = categorias.map(cat => (
+                {
+                    cat : cat,
+                    valor : temp[cat] / subtotal_inseguranca
+
+                }
+            ))
+
+        },
+
+        prepare_stack : () => {
+
+            const data = bar.data.raw;
+
+            const order = [
+                'Segurança Alimentar', 
+                'Insegurança Alimentar',
+                'Insegurança Alimentar Moderada',
+                'Insegurança Alimentar Grave'
+            ];
+
+            const stack = d3.stack()
+              .keys(order)
+            ;
+
+            bar.data.stacked = stack(data);
+
+        }
+
+    },
+
+    elems : {
+
+        cont : '.vis-segalim-container',
+        svg  : 'svg.vis-segalim'
+
+    },
+
+    sizings : {
+    
+        w : null,
+        h : null,
+        margin : 40,
+
+        get : () => {
+
+            const svg = document.querySelector(bar.elems.svg);
+
+            bar.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+            bar.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+
+        },
+
+        set : () => {
+
+            const {w, h} = bar.sizings;
+            console.log(w,h);
+            const svg = document.querySelector(bar.elems.svg);
+            svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
+            svg.width = w;
+            svg.height = h;
+
+            //const menor = Math.min(w,h)
+
+        }
+
+    },
+
+    scales : {
+
+        x : d3.scaleBand(),
+
+        y : d3.scaleLinear(),
+
+        color : d3.scaleOrdinal(),
+
+        set : () => {
+
+            const data = bar.data.raw;
+
+            const { w, h, margin } = bar.sizings;
+
+            // x
+            const ticks_x = data.map(d => d.ano);
+
+            bar.scales.x
+              .domain(ticks_x)
+              .range([margin, w - margin])
+            ;
+
+            // y
+            bar.scales.y
+              .domain([0,1])
+              .range([h-margin, margin])
+            ;
+
+
+
+
+        }
+
+    },
+
+    ctrl : {
+
+        init : () => {
+
+            bar.sizings.get();
+            bar.sizings.set();
+
+            bar.data.prepare_stack();
+
+
+        }
+
+    }
+
+
+}
+
+bar.ctrl.init();
