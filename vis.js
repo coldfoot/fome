@@ -379,12 +379,12 @@ const v = {
                   .scale(v.vis.line.x);
 
                 svg.append("g") 
-                  .attr("class", "axis x-axis")
+                  .attr("class", "linechart-axis axis x-axis")
                   .attr("transform", "translate(0," + (h-margin) + ")")
                   .call(xAxis);
 
                 svg.append("g") 
-                  .attr("class", "axis y-axis")
+                  .attr("class", "linechart-axis axis y-axis")
                   .attr("transform", `translate(${margin},0)`)
                   .call(yAxis);
 
@@ -783,7 +783,7 @@ const v = {
             })
 
             gsap.to(
-                'g.axis',
+                'g.linechart-axis',
                 {
                     scrollTrigger : {
                         trigger: '[data-linechart-step="1975"]',
@@ -1049,7 +1049,7 @@ const bar = {
             'Insegurança Alimentar Grave'
         ],
 
-        colors : ['#ffb491', '#d36f51', '#92391f', '#530000']
+        colors : ['#43A110', '#d36f51', '#92391f', '#530000']
 
     },
 
@@ -1153,7 +1153,7 @@ const bar = {
             g.selectAll('rect.segalim')
               .data(group)
               .join('rect')
-              .classed('rect.segalim', true)
+              .classed('segalim', true)
               .attr('data-bar-ano', d => d.data.ano)
               .attr('data-bar-grupo', group.key)
               .attr('x', d => x(d.data.ano) + x.bandwidth()/4)

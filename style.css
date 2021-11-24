@@ -177,7 +177,7 @@ g.main-container g {
     transform: perspective(400px) rotateY(45deg);
 }*/
 
-g.axis {
+g.linechart-axis {
     opacity : 0; 
 }
 /* vai ser alterado no scroll */
@@ -354,5 +354,22 @@ img[data-comida] {
 circle {
 
 
+
+}
+
+/* * * * * * * *
+B A R C H A R T 
+* * * * * * * * */
+
+rect.segalim {
+
+    opacity: 0; 
+    /* scroller vai "acendendo" */
+
+}
+
+.barchart-axis {
+
+    /*opacity: 0;*/
 
 }
