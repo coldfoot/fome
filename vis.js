@@ -1195,15 +1195,12 @@ const bar = {
         params : {
 
         /* 
-        4 O quarto segmento do gráfico de barras empilhadas é adicionado.
-        5 Uma segunda barra é adicionada ao gráfico com seu primeiro segmento.
-        6 O segundo segmento é adicionado.
-        7 O terceiro segmento é adicionado.
-        8 O quarto segmento é adicionado.
-        9 Uma terceira barra é adicionada ao gráfico com seu primeiro segmento.
-        10 Adiciona as outras três barras na mesma interação.
+        
+
+        
+
         11 Adiciona uma quarta barra completa na mesma interação.
-        12 Adiciona uma quinta barra completa na mesma interação.
+
         */
 
             // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
@@ -1213,7 +1210,38 @@ const bar = {
             '2' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Leve"]',
 
             // 3 O terceiro segmento do gráfico de barras empilhadas é adicionado.
-            '3' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Moderada"]'
+            '3' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Moderada"]',
+
+            // 4 O quarto segmento do gráfico de barras empilhadas é adicionado.
+            '4' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Grave"]',
+
+            // 5 Uma segunda barra é adicionada ao gráfico com seu primeiro segmento.
+            '5' : '[data-bar-ano="2009"][data-bar-grupo="Segurança Alimentar"]',
+
+            // 6 O segundo segmento é adicionado.
+            '6' : '[data-bar-ano="2009"][data-bar-grupo="Insegurança Alimentar Leve"]',
+
+            // 7 O terceiro segmento é adicionado.
+            '7' : '[data-bar-ano="2009"][data-bar-grupo="Insegurança Alimentar Moderada"]',
+
+            // 8 O quarto segmento é adicionado.
+            '8' : '[data-bar-ano="2009"][data-bar-grupo="Insegurança Alimentar Grave"]',
+
+            // 9 Uma terceira barra é adicionada ao gráfico com seu primeiro segmento.
+            '9' : '[data-bar-ano="2013"][data-bar-grupo="Segurança Alimentar"]',
+
+            // 10 Adiciona as outras três barras na mesma interação.
+            '10' : '[data-bar-ano="2013"]:not([data-bar-grupo="Segurança Alimentar"]',
+
+            // 11 Adiciona uma quarta barra completa na mesma interação.
+            '11' : '[data-bar-ano="2018"]',
+
+            // 12 Adiciona uma quinta barra completa na mesma interação.
+            '12' : '[data-bar-ano="2020"]'
+
+
+
+
 
         },
 
