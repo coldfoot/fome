@@ -1134,6 +1134,7 @@ const bar = {
         const group_data = bar.data.stacked;
 
         const { x, y, color } = bar.scales;
+        const { w, h, margin } = bar.sizings;
 
         // // o stack é assim:
         // // um elemento por grupo (seguranca, inseguranca grave etc.)
@@ -1155,19 +1156,37 @@ const bar = {
               .classed('rect.segalim', true)
               .attr('data-bar-ano', d => d.data.ano)
               .attr('data-bar-grupo', group.key)
-              .attr('x', d => x(d.data.ano))
+              .attr('x', d => x(d.data.ano) + x.bandwidth()/4)
               .attr('y', d => y(d[1]))
               .attr('height', d=> y(d[0]) - y(d[1]))
               .attr('width', x.bandwidth()/2)
               .attr('fill', color(group.key))
             ;
 
-        })
+        });
 
+        // axis
 
+        const yAxis = d3.axisLeft()
+            .scale(y)
+            .tickFormat(d3.format(".0%"))
+        ;
 
+        const xAxis = d3.axisBottom()
+            .scale(x)
+        ;
 
+        svg.append("g") 
+            .attr("class", "barchart-axis axis x-axis")
+            .attr("transform", "translate(0," + (h-margin) + ")")
+            .call(xAxis)
+        ;
 
+        svg.append("g") 
+            .attr("class", "barchart-axis axis y-axis")
+            .attr("transform", `translate(${margin},0)`)
+            .call(yAxis)
+        ;
 
     },
 
