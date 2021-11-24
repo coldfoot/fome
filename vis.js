@@ -1236,7 +1236,7 @@ const bar = {
                         markers: false,
                         toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
-                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        start: "15% 85%", // 
                         end: "75% 40%", // end after scrolling 500px beyond the start,
                         toggleActions: 'play play reverse reverse'
                     }
