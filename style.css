@@ -112,7 +112,18 @@ article {
 
 article .step-wrapper {
 
-    min-height: 60vh;
+    min-height: 90vh;
+    max-width: 90%;
+    margin: 0 auto;
+    font-size: 0.9em;
+
+}
+
+article .step-wrapper > p {
+
+    padding: .5em;
+    border: 2px solid var(--font-color);
+    background-color: #ffffffcc;
 
 }
 
