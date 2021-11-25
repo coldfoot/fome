@@ -71,6 +71,10 @@ const v = {
 
         },
 
+        translation_data_regioes : null,
+
+        scale_ratio : null,
+
         sizings : {
     
             w : null,
@@ -191,12 +195,16 @@ const v = {
 
             })
 
+            // aqui vamos calcular as posicoes e tamanhos futuros dos bboxes das regioes
+
             const h_regioes = heights.reduce( (prev, curr) => prev + curr )
             console.log(heights, h_regioes, regioes);
 
+            const qde_regioes = regioes.length;
+
             const pad = 20;
             const h_svg = v.map.sizings.h;
-            const h_util = h_svg - pad * 6 
+            const h_util = h_svg - pad * (qde_regioes + 1); 
             console.log(h_util, h_util / h_regioes);
 
             const ratio = h_util / h_regioes;
@@ -206,6 +214,20 @@ const v = {
             let h_acum = pad;
 
             regioes.forEach(regiao => {
+
+                // posicoes atuais
+                const { x, y, width, height } = regiao
+
+                // posicoes futuras
+                const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
+                const y_f = h_acum;
+                const width_f = regiao.width * ratio;
+                const height_f = regiao.height * ratio;
+
+                const tx = x - x_f / ratio;
+                const ty = y - y_f / ratio;
+
+                regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
 
                 svg
                   .append('rect')
@@ -222,6 +244,65 @@ const v = {
 
             })
 
+            console.log(regioes);
+
+
+        },
+
+        evaluate_future_positions: () => {
+
+            const regioes = [];
+
+            let svg = d3.select(v.map.elems.svg);
+
+            document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
+
+                const regiao_name = regiao.dataset.mapRegiao;
+
+                const { x, y, width, height } = regiao.getBBox();
+
+                regioes.push({ x, y, width, height, regiao_name });
+
+            })
+
+            const h_regioes = regioes.map(d => d.height).reduce( (prev, curr) => prev + curr )
+
+            const qde_regioes = regioes.length;
+
+            const pad = 20;
+            const h_svg = v.map.sizings.h;
+            const h_util = h_svg - pad * (qde_regioes + 1); 
+
+            const ratio = h_util / h_regioes;
+            v.map.scale_ratio = ratio;
+
+            const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+
+            let h_acum = pad;
+
+            regioes.forEach(regiao => {
+
+                // posicoes atuais
+                const { x, y, width, height } = regiao
+
+                // posicoes futuras
+                const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
+                const y_f = h_acum;
+                const width_f = regiao.width * ratio;
+                const height_f = regiao.height * ratio;
+
+                const tx = x - x_f / ratio;
+                const ty = y - y_f / ratio;
+
+                regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
+
+                h_acum += (regiao.height * ratio) + pad
+
+            })
+
+            console.log(regioes);
+
+            v.map.translation_data_regioes = regioes;
 
         },
 
@@ -557,14 +638,7 @@ const v = {
                 const tx = (mapa.x - g_line.x/ratio)/ratio;
                 const ty = (mapa.y + mapa.height - ( g_line.y + g_line.height)/ratio)/ratio;
 
-                
-
                 console.log(tx, ty, x0, y0, ratio);
-
-
-
-
-
 
             }
 
@@ -867,11 +941,11 @@ const v = {
         */
           
             
-            gsap.to(
+        /*    gsap.to(
                 '[data-map-regiao]',
                 {
                     scrollTrigger : {
-                        trigger: '[data-linechart-step="atual"]',
+                        trigger: '[data-linechart-step="1"]',
                         markers: false,
                         toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
@@ -884,6 +958,7 @@ const v = {
 
                         const regiao = target.dataset.mapRegiao;
                         console.log(regiao); 
+                        //console.log(v.map.translation_data_regioes.filter(d => d.regiao_name == regiao));
 
                         if (['Nordeste', 'Sudeste'].includes(regiao)) {
                             return 30
@@ -912,6 +987,69 @@ const v = {
                         return -30
 
                     }
+
+                })
+            ;*/
+
+            function move_region(back) {
+
+                v.map.translation_data_regioes.forEach(regiao_data => {
+
+                    const regiao = regiao_data.regiao_name;
+                    const translate_data = regiao_data.scaled;
+
+                    const { tx, ty } = translate_data;
+
+                    d3.select('[data-map-regiao="' + regiao + '"]')
+                      .attr(
+                          'transform',
+                          back ? 
+                          `scale(${v.map.scale_ratio}) translate(${-tx}, ${-ty})` :
+                          '')
+                    ;
+
+
+                })
+
+            }
+
+            gsap.to(
+                '[data-map-regiao]',
+                {
+                    scrollTrigger : {
+                        trigger: '[data-linechart-step="2"]',
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        onEnter : () => move_region(true),
+                        onEnterBack : () => move_region(false),
+                        onLeaveBack : () => move_region(false)
+                    },
+
+                    /*
+
+                    attr: {
+                        
+                        transform: (i, target) => {
+
+                            const regiao = target.dataset.mapRegiao;
+                            const translate_data = v.map.translation_data_regioes.filter(d => d.regiao_name == regiao)[0];
+                            console.log(regiao, translate_data); 
+
+                            const { x_f, y_f } = translate_data.scaled;
+
+                            console.log(v.map.scale_ratio, x_f, y_f, 
+                            `scale(${v.map.scale_ratio}, ${v.map.scale_ratio}) translate(${x_f}, ${y_f})`);
+
+                            return `scale(${v.map.scale_ratio}, ${v.map.scale_ratio}) translate(${x_f}, ${y_f})`;
+                        
+                        }
+
+                    }
+
+                    */
 
                 })
             ;
@@ -969,11 +1107,12 @@ const v = {
                            
             v.data.map = JSON.parse(data.map);
             v.map.render();
+            v.map.evaluate_future_positions();
 
             v.vis.line.prepare();
             v.vis.line.draw();
             v.vis.line.draw_axis();
-            v.vis.line.draw_color_axis();
+            //v.vis.line.draw_color_axis();
             v.vis.points_brasil.draw();
 
             v.scroller.monitora();
