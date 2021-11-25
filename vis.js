@@ -162,6 +162,11 @@ const v = {
 
         draw_rect_around_region : () => {
 
+            const heights = [];
+            const regioes = [];
+
+            let svg = d3.select(v.map.elems.svg);
+
             document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
 
                 const regiao_name = regiao.dataset.mapRegiao;
@@ -169,7 +174,9 @@ const v = {
 
                 const { x, y, width, height } = regiao.getBBox();
 
-                let svg = d3.select(v.map.elems.svg);
+                regioes.push({ x, y, width, height, regiao_name });
+
+                heights.push(height);
 
                 svg
                   .append('rect')
@@ -183,6 +190,38 @@ const v = {
                 ;
 
             })
+
+            const h_regioes = heights.reduce( (prev, curr) => prev + curr )
+            console.log(heights, h_regioes, regioes);
+
+            const pad = 20;
+            const h_svg = v.map.sizings.h;
+            const h_util = h_svg - pad * 6 
+            console.log(h_util, h_util / h_regioes);
+
+            const ratio = h_util / h_regioes;
+
+            const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+
+            let h_acum = pad;
+
+            regioes.forEach(regiao => {
+
+                svg
+                  .append('rect')
+                  .attr('data-bbox-futuro', regiao.regiao_name)
+                  .attr('x', pad + w_max/2 - (regiao.width * ratio)/2 )
+                  .attr('y', h_acum)
+                  .attr('width', regiao.width * ratio) 
+                  .attr('height', regiao.height * ratio)
+                  .attr('stroke', 'crimson')
+                  .attr('fill', 'none')
+                ;
+
+                h_acum += (regiao.height * ratio) + pad
+
+            })
+
 
         },
 
