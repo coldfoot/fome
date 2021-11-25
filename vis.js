@@ -133,17 +133,46 @@ const v = {
 
             let svg = d3.select(v.map.elems.svg);
 
-            svg.append("g")
+            const g = svg
+              .append("g")
               .classed('container-regioes', true)
-              .selectAll("path.vis-regiao")
-              .data(feats)
-              .join("path")
-              .classed('vis-regiao', true)
-              .attr('data-map-regiao', d => d.properties.name_region)
-              .attr("d", d3.geoPath().projection(proj))
             ;
 
-    
+            const centro_sul = g
+              .append('g')
+              .attr('data-map-regiao', 'Centro Sul');
+
+            // por causa do tal do centro sul, tive que mudar a geração do mapa aqui...
+            /*
+            svg.append("g")
+                .classed('container-regioes', true)
+                .selectAll("path.vis-regiao")
+                .data(feats)
+                .join("path")
+                .classed('vis-regiao', true)
+                .attr('data-map-regiao', d => d.properties.name_region)
+                .attr("d", d3.geoPath().projection(proj))
+            ; */
+
+            feats.forEach(feature => {
+
+                const regiao = feature.properties.name_region;
+
+                const container =
+                  ( ['Sul', 'Sudeste', 'Centro Oeste'].includes(regiao) ) ?
+                  centro_sul :
+                  g
+                ;
+
+                container
+                  .append('path')
+                  .classed('vis-regiao', true)
+                  .attr('data-map-regiao', regiao)
+                  .attr("d", d3.geoPath().projection(proj)(feature))
+                ;
+
+            });
+
         },
 
         draw_circle_around_map : () => {
