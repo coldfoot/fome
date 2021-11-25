@@ -160,6 +160,32 @@ const v = {
 
         },
 
+        draw_rect_around_region : () => {
+
+            document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
+
+                const regiao_name = regiao.dataset.mapRegiao;
+                console.log(regiao_name);
+
+                const { x, y, width, height } = regiao.getBBox();
+
+                let svg = d3.select(v.map.elems.svg);
+
+                svg
+                  .append('rect')
+                  .attr('data-bbox-regiao', regiao_name)
+                  .attr('x', x)
+                  .attr('y', y)
+                  .attr('width', width)
+                  .attr('height', height)
+                  .attr('stroke', 'darkgreen')
+                  .attr('fill', 'none')
+                ;
+
+            })
+
+        },
+
         color : d3.scaleThreshold()
           .domain([10, 20, 30, 40])
           .range(['#ffffe0', '#a5d5d8', '#73a2c6', '#4771b2', '#00429d'])
@@ -685,7 +711,7 @@ const v = {
 
         monitora : () => { 
 
-            // para os pontos do linechart
+        /*    // para os pontos do linechart
             const anos = v.data.info_from_data.anos;
 
             const anos_steps = Array.from(document.querySelectorAll('[data-linechart-step]'))
@@ -799,8 +825,9 @@ const v = {
 
                 })
             ;
+        */
           
-            /*
+            
             gsap.to(
                 '[data-map-regiao]',
                 {
@@ -848,7 +875,7 @@ const v = {
                     }
 
                 })
-            ;*/
+            ;
 
             // const steps = document.querySelectorAll('.step');
 
