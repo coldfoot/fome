@@ -262,7 +262,7 @@ g.container-linha-regiao line.segmentos-brasil {
 path.vis-regiao {
 
     fill: lightgray;
-    stroke: var(--font-color);
+    stroke: white;/*var(--font-color);*/
 }
 
 .section-final {
