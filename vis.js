@@ -685,52 +685,6 @@ const v = {
 
 
 
-        },
-
-        treemap : {
-
-            prepare : function() {
-    
-                const data = {
-                    
-                    children : v.vis.data.summary_tree//.map(d => d.valor)
-    
-                };
-    
-                //console.log(data);
-    
-                const w = v.vis.sizings.w;
-                const h = v.vis.sizings.h;
-                const margin = v.vis.sizings.margin;
-    
-                v.vis.data.root = d3.treemap()
-                  .tile(d3.treemapBinary)
-                  .size([w-2*margin, h-2*margin])
-                  .round(true)
-                  (d3.hierarchy(data).sum(d => d.valor))
-    
-            },
-    
-            draw : function() {
-    
-                const root = v.vis.data.root;
-    
-                const svg = d3.select(v.vis.elems.svg);
-
-                const margin = v.vis.sizings.margin;
-    
-                const leaf = svg.selectAll("rect")
-                    .data(root.leaves())
-                    .join("rect")
-                    .classed('rect', true)
-                    .attr("x", d => margin+d.x0)
-                    .attr('y', d => margin+ d.y0)
-                    .attr("width", d => (d.x1 - d.x0))
-                    .attr("height", d => (d.y1 - d.y0))
-                    .attr("fill", d => v.vis.colors[d.data.cat])
-    
-            }
-
         }
 
     },
