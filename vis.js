@@ -895,13 +895,56 @@ const v = {
 
     scroller : {
 
+        helpers : {
+
+            move_region : (forward, grupo) => {
+
+                const dados = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data;
+                const ratio = v.map.scale_ratio[grupo];
+
+                dados.forEach(regiao_data => {
+
+                    const regiao = regiao_data.regiao_name;
+                    const translate_data = v.map.future_positions[grupo][regiao];
+
+                    const { tx, ty } = translate_data;
+
+                    if (grupo == 'com_5_regioes') {
+
+                        d3.select('[data-map-regiao="Centro Sul"]')
+                          .attr(
+                              'transform', 
+                              forward ? 
+                              '' : 
+                              `scale(${ratio}) translate(${-tx}, ${-ty})`)
+                        ;
+
+                    }
+
+                    d3.select('[data-map-regiao="' + regiao + '"]')
+                      .attr(
+                          'transform',
+                          forward ? 
+                          `scale(${ratio}) translate(${-tx}, ${-ty})` :
+                          '')
+                    ;
+
+
+                })
+
+            }
+
+        },
+
         linechart_3_regioes : {
 
             render : {
 
-                "1" : () => {
+                "1" : (forward) => {
 
                     console.log('oi nois aqui');
+
+                    v.scroller.helpers.move_region(forward, 'com_3_regioes');
 
                 },
 
@@ -941,7 +984,10 @@ const v = {
                                 start: "25% 60%",
                                 end: "75% 40%", 
 
-                                onEnter : v.scroller.linechart_3_regioes.render[step_name]
+                                onEnter : () => v.scroller.linechart_3_regioes.render[step_name](forward = true),
+                                onEnterBack : () => v.scroller.linechart_3_regioes.render[step_name](forward = false),
+                                onLeave : () => v.scroller.linechart_3_regioes.render[step_name](forward = true),
+                                onLeaveBack : () => v.scroller.linechart_3_regioes.render[step_name](forward = false)
 
                             },
         
@@ -983,7 +1029,6 @@ const v = {
             //v.vis.points_brasil.draw();
 
             v.scroller.linechart_3_regioes.monitora_steps();
-            v.scroller.monitora();
 
         },
 

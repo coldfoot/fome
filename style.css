@@ -195,21 +195,9 @@ g.main-container g {
 
 }
 
-g.linechart-axis {
-    opacity : 1; 
-}
-/* vai ser alterado no scroll */
-
 
 path.line {
     /*transform-origin: 250px 200px;*/
-}
-
-
-g.container-linha-regiao {
-
-    opacity: 1;
-
 }
 
 g.container-linha-regiao line {
@@ -218,24 +206,7 @@ g.container-linha-regiao line {
 
 }
 
-g.container-linha-regiao .axis {
 
-    opacity : 1;
-
-}
-
-g.container-linha-regiao[data-container-linha-regiao="Brasil"] {
-
-    opacity: 1;
-
-}
-
-g.container-linha-regiao line.segmentos-brasil {
-
-    stroke: var(--title-color);
-    stroke-width: 2px;
-
-}
 
 path.vis-regiao {
 
@@ -360,7 +331,7 @@ L I N E C H A R T
 
 .container-linha-regiao {
 
-    opacity : 1;
+    opacity : 0;
 
 }
 
