@@ -895,31 +895,70 @@ const v = {
 
     scroller : {
 
-        render : {
+        linechart_3_regioes : {
 
-            test : (step) => document.querySelector('.sticky p').innerHTML = step,
+            render : {
 
-            food : (comida) => {
-                
-                if (comida == "3") {
+                "1" : () => {
 
-                    const imgs = document.querySelectorAll('[data-comida]');
-                    imgs.forEach(img => {
-                        img.style.transform = "translate(120vh, -30px)";
-                    })
-                    
-                } else {
+                    console.log('oi nois aqui');
 
-                    const img = document.querySelector('[data-comida="' + comida + '"]');
-                
-                    img.style.opacity = 1;
-                    img.style.transform = "translate(0,0)";
+                },
+
+                "2" : () => {
+
+                    console.log('oi nois aqui traveis.');
 
                 }
+                
+
+
+            },
+
+            monitora_steps : () => {
+
+                const steps = document.querySelectorAll('.linechart-steps-3-regioes');
+
+                console.log('monitorando', steps)
+
+                steps.forEach(step => {
+
+                    const step_name = step.dataset.linechartStep;
+                    const selector = '[data-linechart-step="' + step_name + '"]';
+
+                    console.log(step_name, selector);
+
+                    gsap.to(
+
+                        selector, // só para constar, não vamos fazer nada com ele, na verdade
+
+                        {
+                            scrollTrigger : {
+                                trigger: selector,
+                                markers: false,
+                                toggleClass: 'active',
+                                pin: false,
+                                start: "25% 60%",
+                                end: "75% 40%", 
+
+                                onEnter : v.scroller.linechart_3_regioes.render[step_name]
+
+                            },
+        
+                            opacity : 1
+        
+                        })
+                    ;
+
+
+                })
 
             }
 
+
         },
+
+
 
         monitora : () => { 
 
@@ -1127,6 +1166,7 @@ const v = {
 
             }
 
+           /*
             gsap.to(
                 '.com_3_regioes',
                 {
@@ -1164,6 +1204,7 @@ const v = {
                     }
 
                     */
+                /*
 
                 })
             ;
@@ -1184,7 +1225,7 @@ const v = {
                     }
 
                 })
-            ;
+            ;*/
 
             // const steps = document.querySelectorAll('.step');
 
@@ -1247,6 +1288,7 @@ const v = {
             //v.vis.line.draw_color_axis();
             //v.vis.points_brasil.draw();
 
+            v.scroller.linechart_3_regioes.monitora_steps();
             v.scroller.monitora();
 
         },
