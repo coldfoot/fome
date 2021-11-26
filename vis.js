@@ -545,8 +545,8 @@ const v = {
             },
 
             x : {
-                com_3_regioes : d3.scaleBand(),
-                com_5_regioes : d3.scaleBand()
+                com_3_regioes : d3.scalePoint(),
+                com_5_regioes : d3.scalePoint()
             },
 
             prepare : () => {
@@ -565,7 +565,7 @@ const v = {
 
                     const width_max = Math.max(...widths_regioes);
     
-                    const width_util = v.map.sizings.w - width_max + pad * 2;
+                    const width_util = v.map.sizings.w - width_max + pad * 4;
     
                     const w = width_util > 300 ? 300 : width_util;
     
@@ -590,7 +590,7 @@ const v = {
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
-                      .range( [0,w] )
+                      .range( [0,w - pad] )
                     ;
 
                     v.vis.line.y[grupo]
