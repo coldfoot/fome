@@ -708,8 +708,6 @@ const v = {
 
                 regioes.forEach(regiao => {
 
-                    console.log(regiao, tx_linha, ty_linha);
-
                     const data = data_grupo[regiao];
 
                     const g = svg
