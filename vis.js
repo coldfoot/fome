@@ -860,6 +860,15 @@ const v = {
 
                 d3.selectAll(selector).style('opacity', forward ? 1 : 0);
 
+            },
+
+            show_segment : (selector, forward) => {
+
+                d3.selectAll(selector)
+                  .transition()
+                  .duration(500)
+                  .attr('x2', d => forward ? d.x2 : d.x1)
+                  .attr('y2', d => forward ? d.y2.geral : d.y1.geral);
 
             }
 
@@ -895,6 +904,16 @@ const v = {
                 "3" : (forward) => {
 
                     console.log('step 3', forward);
+
+                    console.log('oi nois aqui traveis.', forward);
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1989"]', forward);
+
+                    // faz os círculos virarem pontos;
+                    d3.selectAll('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1989"]').classed('visivel', forward);
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .labels-points-geral[data-label-ano="1989"]', forward);
+
+                    v.scroller.helpers.show_segment('.container-linha-regiao-com_3_regioes .line-segmentos-geral[data-line-ano="1989"]', forward);
 
                 },
                 
