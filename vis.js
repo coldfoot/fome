@@ -1062,11 +1062,15 @@ const v = {
 
                     }
                     
-
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes', forward);
 
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .labels-points-geral[data-label-ano="1996"]', forward);
 
-                }
+                    d3.selectAll('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="1996"]').classed('visivel', forward);
+
+                },
+
+
                 
 
 
