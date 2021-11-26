@@ -86,8 +86,8 @@ ggplot(data_pre %>% filter(`região` != 'brasil')) + geom_line(
       color = `região`)
 )
 
-data_pre_centro_sul <- data_pre %>%
-  filter(ano <= 1996, name_region %in% c('Norte', 'Nordeste', 'Centro Sul'))
+# data_pre_centro_sul <- data_pre %>%
+#   filter(ano <= 1996, name_region %in% c('Norte', 'Nordeste', 'Centro Sul'))
 
 # ggplot(regioes) + geom_sf()
 # 
@@ -110,11 +110,25 @@ ggplot(data_pre %>% filter(region == 'Centro Oeste'),
   geom_point() +
   geom_line()
 
+ggplot(regioes) + geom_sf() + xlim(c(NA, -35))
+
+
+
+# corta ilhas -------------------------------------------------------------
+
+box <- c(xmin = -75, ymin = 8, xmax = -35, ymax = -35)
+regioes_limited <- st_crop(regioes, box)
+
+regioes_limited_simplified <- st_simplify(regioes_limited, dTolerance = 0.1)
+ggplot(regioes_limited_simplified) + geom_sf()
+
 # output ------------------------------------------------------------------
+
+
 
 output <- list(
   tabular = data_pre,#data_pre_centro_sul,
-  map = sf_geojson(regioes, simplify = TRUE, digits = 6)
+  map = sf_geojson(regioes_limited_simplified, simplify = TRUE, digits = 6)
 )
 
 write_json(output, '../data.json')
