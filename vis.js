@@ -698,7 +698,7 @@ const v = {
                     ;
 
                     v.vis.line.y[grupo]
-                      .domain([0, .53])//d3.max(v.data.raw, d => d.valor)])
+                      .domain([0, grupo == 'com_3_regios' ? .53 : .3])//d3.max(v.data.raw, d => d.valor)])
                       .range([h, 0])
                     ;
 
