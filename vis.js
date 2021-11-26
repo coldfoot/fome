@@ -429,61 +429,70 @@ const v = {
                 {
                     regiao : 'Norte',
                     ano : 1975,
-                    urbano : .39
+                    urbano : .39,
+                    geral : .39
                 },
 
                 {
                     regiao : 'Norte',
                     ano : 1989,
-                    urbano : .23
+                    urbano : .23,
+                    geral : .23
                 },
 
                 {
                     regiao : 'Norte',
                     ano : 1996,
-                    urbano : .166
+                    urbano : .166,
+                    geral : .166
                 },
 
                 {
                     regiao : 'Nordeste',
                     ano : 1975,
                     urbano : .408,
-                    rural : .525
+                    rural : .525,
+                    geral : .478
                 },
 
                 {
                     regiao : 'Nordeste',
                     ano : 1989,
                     urbano : .238,
-                    rural : .309
+                    rural : .309,
+                    geral : .273
                 },
 
                 {
                     regiao : 'Nordeste',
                     ano : 1996,
                     urbano : .13,
-                    rural : .252
+                    rural : .252,
+                    geral : .179
                 },
 
                 {
                     regiao : 'Centro Sul',
                     ano : 1975,
                     urbano : .205,
-                    rural : .294
+                    rural : .294,
+                    geral : .239
                 },
 
                 {
                     regiao : 'Centro Sul',
                     ano : 1989,
                     urbano : .075,
-                    rural : .123
+                    rural : .123,
+                    geral : .086
                 },
 
                 {
                     regiao : 'Centro Sul',
                     ano : 1996,
                     urbano : .046,
-                    rural : .099
+                    rural : .099,
+                    geral : .056
                 },
 
             ],
@@ -624,14 +633,16 @@ const v = {
 
                                         y1 : {
                                             urbano : v.vis.line.y[grupo](d_anterior.urbano),
-                                            rural  : v.vis.line.y[grupo](d_anterior.rural)
+                                            rural  : v.vis.line.y[grupo](d_anterior.rural),
+                                            geral  : v.vis.line.y[grupo](d_anterior.geral),
                                         },
 
                                         x2 : v.vis.line.x[grupo](d.ano),
 
                                         y2 : {
                                             urbano : v.vis.line.y[grupo](d.urbano),
-                                            rural  : v.vis.line.y[grupo](d.rural)
+                                            rural  : v.vis.line.y[grupo](d.rural),
+                                            geral  : v.vis.line.y[grupo](d.geral)
                                         }
             
                                     }
@@ -705,7 +716,7 @@ const v = {
                       .attr('data-container-linha-regiao', regiao)
                     ;
 
-                    ['urbano', 'rural'].forEach(tipo => {
+                    ['urbano', 'rural', 'geral'].forEach(tipo => {
 
                         //console.log('desenhando', regiao, tipo, data);
 

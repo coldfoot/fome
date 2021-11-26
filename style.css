@@ -205,15 +205,6 @@ path.line {
     /*transform-origin: 250px 200px;*/
 }
 
-circle.points-brasil {
-
-    opacity: 0;
-    /* vai ser alterado no scroll*/
-    fill: none;
-    stroke: var(--title-color);
-
-}
-
 span.labels-points-brasil {
 
     position: absolute;
@@ -261,8 +252,9 @@ g.container-linha-regiao line.segmentos-brasil {
 
 path.vis-regiao {
 
-    fill: lightgray;
-    stroke: white;/*var(--font-color);*/
+    fill: ghostwhite;
+    stroke: var(--font-color);
+    stroke-width: 2;
 }
 
 .section-final {
@@ -374,6 +366,33 @@ circle {
 
 
 }
+
+/* * * * * * * *
+L I N E C H A R T
+* * * * * * * * */
+
+.line-segmentos-rural, .line-segmentos-urbano,
+.circle-points-rural, .circle-points-urbano {
+
+    opacity : 0;
+
+}
+
+.line-segmentos-geral {
+
+    stroke-width: 3;
+
+}
+
+.circle-points-urbano {
+
+    opacity: 1;
+    /* vai ser alterado no scroll*/
+    fill: none;
+    stroke: var(--title-color);
+
+}
+
 
 /* * * * * * * *
 B A R C H A R T 
