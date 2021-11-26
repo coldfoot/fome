@@ -815,7 +815,7 @@ const v = {
 
         helpers : {
 
-            move_region : (forward, grupo) => {
+            move_region : (forward, grupo, transicao_5_3 = false) => {
 
                 const dados = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data;
                 const ratio = v.map.scale_ratio[grupo];
@@ -823,9 +823,37 @@ const v = {
                 dados.forEach(regiao_data => {
 
                     const regiao = regiao_data.regiao_name;
-                    const translate_data = v.map.future_positions[grupo][regiao];
+                    let translate_data = v.map.future_positions[grupo][regiao];
+                    let { tx, ty } = translate_data;
 
-                    const { tx, ty } = translate_data;
+                    let back_translation = '';
+
+                    if (transicao_5_3) {
+
+                        translate_data = v.map.future_positions['com_3_regioes'][regiao];
+                        tx = translate_data.tx;
+                        ty = translate_data.ty;
+
+                        back_translation = `scale(${ratio}) translate(${-tx}, ${-ty})`;
+
+                        if (regiao == 'Centro Sul') {
+
+                            ['Centro Oeste', 'Sul', 'Sudeste'].forEach(regiao_do_centro_sul => {
+
+                                // primeiro zera o transform nas regioes, que sao filhas do container Centro Sul, aí depois aplica o transform no container inteiro
+    
+                                d3
+                                 .select('[data-map-regiao="' + regiao_do_centro_sul + '"]')
+                                 .attr('transform', '')
+                                ;
+
+                            })
+
+                        }
+
+                    }
+
+                    console.log(regiao, tx, ty, back_translation);
 
                     if (grupo == 'com_5_regioes') {
 
@@ -841,11 +869,15 @@ const v = {
 
                     d3.select('[data-map-regiao="' + regiao + '"]')
                       .attr(
-                          'transform',
-                          forward ? 
-                          `scale(${ratio}) translate(${-tx}, ${-ty})` :
-                          '')
-                    ;
+                        'transform',
+                        forward ? 
+                        `scale(${ratio}) translate(${-tx}, ${-ty})` :
+                        back_translation);
+                      ;
+
+
+
+
 
 
                 })
@@ -918,6 +950,26 @@ const v = {
                     v.scroller.helpers.show_segment('.container-linha-regiao-com_3_regioes .line-segmentos-geral[data-line-ano="1989"]', forward);
 
                 },
+
+                "4" : (forward) => {
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes', !forward);
+
+                    if (forward) {
+
+                        v.scroller.helpers.move_region(forward, 'com_5_regioes');
+
+                    } else {
+
+                        v.scroller.helpers.move_region(forward, 'com_3_regioes', transicao_5_3 = true);
+
+                    }
+                    
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes', forward);
+
+
+                }
                 
 
 
