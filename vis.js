@@ -386,11 +386,11 @@ const v = {
                     // posicoes dos graficos de linha
 
                     const tx_linha = pad + w_max + pad;
-                    const ty_linha = y + height/2 - h_min/2;
+                    const ty_linha = y_f + height_f/2 - h_min/2;
 
                     console.log(regiao.regiao_name, tx_linha);
 
-                    regiao.translate_grafico_linha = { tx_linha, ty_linha };
+                    v.vis.line.translation_data[grupo.nome][regiao.regiao_name] = { tx_linha, ty_linha };
     
                 })
 
@@ -503,6 +503,13 @@ const v = {
         line : {
 
             mini_data : {
+
+                com_3_regioes : {},
+                com_5_regioes : {}
+
+            },
+
+            translation_data : {
 
                 com_3_regioes : {},
                 com_5_regioes : {}
@@ -725,26 +732,12 @@ const v = {
                       .attr("class", "linechart-axis axis y-axis")
                       .call(yAxis);
 
-                    // translate o grupo todo
-
-                    /*
-
-                    const map_data = v.map.translation_data_regioes
-                      .filter(d => d.nome == grupo)[0].data
-                      .filter(d => d.regiao_name == regiao)[0];
-
-                    //console.log(regiao, map_data);
-
-                    const translation_data = map_data.translate_grafico_linha;
-
+                    const translation_data = v.vis.line.translation_data[grupo][regiao];
                     const { tx_linha , ty_linha } = translation_data;
 
                     console.log(regiao, tx_linha, ty_linha);
 
-                    g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);
-
-                    */
-                    
+                    g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);                  
                       
                 })
 
