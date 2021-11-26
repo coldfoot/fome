@@ -729,10 +729,12 @@ const v = {
                                 .classed('line-segmentos-' + tipo, true)
                                 .attr('data-line-regiao', regiao)
                                 .attr('data-line-ano', d => d.ano)
+                                .attr('data-next-x2', d => d.x2)
+                                .attr('data-next-y2', d => d.y2[tipo])
                                 .attr('x1', d => d.x1)
-                                .attr('x2', d => regiao == 'Brasil' ? d.x1 : d.x2) // vai ser atualizado no scroll
+                                .attr('x2', d => d.x1) // vai ser atualizado no scroll
                                 .attr('y1', d => d.y1[tipo])
-                                .attr('y2', d => d.y2[tipo]) // vai ser atualizado no scroll
+                                .attr('y2', d => d.y1[tipo]) // vai ser atualizado no scroll
                             ;
 
                             // points
