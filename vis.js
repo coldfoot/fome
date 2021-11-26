@@ -402,48 +402,71 @@ const v = {
 
         data : {
             
-            raw : [
+            com_3_regioes : [
 
                 {
-                    fonte : 'PNAD 2004',
-                    'Segurança Alimentar' : 0.648,
-                    'Insegurança Alimentar' : 0.138,
-                    'Insegurança Alimentar Moderada' : 0.12,
-                    'Insegurança Alimentar Grave' : 0.095,
+                    regiao : 'Norte',
+                    ano : 1975,
+                    urbano : .39
                 },
 
                 {
-                    fonte : 'PNAD 2009',
-                    'Segurança Alimentar' : 0.696,
-                    'Insegurança Alimentar' : 0.158,
-                    'Insegurança Alimentar Moderada' : 0.08,
-                    'Insegurança Alimentar Grave' : 0.066,
+                    regiao : 'Norte',
+                    ano : 1989,
+                    urbano : .23
                 },
 
                 {
-                    fonte : 'PNAD 2013',
-                    'Segurança Alimentar' : 0.771,
-                    'Insegurança Alimentar' : 0.126,
-                    'Insegurança Alimentar Moderada' : 0.061,
-                    'Insegurança Alimentar Grave' : 0.042,
+                    regiao : 'Norte',
+                    ano : 1996,
+                    urbano : .166
                 },
 
                 {
-                    fonte : 'POF 2018',
-                    'Segurança Alimentar' : 0.633,
-                    'Insegurança Alimentar' : 0.207,
-                    'Insegurança Alimentar Moderada' : 0.101,
-                    'Insegurança Alimentar Grave' : 0.058,
+                    regiao : 'Nordeste',
+                    ano : 1975,
+                    urbano : .408,
+                    rural : .525
                 },
 
                 {
-                    fonte : 'Inquérito Vigisan 2020',
-                    'Segurança Alimentar' : 0.448,
-                    'Insegurança Alimentar' : 0.347,
-                    'Insegurança Alimentar Moderada' : 0.115,
-                    'Insegurança Alimentar Grave' : 0.09,
-                }
+                    regiao : 'Nordeste',
+                    ano : 1989,
+                    urbano : .238,
+                    rural : .309
+                },
+
+                {
+                    regiao : 'Nordeste',
+                    ano : 1996,
+                    urbano : .13,
+                    rural : .252
+                },
+
+                {
+                    regiao : 'Centro Sul',
+                    ano : 1975,
+                    urbano : .205,
+                    rural : .294
+                },
+
+                {
+                    regiao : 'Centro Sul',
+                    ano : 1989,
+                    urbano : .075,
+                    rural : .123
+                },
+
+                {
+                    regiao : 'Centro Sul',
+                    ano : 1996,
+                    urbano : .046,
+                    rural : .099
+                },
+
             ],
+
+            com_5_regioes : [],
 
             summary_line : null,
 
@@ -452,38 +475,6 @@ const v = {
             root : null,
 
             summarise : () => {
-
-                const data = v.vis.data.raw;
-
-                // line
-
-                v.vis.data.summary_line = data.map(d => (
-                    
-                    {
-                        fonte : d.fonte,
-                        'Segurança Alimentar' : d['Segurança Alimentar'],
-                        'Insegurança Alimentar' : d['Insegurança Alimentar'] + d['Insegurança Alimentar Moderada'] + d['Insegurança Alimentar Grave']
-
-                    }
-                ));
-
-                // tree
-
-                const temp = data.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0];
-
-                const subtotal_inseguranca = v.vis.data.summary_line.filter(d => d.fonte == 'Inquérito Vigisan 2020')[0]['Insegurança Alimentar'];
-
-                const categorias = Object.keys(temp).filter(d => d != 'fonte' & d != 'Segurança Alimentar');
-
-                console.log(Object.keys(temp));
-
-                v.vis.data.summary_tree = categorias.map(cat => (
-                    {
-                        cat : cat,
-                        valor : temp[cat] / subtotal_inseguranca
-
-                    }
-                ))
 
             }
 
@@ -495,47 +486,67 @@ const v = {
             cont : 'div.svg-container'
     
         },
-    
-        sizings : {
-    
-            w : null,
-            h : null,
-            margin : 40,
-    
-            get : () => {
-    
-                const svg = document.querySelector(v.vis.elems.svg);
-    
-                v.vis.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
-                v.vis.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
-    
-            }
-    
-        },
-
-        colors : {
-
-            'Segurança Alimentar' : 'green',
-            'Insegurança Alimentar' : 'goldenrod',
-            'Insegurança Alimentar Moderada' : 'dodgerblue',
-            'Insegurança Alimentar Grave' : 'tomato',
-
-        },
 
         line : {
 
-            path_gen : null,
-
             mini_data : {},
 
-            y : d3.scaleLinear(),
-            x : d3.scaleTime(),
+            // esses aqui vou precisar para calcular a translação
+
+            w : {
+                com_3_regioes : null,
+                com_5_regioes : null,
+            },
+
+            h : {
+                com_3_regioes : null,
+                com_5_regioes : null
+            },
+
+            // scales
+
+            y : {
+                com_3_regioes : d3.scaleLinear(),
+                com_5_regioes : d3.scaleLinear(),
+            },
+
+            x : {
+                com_3_regioes : d3.scaleOrdinal(),
+                com_5_regioes : d3.scaleOrdinal()
+            },
 
             prepare : () => {
 
-                const w = v.map.sizings.w;
-                const h = v.map.sizings.h;
-                const margin = v.map.sizings.margin * 2;
+                const pad = 20;
+
+                ['com_3_regioes', 'com_5_regioes'].forEach(grupo => {
+
+                    // maior width do mapa, para determinar o width do gráfico
+
+                    const widths_regioes = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data.map(d => d.scaled.width_f + d.scaled.x_f);
+
+                    const width_max = Math.max(...widths_regioes);
+    
+                    const width_util = v.map.sizings.w - width_max + pad * 2;
+    
+                    const w = width_util > 300 ? 300 : width_util;
+    
+                    // menor height do mapa, para determinar o height do gráfico
+    
+                    const heights_regioes = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data.map(d => d.scaled.height_f);
+    
+                    const h = Math.min(...heights_regioes);
+    
+                    console.log(grupo, w, h);
+
+                    v.vis.line.w[grupo] = w;
+                    v.vis.line.h[grupo] = h;
+
+                })
+
+                // definir quanto teremos de width disponível
+
+
 
                 // scales 
 
