@@ -727,7 +727,7 @@ const v = {
 
                     const map_data = v.map.translation_data_regioes
                       .filter(d => d.nome == grupo)[0].data
-                      .filter(d => d.regiao_name = regiao)[0];
+                      .filter(d => d.regiao_name == regiao)[0];
 
                     console.log(regiao, map_data);
 
