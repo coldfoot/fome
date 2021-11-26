@@ -928,7 +928,7 @@ const v = {
 
                     let back_translation = '';
 
-                    if (transicao_5_3) {
+                    if (transicao_5_3 & grupo == 'com_3_regioes') {
 
                         translate_data = v.map.future_positions['com_3_regioes'][regiao];
                         tx = translate_data.tx;
@@ -981,6 +981,11 @@ const v = {
 
 
                 })
+
+            },
+
+            reset_map : () => {
+
 
             },
 
@@ -1040,6 +1045,7 @@ const v = {
                     console.log('step 3', forward);
 
                     console.log('oi nois aqui traveis.', forward);
+
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1989"]', forward);
 
                     // faz os círculos virarem pontos;
@@ -1067,11 +1073,58 @@ const v = {
                     
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes', forward);
 
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="1996"]', forward);
+
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .labels-points-geral[data-label-ano="1996"]', forward);
 
                     d3.selectAll('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="1996"]').classed('visivel', forward);
 
                 },
+
+                "5" : (forward) => {
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="2006"]', forward);
+
+                    // faz os círculos virarem pontos;
+                    d3.selectAll('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="2006"]').classed('visivel', forward);
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .labels-points-geral[data-label-ano="2006"]', forward);
+
+                    v.scroller.helpers.show_segment('.container-linha-regiao-com_5_regioes .line-segmentos-geral[data-line-ano="2006"]', forward);
+
+                },
+
+                "6" : (forward) => {
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="2019"]', forward);
+
+                    // faz os círculos virarem pontos;
+                    d3.selectAll('.container-linha-regiao-com_5_regioes .circle-points-geral[data-circle-ano="2019"]').classed('visivel', forward);
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .labels-points-geral[data-label-ano="2019"]', forward);
+
+                    v.scroller.helpers.show_segment('.container-linha-regiao-com_5_regioes .line-segmentos-geral[data-line-ano="2019"]', forward);
+
+
+                },
+
+                "7" : (forward) => {
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes', !forward);
+
+                    if (forward) {
+
+                        d3.selectAll('[data-map-regiao]').attr('transform', '');
+
+                    } else {
+                        
+                        v.scroller.helpers.move_region(true, 'com_5_regioes');
+
+                    }
+
+                    //v.scroller.helpers.move_region(!forward, 'com_5_regioes');
+
+                }
 
 
                 
