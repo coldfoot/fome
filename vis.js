@@ -317,9 +317,7 @@ const v = {
 
             // ordena 
 
-            console.log(regioes);
             regioes.sort( (a, b) => a.pos - b.pos );
-            console.log(regioes);
 
             const pad = 20;
             const h_svg = v.map.sizings.h;
@@ -390,11 +388,13 @@ const v = {
                     const tx_linha = pad + w_max + pad;
                     const ty_linha = y + height/2 - h_min/2;
 
-                    console.log(grupo, regiao.name_regiao, tx_linha, w_max);
+                    console.log(regiao.regiao_name, tx_linha);
 
                     regiao.translate_grafico_linha = { tx_linha, ty_linha };
     
                 })
+
+                console.log(regioes);
 
             });
 
@@ -727,6 +727,8 @@ const v = {
 
                     // translate o grupo todo
 
+                    /*
+
                     const map_data = v.map.translation_data_regioes
                       .filter(d => d.nome == grupo)[0].data
                       .filter(d => d.regiao_name == regiao)[0];
@@ -737,9 +739,11 @@ const v = {
 
                     const { tx_linha , ty_linha } = translation_data;
 
-                    //console.log(regiao, tx_linha, ty_linha);
+                    console.log(regiao, tx_linha, ty_linha);
 
                     g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);
+
+                    */
                     
                       
                 })
@@ -1181,7 +1185,7 @@ const v = {
             v.vis.line.draw();
             //v.vis.line.draw_axis();
             //v.vis.line.draw_color_axis();
-            v.vis.points_brasil.draw();
+            //v.vis.points_brasil.draw();
 
             v.scroller.monitora();
 
