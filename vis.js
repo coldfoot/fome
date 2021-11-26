@@ -700,108 +700,110 @@ const v = {
 
                 const svg = d3.select(v.vis.elems.svg);
 
-                const grupo = 'com_3_regioes';
+                for (grupo of ['com_3_regioes', 'com_5_regioes']) {
 
-                const data_grupo = v.vis.line.mini_data[grupo];
+                    const data_grupo = v.vis.line.mini_data[grupo];
 
-                const regioes = v.utils.unique(v.vis.data[grupo], 'regiao');
-
-                regioes.forEach(regiao => {
-
-                    const data = data_grupo[regiao];
-
-                    const g = svg
-                      .append('g')
-                      .classed('container-linha-regiao', true)
-                      .classed('container-linha-regiao-' + grupo, true)
-                      .attr('data-container-linha-regiao', regiao)
-                    ;
-
-                    ['urbano', 'rural', 'geral'].forEach(tipo => {
-
-                        //console.log('desenhando', regiao, tipo, data);
-
-                        // testa se existe o dado primeiro (pro Norte, rural, não existe)
-                        if ( data[0].y1[tipo] ) {
-
-                            g.selectAll('line.segmentos-' + tipo)
-                                .data(data)
-                                .join('line')
-                                .classed('line-segmentos-' + tipo, true)
-                                .attr('data-line-regiao', regiao)
-                                .attr('data-line-ano', d => d.ano)
-                                .attr('data-next-x2', d => d.x2)
-                                .attr('data-next-y2', d => d.y2[tipo])
-                                .attr('x1', d => d.x1)
-                                .attr('x2', d => d.x1) // vai ser atualizado no scroll
-                                .attr('y1', d => d.y1[tipo])
-                                .attr('y2', d => d.y1[tipo]) // vai ser atualizado no scroll
-                            ;
-
-                            // points
-
-                            const dados_filtrados = v.vis.data[grupo].filter(d => d.regiao == regiao);
-                            const [x, y] = [ v.vis.line.x[grupo], v.vis.line.y[grupo] ];
-
-                            g
-                              .selectAll('circle.circle-points-' + tipo)
-                              .data(dados_filtrados)
-                              .join('circle')
-                              .classed('circle-points-' + tipo, true)
-                              .attr('data-circle-ano', d => d.ano)
-                              .attr('data-circle-regiao', regiao)
-                              .attr('cx', d => x(d.ano))
-                              .attr('cy', d => y(d[tipo]))
-                              //.attr('r', 20);
-            
-                              // labels
-
-                              const cont = d3.select(v.vis.elems.cont);
-            
-                            g
-                              .selectAll('text.labels-points-' + tipo)
-                              .data(dados_filtrados)
-                              .join('text')
-                              .classed('labels-points-' + tipo, true)
-                              .attr('data-label-ano', d => d.ano)
-                              .attr('data-label-regiao', regiao)
-                              .attr('x', d => x(d.ano) + 3)
-                              .attr('y', d => y(d[tipo]) -5)
-                              .text(d => d3.format(".0%")(d[tipo]))
-                            ;
-                                
-
-                        }
-
+                    const regioes = v.utils.unique(v.vis.data[grupo], 'regiao');
+    
+                    regioes.forEach(regiao => {
+    
+                        const data = data_grupo[regiao];
+    
+                        const g = svg
+                          .append('g')
+                          .classed('container-linha-regiao', true)
+                          .classed('container-linha-regiao-' + grupo, true)
+                          .attr('data-container-linha-regiao', regiao)
+                        ;
+    
+                        ['urbano', 'rural', 'geral'].forEach(tipo => {
+    
+                            //console.log('desenhando', regiao, tipo, data);
+    
+                            // testa se existe o dado primeiro (pro Norte, rural, não existe)
+                            if ( data[0].y1[tipo] ) {
+    
+                                g.selectAll('line.segmentos-' + tipo)
+                                    .data(data)
+                                    .join('line')
+                                    .classed('line-segmentos-' + tipo, true)
+                                    .attr('data-line-regiao', regiao)
+                                    .attr('data-line-ano', d => d.ano)
+                                    .attr('data-next-x2', d => d.x2)
+                                    .attr('data-next-y2', d => d.y2[tipo])
+                                    .attr('x1', d => d.x1)
+                                    .attr('x2', d => d.x1) // vai ser atualizado no scroll
+                                    .attr('y1', d => d.y1[tipo])
+                                    .attr('y2', d => d.y1[tipo]) // vai ser atualizado no scroll
+                                ;
+    
+                                // points
+    
+                                const dados_filtrados = v.vis.data[grupo].filter(d => d.regiao == regiao);
+                                const [x, y] = [ v.vis.line.x[grupo], v.vis.line.y[grupo] ];
+    
+                                g
+                                  .selectAll('circle.circle-points-' + tipo)
+                                  .data(dados_filtrados)
+                                  .join('circle')
+                                  .classed('circle-points-' + tipo, true)
+                                  .attr('data-circle-ano', d => d.ano)
+                                  .attr('data-circle-regiao', regiao)
+                                  .attr('cx', d => x(d.ano))
+                                  .attr('cy', d => y(d[tipo]))
+                                  //.attr('r', 20);
+                
+                                  // labels
+    
+                                  const cont = d3.select(v.vis.elems.cont);
+                
+                                g
+                                  .selectAll('text.labels-points-' + tipo)
+                                  .data(dados_filtrados)
+                                  .join('text')
+                                  .classed('labels-points-' + tipo, true)
+                                  .attr('data-label-ano', d => d.ano)
+                                  .attr('data-label-regiao', regiao)
+                                  .attr('x', d => x(d.ano) + 3)
+                                  .attr('y', d => y(d[tipo]) -5)
+                                  .text(d => d3.format(".0%")(d[tipo]))
+                                ;
+                                    
+    
+                            }
+    
+                        })
+    
+                        //eixos
+    
+                        const h = v.vis.line.h[grupo];
+    
+                        const yAxis = d3.axisLeft()
+                          .scale(v.vis.line.y[grupo])
+                          .ticks(4)
+                          .tickFormat(d3.format(".0%"));
+      
+                        const xAxis = d3.axisBottom()
+                          .scale(v.vis.line.x[grupo]);
+      
+                        g.append("g") 
+                          .attr("class", "linechart-axis axis x-axis")
+                          .attr("transform", "translate(0," + (h) + ")")
+                          .call(xAxis);
+      
+                        g.append("g") 
+                          .attr("class", "linechart-axis axis y-axis")
+                          .call(yAxis);
+    
+                        const translation_data = v.vis.line.translation_data[grupo][regiao];
+                        const { tx_linha , ty_linha } = translation_data;
+    
+                        g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);                  
+                          
                     })
 
-                    //eixos
-
-                    const h = v.vis.line.h[grupo];
-
-                    const yAxis = d3.axisLeft()
-                      .scale(v.vis.line.y[grupo])
-                      .ticks(4)
-                      .tickFormat(d3.format(".0%"));
-  
-                    const xAxis = d3.axisBottom()
-                      .scale(v.vis.line.x[grupo]);
-  
-                    g.append("g") 
-                      .attr("class", "linechart-axis axis x-axis")
-                      .attr("transform", "translate(0," + (h) + ")")
-                      .call(xAxis);
-  
-                    g.append("g") 
-                      .attr("class", "linechart-axis axis y-axis")
-                      .call(yAxis);
-
-                    const translation_data = v.vis.line.translation_data[grupo][regiao];
-                    const { tx_linha , ty_linha } = translation_data;
-
-                    g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);                  
-                      
-                })
+                }
 
             }
 
