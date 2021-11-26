@@ -390,13 +390,15 @@ const v = {
                     const tx_linha = pad + w_max + pad;
                     const ty_linha = y + height/2 - h_min/2;
 
+                    console.log(grupo, regiao.name_regiao, tx_linha, w_max);
+
                     regiao.translate_grafico_linha = { tx_linha, ty_linha };
     
                 })
 
             });
 
-            console.log(grupos);
+            //console.log(grupos);
 
             v.map.translation_data_regioes = grupos;
 
@@ -553,7 +555,7 @@ const v = {
     
                     const h = Math.min(...heights_regioes);
     
-                    console.log(grupo, w, h);
+                    //console.log(grupo, w, h);
 
                     v.vis.line.w[grupo] = w;
                     v.vis.line.h[grupo] = h;
@@ -562,7 +564,7 @@ const v = {
                     
                     const ticks_x = v.utils.unique(v.vis.data[grupo], 'ano');
 
-                    console.log(ticks_x);
+                    //console.log(ticks_x);
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
@@ -643,7 +645,7 @@ const v = {
 
                     let p = i == 4 ? 50 : intervalos[i];
 
-                    console.log(i, p);
+                    //console.log(i, p);
 
                     g
                       .append('rect')
@@ -683,7 +685,7 @@ const v = {
 
                     ['urbano', 'rural'].forEach(tipo => {
 
-                        console.log('desenhando', regiao, tipo, data);
+                        //console.log('desenhando', regiao, tipo, data);
 
                         // testa se existe o dado primeiro (pro Norte, rural, não existe)
                         if ( data[0].y1[tipo] ) {
@@ -729,13 +731,13 @@ const v = {
                       .filter(d => d.nome == grupo)[0].data
                       .filter(d => d.regiao_name == regiao)[0];
 
-                    console.log(regiao, map_data);
+                    //console.log(regiao, map_data);
 
                     const translation_data = map_data.translate_grafico_linha;
 
                     const { tx_linha , ty_linha } = translation_data;
 
-                    console.log(regiao, tx_linha, ty_linha);
+                    //console.log(regiao, tx_linha, ty_linha);
 
                     g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);
                     
