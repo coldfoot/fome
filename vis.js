@@ -145,7 +145,8 @@ const v = {
 
             const centro_sul = g
               .append('g')
-              .attr('data-map-regiao', 'Centro Sul');
+              .attr('data-map-regiao', 'Centro Sul')
+              .classed('com_3_regioes', true);
 
             // por causa do tal do centro sul, tive que mudar a geração do mapa aqui...
             /*
@@ -173,6 +174,8 @@ const v = {
                   .append('path')
                   .classed('vis-regiao', true)
                   .attr('data-map-regiao', regiao)
+                  .classed('com_3_regioes', ['Nordeste', 'Norte'].includes(regiao))
+                  .classed('com_5_regioes', true)
                   .attr("d", d3.geoPath().projection(proj)(feature))
                 ;
 
@@ -950,20 +953,29 @@ const v = {
                 })
             ;*/
 
-            function move_region(back) {
+            function move_region(back, grupo) {
 
-                v.map.translation_data_regioes.forEach(regiao_data => {
+                const dados = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data;
+                const ratio = v.map.scale_ratio[grupo];
+
+                dados.forEach(regiao_data => {
 
                     const regiao = regiao_data.regiao_name;
                     const translate_data = regiao_data.scaled;
 
                     const { tx, ty } = translate_data;
 
+                    if (grupo == 'com_5_regioes') {
+
+                        d3.select('[data-map-regiao="Centro Sul"]').attr('transform', '');
+
+                    }
+
                     d3.select('[data-map-regiao="' + regiao + '"]')
                       .attr(
                           'transform',
                           back ? 
-                          `scale(${v.map.scale_ratio}) translate(${-tx}, ${-ty})` :
+                          `scale(${ratio}) translate(${-tx}, ${-ty})` :
                           '')
                     ;
 
@@ -973,7 +985,7 @@ const v = {
             }
 
             gsap.to(
-                '[data-map-regiao]',
+                '.com_3_regioes',
                 {
                     scrollTrigger : {
                         trigger: '[data-linechart-step="2"]',
@@ -982,9 +994,9 @@ const v = {
                         pin: false,   // pin the trigger element while active
                         start: "25% 60%", // when the top of the trigger hits the top of the viewport
                         end: "75% 40%", // end after scrolling 500px beyond the start,
-                        onEnter : () => move_region(true),
-                        onEnterBack : () => move_region(false),
-                        onLeaveBack : () => move_region(false)
+                        onEnter : () => move_region(true, 'com_3_regioes'),
+                        onEnterBack : () => move_region(false, 'com_3_regioes'),
+                        onLeaveBack : () => move_region(false, 'com_3_regioes')
                     },
 
                     /*
@@ -1009,6 +1021,24 @@ const v = {
                     }
 
                     */
+
+                })
+            ;
+
+            gsap.to(
+                '.com_5_regioes',
+                {
+                    scrollTrigger : {
+                        trigger: '[data-linechart-step="3"]',
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "25% 60%", // when the top of the trigger hits the top of the viewport
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        onEnter : () => move_region(true, 'com_5_regioes'),
+                        onEnterBack : () => move_region(false, 'com_5_regioes'),
+                        onLeaveBack : () => move_region(false, 'com_5_regioes')
+                    }
 
                 })
             ;
