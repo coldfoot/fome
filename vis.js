@@ -288,9 +288,18 @@ const v = {
 
         evaluate_future_positions: () => {
 
-            const regioes = [];
+            const posicoes = {
 
-            let svg = d3.select(v.map.elems.svg);
+                'Norte' : 1,
+                'Nordeste' : 2,
+                'Centro Sul' : 3,
+                'Centro Oeste' : 4,
+                'Sudeste' : 5,
+                'Sul' : 6
+
+            }
+
+            const regioes = [];
 
             document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
 
@@ -298,9 +307,16 @@ const v = {
 
                 const { x, y, width, height } = regiao.getBBox();
 
-                regioes.push({ x, y, width, height, regiao_name });
+                const pos = posicoes[regiao_name];
+
+                regioes.push({ x, y, width, height, regiao_name, pos });
 
             });
+
+            // ordena 
+
+            regioes.sort( (a, b) => a.pos - b.pos );
+            console.log(regioes);
 
             const pad = 20;
             const h_svg = v.map.sizings.h;
@@ -324,11 +340,13 @@ const v = {
                     nome: 'com_5_regioes',
                     data: regioes_5
                 }
+
             ];
 
             grupos.forEach(grupo => {
 
                 const regioes = grupo.data;
+                console.log(regioes);
                 const nome = grupo.nome;
 
                 const h_regioes = regioes.map(d => d.height).reduce( (prev, curr) => prev + curr )
