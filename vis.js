@@ -489,7 +489,12 @@ const v = {
 
         line : {
 
-            mini_data : {},
+            mini_data : {
+
+                com_3_regioes : {},
+                com_5_regioes : {}
+
+            },
 
             // esses aqui vou precisar para calcular a translação
 
@@ -558,48 +563,55 @@ const v = {
                       .range([h, 0])
                     ;
 
-                })
+                    // prepara os dados
 
-                // mini_data
+                    const regioes = v.utils.unique(v.vis.data[grupo], 'regiao');
 
-                // essas estruturas de dados intermediários são a alma do negócio...
+                    regioes.forEach(regiao => {
 
-                for (regiao of v.data.info_from_data.regioes) {
+                        const dados_filtrados = v.vis.data[grupo].filter(d => d.regiao == regiao);
 
-                    const dados_filtrados = v.data.raw.filter(d => d.region == regiao);
+                        // mini_data
 
-                    const mini_data = dados_filtrados.map((d,i) => {
+                        // essas estruturas de dados intermediários são a alma do negócio...
 
-                        if (i > 0) {
+                        const mini_data = dados_filtrados.map((d,i) => {
 
-                            const d_anterior = dados_filtrados[i-1];
+                            if (i > 0) {
 
-                            return (
+                                const d_anterior = dados_filtrados[i-1];
 
-                                {
-                                    'ano' : d.ano,
-                                    x1 : v.vis.line.x(d_anterior.date),
-                                    y1 : v.vis.line.y(d_anterior.valor),
-                                    x2 : v.vis.line.x(d.date),
-                                    y2 : v.vis.line.y(d.valor),
-        
-                                }
+                                return (
 
-                            )
+                                    {
+                                        'ano' : d.ano,
+                                        x1 : v.vis.line.x[grupo](d_anterior.ano),
 
-                        }
+                                        y1 : {
+                                            urbano : v.vis.line.y[grupo](d_anterior.urbano),
+                                            rural  : v.vis.line.y[grupo](d_anterior.rural)
+                                        },
+
+                                        x2 : v.vis.line.x[grupo](d.ano),
+
+                                        y2 : {
+                                            urbano : v.vis.line.y[grupo](d.urbano),
+                                            rural  : v.vis.line.y[grupo](d.rural)
+                                        }
+            
+                                    }
+
+                                )
+
+                            }
+                        
+                        })
+
+                        v.vis.line.mini_data[grupo][regiao] = mini_data.slice(1);
 
                     })
 
-                    v.vis.line.mini_data[regiao] = mini_data.slice(1);
-
-                }
-
-                // line_gen
-
-                v.vis.line.path_gen = d3.line()
-                  .x(d => v.vis.line.x(d.date))
-                  .y(d => v.vis.line.y(d.valor));
+                })
 
             },
 
