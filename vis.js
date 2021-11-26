@@ -694,11 +694,11 @@ const v = {
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
-                      .range( [0,w - pad] )
+                      .range( [pad,w - 2*pad] )
                     ;
 
                     v.vis.line.y[grupo]
-                      .domain([0, grupo == 'com_3_regios' ? .53 : .3])//d3.max(v.data.raw, d => d.valor)])
+                      .domain([0, grupo == 'com_3_regioes' ? .53 : .3])//d3.max(v.data.raw, d => d.valor)])
                       .range([h, 0])
                     ;
 
@@ -883,6 +883,8 @@ const v = {
       
                         const xAxis = d3.axisBottom()
                           .scale(v.vis.line.x[grupo]);
+
+                        const pad_left = v.vis.line.x[grupo].range()[0];
       
                         g.append("g") 
                           .attr("class", "linechart-axis axis x-axis")
@@ -891,6 +893,7 @@ const v = {
       
                         g.append("g") 
                           .attr("class", "linechart-axis axis y-axis")
+                          .attr("transform", `translate(${pad_left},0)`)
                           .call(yAxis);
     
                         const translation_data = v.vis.line.translation_data[grupo][regiao];

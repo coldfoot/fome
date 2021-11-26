@@ -181,6 +181,13 @@ svg {
 
 }
 
+svg.vis {
+
+    height: 500px;
+    max-height: 90vh;
+
+}
+
 /*g.main-container {
     perspective-origin: 500% 200%;
 }
