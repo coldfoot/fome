@@ -497,7 +497,102 @@ const v = {
 
             ],
 
-            com_5_regioes : [],
+            com_5_regioes : [
+
+                {
+                    regiao : 'Norte',
+                    ano : 1996,
+                    geral : .207
+                },
+
+                {
+                    regiao : 'Norte',
+                    ano : 2006,
+                    geral : .148
+                },
+
+                {
+                    regiao : 'Norte',
+                    ano : 2019,
+                    geral : .084
+                },
+
+                {
+                    regiao : 'Nordeste',
+                    ano : 1996,
+                    geral : .221
+                },
+
+                {
+                    regiao : 'Nordeste',
+                    ano : 2006,
+                    geral : .058
+                },
+
+                {
+                    regiao : 'Nordeste',
+                    ano : 2019,
+                    geral : .062
+                },
+
+                {
+                    regiao : 'Sudeste',
+                    ano : 1996,
+                    geral : .072
+                },
+
+                {
+                    regiao : 'Sudeste',
+                    ano : 2006,
+                    geral : .057
+                },
+
+                {
+                    regiao : 'Sudeste',
+                    ano : 2019,
+                    geral : .073
+                },
+
+                {
+                    regiao : 'Sul',
+                    ano : 1996,
+                    geral : .07
+                },
+
+                {
+                    regiao : 'Sul',
+                    ano : 2006,
+                    geral : .084
+                },
+
+                {
+                    regiao : 'Sul',
+                    ano : 2019,
+                    geral : .07
+                },
+
+                {
+                    regiao : 'Centro Oeste',
+                    ano : 1996,
+                    geral : .107
+                },
+
+                {
+                    regiao : 'Centro Oeste',
+                    ano : 2006,
+                    geral : .055
+                },
+
+                {
+                    regiao : 'Centro Oeste',
+                    ano : 2019,
+                    geral : .061
+                },
+
+
+
+
+            ],
 
             summary_line : null,
 
@@ -709,6 +804,8 @@ const v = {
                     regioes.forEach(regiao => {
     
                         const data = data_grupo[regiao];
+
+                        console.log('desenhando', grupo, regiao);
     
                         const g = svg
                           .append('g')
@@ -781,7 +878,7 @@ const v = {
     
                         const yAxis = d3.axisLeft()
                           .scale(v.vis.line.y[grupo])
-                          .ticks(4)
+                          .ticks(grupo == 'com_3_regioes' ? 4 : 2)
                           .tickFormat(d3.format(".0%"));
       
                         const xAxis = d3.axisBottom()
