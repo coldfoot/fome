@@ -208,6 +208,7 @@ const v = {
 
         },
 
+        /*
         draw_rect_around_region : () => {
 
             const heights = [];
@@ -291,7 +292,7 @@ const v = {
             console.log(regioes);
 
 
-        },
+        },*/
 
         evaluate_future_positions: () => {
 
@@ -393,7 +394,7 @@ const v = {
 
                     // posicoes dos graficos de linha
 
-                    const tx_linha = pad + w_max + pad;
+                    const tx_linha = pad + w_max + 2 * pad;
                     const ty_linha = y_f + height_f/2 - h_min/2;
 
                     console.log(regiao_name, tx_linha);
@@ -732,7 +733,9 @@ const v = {
                     const h = v.vis.line.h[grupo];
 
                     const yAxis = d3.axisLeft()
-                      .scale(v.vis.line.y[grupo]);
+                      .scale(v.vis.line.y[grupo])
+                      .ticks(4)
+                      .tickFormat(d3.format(".0%"));
   
                     const xAxis = d3.axisBottom()
                       .scale(v.vis.line.x[grupo]);
