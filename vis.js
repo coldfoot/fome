@@ -803,92 +803,7 @@ const v = {
                       
                 })
 
-            },
-
-            show_line_regiao : (regiao) => {
-
-                const g_regiao = d3.select(`[data-container-linha-regiao="${regiao}"]`);
-
-                g_regiao.style('opacity', 1);
-
-                const mini_data = v.vis.line.mini_data[regiao];
-
-                console.log(regiao, mini_data);
-
-                g_regiao
-                  .selectAll('line')
-                  .transition()
-                  .duration(500)
-                  .attr('y1', d => mini_data.filter(row => row.ano == d.ano)[0].y1)
-                  .attr('y2', d => mini_data.filter(row => row.ano == d.ano)[0].y2)
-                  .attr('opacity', (d,i) => i == 2 ? 0 : 1) // para excluir a linha ligando 1996 a 1996 :/
-                ;
-
-            },
-
-            move_line_regiao : (regiao) => {
-
-                const mapa = document.querySelector(`[data-map-regiao="${regiao}"]`).getBBox();
-                const g_line = document.querySelector(`[data-container-linha-regiao="${regiao}"]`).getBBox();
-
-                const x0 = g_line.x;
-                const y0 = g_line.y + g_line.height;
-                const ratio = mapa.width / g_line.width;
-                const tx = (mapa.x - g_line.x/ratio)/ratio;
-                const ty = (mapa.y + mapa.height - ( g_line.y + g_line.height)/ratio)/ratio;
-
-                console.log(tx, ty, x0, y0, ratio);
-
             }
-
-        },
-
-        points : {
-
-            draw : () => {
-
-                //for ( tipo of ['com_3_regioes', 'com_5_regioes'] ) {
-
-                const tipo = 'com_3_regioes';
-
-                const data = v.vis.data[tipo];
-
-                console.log(data);
-
-                const {x,y} = v.vis.line; // para pegar as funções de escala, .x e .y
-
-                const svg = d3.select(v.vis.elems.svg);
-
-                svg
-                  .selectAll('circle.points-brasil')
-                  .data(data)
-                  .join('circle')
-                  .classed('points-brasil', true)
-                  .attr('data-circle-ano', d => d.ano)
-                  .attr('cx', d => x(d.date))
-                  .attr('cy', d => y(d.valor))
-                  .attr('r', 20);
-
-                  // labels
-
-                  const cont = d3.select(v.vis.elems.cont);
-
-                  cont
-                    .selectAll('span.labels-points-brasil')
-                    .data(data)
-                    .join('span')
-                    .classed('labels-points-brasil', true)
-                    .attr('data-label-brasil-ano', d => d.ano)
-                    .style('left', d => x(d.date) + 'px')
-                    .style('top', d => y(d.valor) + 'px')
-                    .text(d => d.valor);
-
-                //}
-
-
-            }
-
-
 
         }
 
@@ -971,6 +886,8 @@ const v = {
 
                     // faz os círculos virarem pontos;
                     d3.selectAll('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1975"]').classed('visivel', forward);
+
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .labels-points-geral[data-label-ano="1975"]', forward);
 
 
                 },
