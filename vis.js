@@ -80,6 +80,13 @@ const v = {
             
         },
 
+        future_positions : {
+
+            com_3_regioes : {},
+            com_5_regioes : {}
+
+        },
+
         sizings : {
     
             w : null,
@@ -264,7 +271,7 @@ const v = {
                 const tx = x - x_f / ratio;
                 const ty = y - y_f / ratio;
 
-                regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
+                v.map.future_positions[grupo][regiao] = { x_f, y_f, width_f, height_f, tx, ty };
 
                 svg
                   .append('rect')
@@ -368,29 +375,30 @@ const v = {
                 regioes.forEach(regiao => {
 
                     // posicoes atuais
-                    const { x, y, width, height } = regiao
+                    const { x, y, width, height, regiao_name } = regiao
     
                     // posicoes futuras
-                    const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
+                    const x_f = pad + w_max/2 - (width * ratio)/2;
                     const y_f = h_acum;
-                    const width_f = regiao.width * ratio;
-                    const height_f = regiao.height * ratio;
+                    const width_f = width * ratio;
+                    const height_f = height * ratio;
     
                     const tx = x - x_f / ratio;
                     const ty = y - y_f / ratio;
     
-                    regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
+                    console.log(nome, regiao_name);
+                    v.map.future_positions[nome][regiao_name] = { x_f, y_f, width_f, height_f, tx, ty };
     
-                    h_acum += (regiao.height * ratio) + pad
+                    h_acum += (height * ratio) + pad
 
                     // posicoes dos graficos de linha
 
                     const tx_linha = pad + w_max + pad;
                     const ty_linha = y_f + height_f/2 - h_min/2;
 
-                    console.log(regiao.regiao_name, tx_linha);
+                    console.log(regiao_name, tx_linha);
 
-                    v.vis.line.translation_data[grupo.nome][regiao.regiao_name] = { tx_linha, ty_linha };
+                    v.vis.line.translation_data[grupo.nome][regiao_name] = { tx_linha, ty_linha };
     
                 })
 
@@ -548,7 +556,11 @@ const v = {
 
                     // maior width do mapa, para determinar o width do gráfico
 
-                    const widths_regioes = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data.map(d => d.scaled.width_f + d.scaled.x_f);
+                    const lista_regioes = Object.keys(v.map.future_positions[grupo]);
+
+                    const widths_regioes = lista_regioes.map(
+                        d => v.map.future_positions[grupo][d].width_f + v.map.future_positions[grupo][d].x_f
+                    );
 
                     const width_max = Math.max(...widths_regioes);
     
@@ -558,7 +570,9 @@ const v = {
     
                     // menor height do mapa, para determinar o height do gráfico
     
-                    const heights_regioes = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data.map(d => d.scaled.height_f);
+                    const heights_regioes = lista_regioes.map(
+                        d => v.map.future_positions[grupo][d].height_f
+                    );
     
                     const h = Math.min(...heights_regioes);
     
@@ -1031,7 +1045,7 @@ const v = {
                 dados.forEach(regiao_data => {
 
                     const regiao = regiao_data.regiao_name;
-                    const translate_data = regiao_data.scaled;
+                    const translate_data = v.map.future_positions[grupo][regiao];
 
                     const { tx, ty } = translate_data;
 
