@@ -73,7 +73,12 @@ const v = {
 
         translation_data_regioes : null,
 
-        scale_ratio : null,
+        scale_ratio : {
+
+            com_3_regioes : null,
+            com_5_regioes : null
+            
+        },
 
         sizings : {
     
@@ -292,46 +297,76 @@ const v = {
 
                 regioes.push({ x, y, width, height, regiao_name });
 
-            })
-
-            const h_regioes = regioes.map(d => d.height).reduce( (prev, curr) => prev + curr )
-
-            const qde_regioes = regioes.length;
+            });
 
             const pad = 20;
             const h_svg = v.map.sizings.h;
-            const h_util = h_svg - pad * (qde_regioes + 1); 
 
-            const ratio = h_util / h_regioes;
-            v.map.scale_ratio = ratio;
+            // três regiões
 
-            const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+            const regioes_3 = regioes.filter(d => ['Norte', 'Nordeste', 'Centro Sul'].includes(d.regiao_name));
 
-            let h_acum = pad;
+            // 5 regioes 
 
-            regioes.forEach(regiao => {
+            const regioes_5 = regioes.filter(d => d.regiao_name != 'Centro Sul');
 
-                // posicoes atuais
-                const { x, y, width, height } = regiao
+            const grupos = [
 
-                // posicoes futuras
-                const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
-                const y_f = h_acum;
-                const width_f = regiao.width * ratio;
-                const height_f = regiao.height * ratio;
+                {
+                    nome : 'com_3_regioes', 
+                    data: regioes_3
+                }, 
+                
+                {
+                    nome: 'com_5_regioes',
+                    data: regioes_5
+                }
+            ];
 
-                const tx = x - x_f / ratio;
-                const ty = y - y_f / ratio;
+            grupos.forEach(grupo => {
 
-                regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
+                const regioes = grupo.data;
+                const nome = grupo.nome;
 
-                h_acum += (regiao.height * ratio) + pad
+                const h_regioes = regioes.map(d => d.height).reduce( (prev, curr) => prev + curr )
 
-            })
+                const qde_regioes = regioes.length;
 
-            console.log(regioes);
+                const h_util = h_svg - pad * (qde_regioes + 1); 
+    
+                const ratio = h_util / h_regioes;
 
-            v.map.translation_data_regioes = regioes;
+                v.map.scale_ratio[nome] = ratio;
+    
+                const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+    
+                let h_acum = pad;
+
+                regioes.forEach(regiao => {
+
+                    // posicoes atuais
+                    const { x, y, width, height } = regiao
+    
+                    // posicoes futuras
+                    const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
+                    const y_f = h_acum;
+                    const width_f = regiao.width * ratio;
+                    const height_f = regiao.height * ratio;
+    
+                    const tx = x - x_f / ratio;
+                    const ty = y - y_f / ratio;
+    
+                    regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
+    
+                    h_acum += (regiao.height * ratio) + pad
+    
+                })
+
+            });
+
+            console.log(grupos);
+
+            v.map.translation_data_regioes = grupos;
 
         },
 
