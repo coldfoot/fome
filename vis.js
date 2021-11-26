@@ -708,6 +708,8 @@ const v = {
 
                 regioes.forEach(regiao => {
 
+                    console.log(regiao, tx_linha, ty_linha);
+
                     const data = data_grupo[regiao];
 
                     const g = svg
@@ -753,20 +755,20 @@ const v = {
             
                               // labels
 
-                              /*
-            
                               const cont = d3.select(v.vis.elems.cont);
             
-                              cont
-                                .selectAll('span.labels-points-brasil')
-                                .data(data)
-                                .join('span')
-                                .classed('labels-points-brasil', true)
-                                .attr('data-label-brasil-ano', d => d.ano)
-                                .style('left', d => x(d.date) + 'px')
-                                .style('top', d => y(d.valor) + 'px')
-                                .text(d => d.valor);
-                                */
+                            g
+                              .selectAll('text.labels-points-' + tipo)
+                              .data(dados_filtrados)
+                              .join('text')
+                              .classed('labels-points-' + tipo, true)
+                              .attr('data-label-ano', d => d.ano)
+                              .attr('data-label-regiao', regiao)
+                              .attr('x', d => x(d.ano) + 3)
+                              .attr('y', d => y(d[tipo]) -5)
+                              .text(d => d3.format(".0%")(d[tipo]))
+                            ;
+                                
 
                         }
 
@@ -795,8 +797,6 @@ const v = {
 
                     const translation_data = v.vis.line.translation_data[grupo][regiao];
                     const { tx_linha , ty_linha } = translation_data;
-
-                    console.log(regiao, tx_linha, ty_linha);
 
                     g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);                  
                       
