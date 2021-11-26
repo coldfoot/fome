@@ -440,12 +440,12 @@ const v = {
                     geral : .23
                 },
 
-                {
+                /*{
                     regiao : 'Norte',
                     ano : 1996,
                     urbano : .166,
                     geral : .166
-                },
+                },*/
 
                 {
                     regiao : 'Nordeste',
@@ -463,13 +463,13 @@ const v = {
                     geral : .273
                 },
 
-                {
+                /*{
                     regiao : 'Nordeste',
                     ano : 1996,
                     urbano : .13,
                     rural : .252,
                     geral : .179
-                },
+                },*/
 
                 {
                     regiao : 'Centro Sul',
@@ -485,15 +485,15 @@ const v = {
                     urbano : .075,
                     rural : .123,
                     geral : .086
-                },
+                }
 
-                {
+                /*{
                     regiao : 'Centro Sul',
                     ano : 1996,
                     urbano : .046,
                     rural : .099,
                     geral : .056
-                },
+                },*/
 
             ],
 
