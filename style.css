@@ -384,12 +384,12 @@ L I N E C H A R T
 
 }
 
-.circle-points-urbano {
+.circle-points-geral {
 
     opacity: 1;
     /* vai ser alterado no scroll*/
     fill: none;
-    stroke: var(--title-color);
+    stroke: var(--font-color);
 
 }
 

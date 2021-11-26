@@ -735,6 +735,39 @@ const v = {
                                 .attr('y2', d => d.y2[tipo]) // vai ser atualizado no scroll
                             ;
 
+                            // points
+
+                            const dados_filtrados = v.vis.data[grupo].filter(d => d.regiao == regiao);
+                            const [x, y] = [ v.vis.line.x[grupo], v.vis.line.y[grupo] ];
+
+                            g
+                              .selectAll('circle.circle-points-' + tipo)
+                              .data(dados_filtrados)
+                              .join('circle')
+                              .classed('circle-points-' + tipo, true)
+                              .attr('data-circle-ano', d => d.ano)
+                              .attr('data-circle-regiao', regiao)
+                              .attr('cx', d => x(d.ano))
+                              .attr('cy', d => y(d[tipo]))
+                              .attr('r', 20);
+            
+                              // labels
+
+                              /*
+            
+                              const cont = d3.select(v.vis.elems.cont);
+            
+                              cont
+                                .selectAll('span.labels-points-brasil')
+                                .data(data)
+                                .join('span')
+                                .classed('labels-points-brasil', true)
+                                .attr('data-label-brasil-ano', d => d.ano)
+                                .style('left', d => x(d.date) + 'px')
+                                .style('top', d => y(d.valor) + 'px')
+                                .text(d => d.valor);
+                                */
+
                         }
 
                     })
@@ -809,11 +842,15 @@ const v = {
 
         },
 
-        points_brasil : {
+        points : {
 
             draw : () => {
 
-                const data = v.data.raw.filter(d => d.region == 'Brasil');
+                //for ( tipo of ['com_3_regioes', 'com_5_regioes'] ) {
+
+                const tipo = 'com_3_regioes';
+
+                const data = v.vis.data[tipo];
 
                 console.log(data);
 
@@ -844,6 +881,8 @@ const v = {
                     .style('left', d => x(d.date) + 'px')
                     .style('top', d => y(d.valor) + 'px')
                     .text(d => d.valor);
+
+                //}
 
 
             }
