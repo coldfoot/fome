@@ -985,7 +985,13 @@ const v = {
 
                     if (grupo == 'com_5_regioes') {
 
-                        d3.select('[data-map-regiao="Centro Sul"]').attr('transform', '');
+                        d3.select('[data-map-regiao="Centro Sul"]')
+                          .attr(
+                              'transform', 
+                              back ? 
+                              '' : 
+                              `scale(${ratio}) translate(${-tx}, ${-ty})`)
+                        ;
 
                     }
 
