@@ -511,8 +511,8 @@ const v = {
             },
 
             x : {
-                com_3_regioes : d3.scaleOrdinal(),
-                com_5_regioes : d3.scaleOrdinal()
+                com_3_regioes : d3.scaleBand(),
+                com_5_regioes : d3.scaleBand()
             },
 
             prepare : () => {
@@ -542,28 +542,23 @@ const v = {
                     v.vis.line.w[grupo] = w;
                     v.vis.line.h[grupo] = h;
 
+                    // scales 
+                    
+                    const ticks_x = v.utils.unique(v.vis.data[grupo], 'ano');
+
+                    console.log(ticks_x);
+
+                    v.vis.line.x[grupo]
+                      .domain(ticks_x)
+                      .range( [0,w] )
+                    ;
+
+                    v.vis.line.y[grupo]
+                      .domain([0, .53])//d3.max(v.data.raw, d => d.valor)])
+                      .range([h, 0])
+                    ;
+
                 })
-
-                // definir quanto teremos de width disponível
-
-
-
-                // scales 
-
-                const ticks_x = d3.extent(v.data.raw, d => d.date);
-
-                v.vis.line.x
-                  .domain(ticks_x)
-                  .range([
-                      margin,
-                      w - margin
-                  ])
-                ;
-
-                v.vis.line.y
-                  .domain([0, 50])//d3.max(v.data.raw, d => d.valor)])
-                  .range([h-margin, margin])
-                ;
 
                 // mini_data
 
