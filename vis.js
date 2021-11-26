@@ -713,6 +713,7 @@ const v = {
                     const g = svg
                       .append('g')
                       .classed('container-linha-regiao', true)
+                      .classed('container-linha-regiao-' + grupo, true)
                       .attr('data-container-linha-regiao', regiao)
                     ;
 
@@ -751,7 +752,7 @@ const v = {
                               .attr('data-circle-regiao', regiao)
                               .attr('cx', d => x(d.ano))
                               .attr('cy', d => y(d[tipo]))
-                              .attr('r', 20);
+                              //.attr('r', 20);
             
                               // labels
 
@@ -932,6 +933,19 @@ const v = {
 
                 })
 
+            },
+
+            toggle_opacity_all : (selector, forward) => {
+
+                //const current_opacity = d3.select(element).attr('opacity');
+
+                //const next_opacity = current_opacity + 1 % 2; // se for 0, vira 1, se for 1, vira 0
+
+                console.log(selector, forward, 'me chamara?')
+
+                d3.selectAll(selector).style('opacity', forward ? 1 : 0);
+
+
             }
 
         },
@@ -945,14 +959,27 @@ const v = {
                     console.log('oi nois aqui');
 
                     v.scroller.helpers.move_region(forward, 'com_3_regioes');
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes', forward);
+
 
                 },
 
-                "2" : () => {
+                "2" : (forward) => {
 
-                    console.log('oi nois aqui traveis.');
+                    console.log('oi nois aqui traveis.', forward);
+                    v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1975"]', forward);
 
-                }
+                    // faz os círculos virarem pontos;
+                    d3.selectAll('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1975"]').classed('visivel', forward);
+
+
+                },
+
+                "3" : (forward) => {
+
+                    console.log('step 3', forward);
+
+                },
                 
 
 
@@ -989,9 +1016,7 @@ const v = {
                                 onLeave : () => v.scroller.linechart_3_regioes.render[step_name](forward = true),
                                 onLeaveBack : () => v.scroller.linechart_3_regioes.render[step_name](forward = false)
 
-                            },
-        
-                            opacity : 1
+                            }
         
                         })
                     ;

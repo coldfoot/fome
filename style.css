@@ -332,6 +332,7 @@ L I N E C H A R T
 .container-linha-regiao {
 
     opacity : 0;
+    transition: opacity .5s;
 
 }
 
@@ -349,12 +350,24 @@ L I N E C H A R T
 
 }
 
+
+.circle-points-geral.visivel {
+
+    r : 4;
+    stroke-width: 3;
+    fill : var(--font-color);
+
+
+}
+
 .circle-points-geral {
 
     opacity: 0;
     /* vai ser alterado no scroll*/
     fill: none;
     stroke: var(--font-color);
+    r : 20;
+    transition: all .5s;/*r .5s, stroke-width .5s;*/
 
 }
 
