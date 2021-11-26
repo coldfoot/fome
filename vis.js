@@ -311,10 +311,13 @@ const v = {
 
                 regioes.push({ x, y, width, height, regiao_name, pos });
 
+                console.log(regiao_name, { x, y, width, height, regiao_name, pos });
+
             });
 
             // ordena 
 
+            console.log(regioes);
             regioes.sort( (a, b) => a.pos - b.pos );
             console.log(regioes);
 
@@ -360,6 +363,7 @@ const v = {
                 v.map.scale_ratio[nome] = ratio;
     
                 const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+                const h_min = Math.min(...regioes.map(d => d.height)) * ratio;
     
                 let h_acum = pad;
 
@@ -380,6 +384,13 @@ const v = {
                     regiao.scaled = { x_f, y_f, width_f, height_f, tx, ty };
     
                     h_acum += (regiao.height * ratio) + pad
+
+                    // posicoes dos graficos de linha
+
+                    const tx_linha = pad + w_max + pad;
+                    const ty_linha = y + height/2 - h_min/2;
+
+                    regiao.translate_grafico_linha = { tx_linha, ty_linha };
     
                 })
 
@@ -615,30 +626,6 @@ const v = {
 
             },
 
-            draw_axis : () => {
-
-                const svg = d3.select(v.vis.elems.svg);
-                const margin = v.map.sizings.margin * 2;
-                const h = v.map.sizings.h;
-
-                const yAxis = d3.axisLeft()
-                  .scale(v.vis.line.y);
-
-                const xAxis = d3.axisBottom()
-                  .scale(v.vis.line.x);
-
-                svg.append("g") 
-                  .attr("class", "linechart-axis axis x-axis")
-                  .attr("transform", "translate(0," + (h-margin) + ")")
-                  .call(xAxis);
-
-                svg.append("g") 
-                  .attr("class", "linechart-axis axis y-axis")
-                  .attr("transform", `translate(${margin},0)`)
-                  .call(yAxis);
-
-            },
-
             draw_color_axis : () => {
 
                 const svg = d3.select(v.vis.elems.svg);
@@ -678,11 +665,15 @@ const v = {
 
                 const svg = d3.select(v.vis.elems.svg);
 
-                const data = v.vis.line.mini_data['Brasil'];
+                const grupo = 'com_3_regioes';
 
-                const regioes = v.data.info_from_data.regioes;
+                const data_grupo = v.vis.line.mini_data[grupo];
+
+                const regioes = v.utils.unique(v.vis.data[grupo], 'regiao');
 
                 regioes.forEach(regiao => {
+
+                    const data = data_grupo[regiao];
 
                     const g = svg
                       .append('g')
@@ -690,21 +681,65 @@ const v = {
                       .attr('data-container-linha-regiao', regiao)
                     ;
 
-                    g.selectAll('line.segmentos')
-                        .data(data)
-                        .join('line')
-                        .classed('line-segmentos', true)
-                        .classed('segmentos-brasil', regiao == 'Brasil')
-                        .attr('data-line-regiao', regiao)
-                        .attr('data-line-ano', d => d.ano)
-                        .attr('x1', d => d.x1)
-                        .attr('x2', d => regiao == 'Brasil' ? d.x1 : d.x2) // vai ser atualizado no scroll
-                        .attr('y1', d => d.y1)
-                        .attr('y2', d => regiao == 'Brasil' ? d.y1 : d.y2) // vai ser atualizado no scroll
-                    ;
+                    ['urbano', 'rural'].forEach(tipo => {
 
-                    // todas as linhas vão ficar com as coordenadas do Brasil, até o momento em que vão ser transicionadas para as respectivas regioes.
+                        console.log('desenhando', regiao, tipo, data);
 
+                        // testa se existe o dado primeiro (pro Norte, rural, não existe)
+                        if ( data[0].y1[tipo] ) {
+
+                            g.selectAll('line.segmentos-' + tipo)
+                                .data(data)
+                                .join('line')
+                                .classed('line-segmentos-' + tipo, true)
+                                .attr('data-line-regiao', regiao)
+                                .attr('data-line-ano', d => d.ano)
+                                .attr('x1', d => d.x1)
+                                .attr('x2', d => regiao == 'Brasil' ? d.x1 : d.x2) // vai ser atualizado no scroll
+                                .attr('y1', d => d.y1[tipo])
+                                .attr('y2', d => d.y2[tipo]) // vai ser atualizado no scroll
+                            ;
+
+                        }
+
+                    })
+
+                    //eixos
+
+                    const h = v.vis.line.h[grupo];
+
+                    const yAxis = d3.axisLeft()
+                      .scale(v.vis.line.y[grupo]);
+  
+                    const xAxis = d3.axisBottom()
+                      .scale(v.vis.line.x[grupo]);
+  
+                    g.append("g") 
+                      .attr("class", "linechart-axis axis x-axis")
+                      .attr("transform", "translate(0," + (h) + ")")
+                      .call(xAxis);
+  
+                    g.append("g") 
+                      .attr("class", "linechart-axis axis y-axis")
+                      .call(yAxis);
+
+                    // translate o grupo todo
+
+                    const map_data = v.map.translation_data_regioes
+                      .filter(d => d.nome == grupo)[0].data
+                      .filter(d => d.regiao_name = regiao)[0];
+
+                    console.log(regiao, map_data);
+
+                    const translation_data = map_data.translate_grafico_linha;
+
+                    const { tx_linha , ty_linha } = translation_data;
+
+                    console.log(regiao, tx_linha, ty_linha);
+
+                    g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);
+                    
+                      
                 })
 
             },
@@ -1142,7 +1177,7 @@ const v = {
 
             v.vis.line.prepare();
             v.vis.line.draw();
-            v.vis.line.draw_axis();
+            //v.vis.line.draw_axis();
             //v.vis.line.draw_color_axis();
             v.vis.points_brasil.draw();
 

@@ -196,7 +196,7 @@ g.main-container g {
 }
 
 g.linechart-axis {
-    opacity : 0; 
+    opacity : 1; 
 }
 /* vai ser alterado no scroll */
 
@@ -230,7 +230,7 @@ span.labels-points-brasil {
 
 g.container-linha-regiao {
 
-    opacity: 0;
+    opacity: 1;
 
 }
 
@@ -242,7 +242,7 @@ g.container-linha-regiao line {
 
 g.container-linha-regiao .axis {
 
-    opacity : 0;
+    opacity : 1;
 
 }
 
