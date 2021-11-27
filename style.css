@@ -428,6 +428,12 @@ svg.intra-step {
 B A R C H A R T 
 * * * * * * * * */
 
+[data-highlight-grupo-seg="segurança alimentar"] { background-color: #B0DAB3;}
+[data-highlight-grupo-seg="insegurança alimentar leve"] { background-color: #EDC9B0;}
+[data-highlight-grupo-seg="insegurança alimentar moderada"] { background-color: #F1B077;}
+[data-highlight-grupo-seg="insegurança alimentar grave"] { background-color: #EF9708;}
+
+
 .vis-segalim-container {
 
     height: 300px;
