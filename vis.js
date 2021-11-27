@@ -939,7 +939,101 @@ const v = {
     
         },
 
-        data : [ { ano : 1996, valor : 0.134}, { ano : 2006, valor : 0.067 }, { ano: 2019, valor : 0.07 } ]
+        data : [ { ano : 1996, valor : 0.134}, { ano : 2006, valor : 0.067 }, { ano: 2019, valor : 0.07 } ],
+
+        scales : {
+
+            x : d3.scalePoint(),
+            y : d3.scaleLinear(),
+            generator : d3.line(),
+
+            set : () => {
+
+                const {w, h, margin} = v.vis_intra_step.sizings;
+
+                v.vis_intra_step.scales.x
+                  .range([margin, w-margin])
+                  .domain(v.utils.unique(v.vis_intra_step.data, 'ano'));
+
+                v.vis_intra_step.scales.y
+                  .range([h - margin, margin/2])
+                  .domain([0, .15]);
+
+                v.vis_intra_step.scales.generator            
+                  .x(d => v.vis_intra_step.scales.x(d.ano))
+                  .y(d => v.vis_intra_step.scales.y(d.valor))
+                ;
+
+            }
+
+        },
+
+        draw : () => {
+
+            const svg = d3.select('svg.intra-step');
+
+            svg
+              .append('path')
+              .classed('line-brasil', true)
+              .datum(v.vis_intra_step.data)
+              .attr('d', v.vis_intra_step.scales.generator)
+              .attr('fill', 'none')
+            ;
+
+            svg
+              .selectAll('text')
+              .data(v.vis_intra_step.data)
+              .join('text')
+              .classed('label-linha-brasil', true)
+              .attr('x', d => v.vis_intra_step.scales.x(d.ano) + 3)
+              .attr('y', d => v.vis_intra_step.scales.y(d.valor) - 5)
+              .text(d => d3.format('.01%')(d.valor))
+            ;
+
+            svg
+              .selectAll('circle')
+              .data(v.vis_intra_step.data)
+              .join('circle')
+              .classed('point-linha-brasil', true)
+              .attr('cx', d => v.vis_intra_step.scales.x(d.ano))
+              .attr('cy', d => v.vis_intra_step.scales.y(d.valor))
+            ;
+
+            // axis
+
+            const {w, h, margin} = v.vis_intra_step.sizings;
+
+            const yAxis = d3.axisLeft()
+              .scale(v.vis_intra_step.scales.y)
+              .tickFormat(d3.format(".0%"))
+            ;
+
+            const xAxis = d3.axisBottom()
+              .scale(v.vis_intra_step.scales.x)
+            ;
+
+            svg.append("g") 
+                .attr("class", "intra-chart-axis")
+                .attr("transform", "translate(0," + (h-margin) + ")")
+                .call(xAxis)
+            ;
+
+            svg.append("g") 
+                .attr("class", "intra-chart-axis")
+                .attr("transform", `translate(${margin},0)`)
+                .call(yAxis)
+            ;
+
+        },
+
+        build : () => {
+
+            v.vis_intra_step.sizings.get();
+            v.vis_intra_step.sizings.set();
+            v.vis_intra_step.scales.set();
+            v.vis_intra_step.draw();
+
+        }
 
     },
 
@@ -1237,6 +1331,7 @@ const v = {
             //v.vis.sizings.get();
             v.map.sizings.get();
             v.map.sizings.set();
+            v.vis_intra_step.build();
             v.data.read();
             //v.vis.data.summarise();
             //v.vis.treemap.prepare();

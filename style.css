@@ -395,8 +395,33 @@ LINE DENTRO DO STEP
 svg.intra-step {
 
     height: 200px;
+    background-color: white;
 
 }
+
+.line-brasil {
+
+    stroke: var(--font-color);
+    stroke-width: 4;
+
+}
+
+.label-linha-brasil {
+
+    color: var(--title-color);
+    /*transform: translate(20%,-100%);*/
+    font-family: Arial;
+    font-size: .8rem;
+
+}
+
+.point-linha-brasil {
+
+    r : 5;
+
+}
+
+
 
 
 /* * * * * * * *
