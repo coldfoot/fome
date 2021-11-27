@@ -1484,7 +1484,8 @@ const bar = {
             'Insegurança Alimentar Grave'
         ],
 
-        colors : ['#43A110', '#d36f51', '#92391f', '#530000']
+        colors : ["#B0DAB3", "#EDC9B0", "#F1B077", "#EF9708"]
+        //['#43A110', '#d36f51', '#92391f', '#530000']
 
     },
 
@@ -1499,7 +1500,7 @@ const bar = {
     
         w : null,
         h : null,
-        margin : 40,
+        margin : 20,
 
         get : () => {
 
@@ -1526,9 +1527,9 @@ const bar = {
 
     scales : {
 
-        x : d3.scaleBand(),
+        y : d3.scaleBand(),
 
-        y : d3.scaleLinear(),
+        x : d3.scaleLinear(),
 
         color : d3.scaleOrdinal(),
 
@@ -1538,18 +1539,18 @@ const bar = {
 
             const { w, h, margin } = bar.sizings;
 
-            // x
-            const ticks_x = data.map(d => d.ano);
+            // y
+            const ticks_y = data.map(d => d.ano);
 
-            bar.scales.x
-              .domain(ticks_x)
-              .range([margin, w - margin])
+            bar.scales.y
+              .domain(ticks_y)
+              .range([h-margin, margin])
             ;
 
-            // y
-            bar.scales.y
+            // x
+            bar.scales.x
               .domain([0,1])
-              .range([h-margin, margin])
+              .range([margin * 2, w - margin])
             ;
 
             // color
@@ -1565,6 +1566,7 @@ const bar = {
     draw : () => {
 
         const svg = d3.select(bar.elems.svg);
+        const cont = d3.select(bar.elems.cont);
         const group_data = bar.data.stacked;
 
         const { x, y, color } = bar.scales;
@@ -1584,23 +1586,60 @@ const bar = {
 
             const g = svg.append('g').classed('barchart-group-container', true).attr('data-barchard-group', group.key);
 
+            /*
             g.selectAll('rect.segalim')
               .data(group)
               .join('rect')
               .classed('segalim', true)
               .attr('data-bar-ano', d => d.data.ano)
               .attr('data-bar-grupo', group.key)
-              .attr('x', d => x(d.data.ano) + x.bandwidth()/4)
-              .attr('y', d => y(d[1]))
-              .attr('height', d=> y(d[0]) - y(d[1]))
-              .attr('width', x.bandwidth()/2)
+              .attr('y', d => y(d.data.ano) + y.bandwidth()/4)
+              .attr('x', d => x(d[0]))
+              .attr('width', d => x(d[1]) - x(d[0]))
+              .attr('height', y.bandwidth()/2)
               .attr('fill', color(group.key))
             ;
+            */
+
+            cont.selectAll('span.segalim.rotulo-valor[data-bar-grupo="' + group.key + '"]')
+            .data(group)
+            .join('span')
+            .classed('segalim', true)
+            .classed('rotulo-valor', true)
+            .attr('data-bar-ano', d => d.data.ano)
+            .attr('data-bar-grupo', group.key)
+            //.attr('data-text-ano', d => d.data.ano)
+            //.attr('data-text-grupo', group.key)
+            .style('top', d => (y(d.data.ano) + y.bandwidth()/4) + 'px')
+            .style('left', d => x(d[0]) + 'px')
+            .style('width', d => (x(d[1]) - x(d[0])) + 'px')
+            .style('height', y.bandwidth()/2 + 'px')
+            .style('line-height', y.bandwidth()/2 + 'px')
+            .style('background-color', color(group.key))
+            .text(d => d3.format(".0%")(d.data[group.key]))
+          ;
 
         });
 
-        // axis
+        // rotulos eixo
 
+        const anos = bar.data.raw.map(d => d.ano);
+
+        cont.selectAll('span.rotulo-eixo')
+          .data(anos)
+          .join('span')
+          .classed('segalim', true)
+          .classed('rotulo-eixo', true)
+          .attr('data-rotulo-ano', d => d)
+          .style('left', x(0) + 'px')
+          .style('top', d => (y(d) + y.bandwidth()/4) + 'px')
+          .style('line-height', y.bandwidth()/2 + 'px')
+          .style('height', y.bandwidth()/2 + 'px')
+          .text(d => d)
+        ;
+
+        // axis
+        /*
         const yAxis = d3.axisLeft()
             .scale(y)
             .tickFormat(d3.format(".0%"))
@@ -1620,7 +1659,7 @@ const bar = {
             .attr("class", "barchart-axis axis y-axis")
             .attr("transform", `translate(${margin},0)`)
             .call(yAxis)
-        ;
+        ;*/
 
     },
 
@@ -1651,7 +1690,7 @@ const bar = {
         params : {
 
             // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
-            '1' : '[data-bar-ano="2004"][data-bar-grupo="Segurança Alimentar"]',
+            '1' : '[data-bar-ano="2004"][data-bar-grupo="Segurança Alimentar"],[data-rotulo-ano="2004"]',
 
             // 2 O segundo segmento do gráfico de barras empilhadas é adicionado.
             '2' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Leve"]',
@@ -1663,7 +1702,7 @@ const bar = {
             '4' : '[data-bar-ano="2004"][data-bar-grupo="Insegurança Alimentar Grave"]',
 
             // 5 Uma segunda barra é adicionada ao gráfico com seu primeiro segmento.
-            '5' : '[data-bar-ano="2009"][data-bar-grupo="Segurança Alimentar"]',
+            '5' : '[data-bar-ano="2009"][data-bar-grupo="Segurança Alimentar"],[data-rotulo-ano="2009"]',
 
             // 6 O segundo segmento é adicionado.
             '6' : '[data-bar-ano="2009"][data-bar-grupo="Insegurança Alimentar Leve"]',
@@ -1675,16 +1714,16 @@ const bar = {
             '8' : '[data-bar-ano="2009"][data-bar-grupo="Insegurança Alimentar Grave"]',
 
             // 9 Uma terceira barra é adicionada ao gráfico com seu primeiro segmento.
-            '9' : '[data-bar-ano="2013"][data-bar-grupo="Segurança Alimentar"]',
+            '9' : '[data-bar-ano="2013"][data-bar-grupo="Segurança Alimentar"],[data-rotulo-ano="2013"]',
 
             // 10 Adiciona as outras três barras na mesma interação.
             '10' : '[data-bar-ano="2013"]:not([data-bar-grupo="Segurança Alimentar"]',
 
             // 11 Adiciona uma quarta barra completa na mesma interação.
-            '11' : '[data-bar-ano="2018"]',
+            '11' : '[data-bar-ano="2018"], [data-rotulo-ano="2018"]',
 
             // 12 Adiciona uma quinta barra completa na mesma interação.
-            '12' : '[data-bar-ano="2020"]'
+            '12' : '[data-bar-ano="2020"], [data-rotulo-ano="2020"]'
 
         },
 

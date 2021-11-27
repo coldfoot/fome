@@ -428,7 +428,14 @@ svg.intra-step {
 B A R C H A R T 
 * * * * * * * * */
 
-rect.segalim {
+svg.vis-segalim {
+
+    height: 300px;
+    border: none;
+
+}
+
+span.segalim {
 
     opacity: 0; 
     /* scroller vai "acendendo" */
@@ -438,5 +445,24 @@ rect.segalim {
 .barchart-axis {
 
     /*opacity: 0;*/
+
+}
+
+.segalim.rotulo-eixo {
+
+    position: absolute;
+    font-family: Arial;
+    font-size: .7em;
+    transform: translateX(-100%);
+    padding-right: .5em;
+
+}
+
+.segalim.rotulo-valor {
+
+    font-family: Arial;
+    font-size: .6em;
+    position: absolute;
+    text-align: center;
 
 }
