@@ -159,18 +159,6 @@ const v = {
               .attr('data-map-regiao', 'Centro Sul')
               .classed('com_3_regioes', true);
 
-            // por causa do tal do centro sul, tive que mudar a geração do mapa aqui...
-            /*
-            svg.append("g")
-                .classed('container-regioes', true)
-                .selectAll("path.vis-regiao")
-                .data(feats)
-                .join("path")
-                .classed('vis-regiao', true)
-                .attr('data-map-regiao', d => d.properties.name_region)
-                .attr("d", d3.geoPath().projection(proj))
-            ; */
-
             feats.forEach(feature => {
 
                 const regiao = feature.properties.name_region;
@@ -188,7 +176,7 @@ const v = {
                   .classed('com_3_regioes', ['Nordeste', 'Norte'].includes(regiao))
                   .classed('com_5_regioes', true)
                   .attr("d", d3.geoPath().projection(proj)(feature))
-                  .attr('fill', ['Sudeste', 'Sul', 'Centro Oeste'].includes(regiao) ? '' : 'darkgrey')
+                  .attr('fill', 'darkgrey')//['Sudeste', 'Sul', 'Centro Oeste'].includes(regiao) ? '' : 'darkgrey')
                 ;
                 
 
@@ -211,87 +199,6 @@ const v = {
             svg.append('circle').attr('cx', w/2).attr('cy', h/2).attr('r', d/2).attr('stroke', 'blue').attr('fill', 'transparent');
 
         },
-
-        /*
-        draw_rect_around_region : () => {
-
-            const heights = [];
-            const regioes = [];
-
-            let svg = d3.select(v.map.elems.svg);
-
-            document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
-
-                const regiao_name = regiao.dataset.mapRegiao;
-
-                const { x, y, width, height } = regiao.getBBox();
-
-                regioes.push({ x, y, width, height, regiao_name });
-
-                heights.push(height);
-
-                svg
-                  .append('rect')
-                  .attr('data-bbox-regiao', regiao_name)
-                  .attr('x', x)
-                  .attr('y', y)
-                  .attr('width', width)
-                  .attr('height', height)
-                  .attr('stroke', 'darkgreen')
-                  .attr('fill', 'none')
-                ;
-
-            })
-
-            // aqui vamos calcular as posicoes e tamanhos futuros dos bboxes das regioes
-
-            const h_regioes = heights.reduce( (prev, curr) => prev + curr )
-
-            const qde_regioes = regioes.length;
-
-            const pad = 20;
-            const h_svg = v.map.sizings.h;
-            const h_util = h_svg - pad * (qde_regioes + 1); 
-
-            const ratio = h_util / h_regioes;
-
-            const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
-
-            let h_acum = pad;
-
-            regioes.forEach(regiao => {
-
-                // posicoes atuais
-                const { x, y, width, height } = regiao
-
-                // posicoes futuras
-                const x_f = pad + w_max/2 - (regiao.width * ratio)/2;
-                const y_f = h_acum;
-                const width_f = regiao.width * ratio;
-                const height_f = regiao.height * ratio;
-
-                const tx = x - x_f / ratio;
-                const ty = y - y_f / ratio;
-
-                v.map.future_positions[grupo][regiao] = { x_f, y_f, width_f, height_f, tx, ty };
-
-                svg
-                  .append('rect')
-                  .attr('data-bbox-futuro', regiao.regiao_name)
-                  .attr('x', pad + w_max/2 - (regiao.width * ratio)/2 )
-                  .attr('y', h_acum)
-                  .attr('width', regiao.width * ratio) 
-                  .attr('height', regiao.height * ratio)
-                  .attr('stroke', 'crimson')
-                  .attr('fill', 'none')
-                ;
-
-                h_acum += (regiao.height * ratio) + pad
-
-            })
-
-
-        },*/
 
         evaluate_future_positions: () => {
 
@@ -1170,7 +1077,7 @@ const v = {
                     v.scroller.helpers.move_region(forward, 'com_3_regioes');
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes', forward);
 
-                    if (!forward) v.scroller.helpers.clear_paint();
+                    v.scroller.helpers.clear_paint();
 
                 },
 
