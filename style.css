@@ -217,8 +217,8 @@ g.container-linha-regiao line {
 
 path.vis-regiao {
 
-    fill: ghostwhite;
-    stroke: var(--font-color);
+    /*fill: ghostwhite;*/
+    stroke: white;
     stroke-width: 2;
 }
 

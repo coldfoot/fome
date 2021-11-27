@@ -112,7 +112,6 @@ const v = {
             set : () => {
 
                 const {w, h} = v.map.sizings;
-                console.log(w,h);
                 const svg = document.querySelector(v.vis.elems.svg);
                 svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
 
@@ -147,8 +146,6 @@ const v = {
             //   .features;
 
             let proj = v.map.proj();
-
-            //console.log(proj)
 
             let svg = d3.select(v.map.elems.svg);
 
@@ -191,7 +188,9 @@ const v = {
                   .classed('com_3_regioes', ['Nordeste', 'Norte'].includes(regiao))
                   .classed('com_5_regioes', true)
                   .attr("d", d3.geoPath().projection(proj)(feature))
+                  .attr('fill', ['Sudeste', 'Sul', 'Centro Oeste'].includes(regiao) ? '' : 'darkgrey')
                 ;
+                
 
             });
 
@@ -200,8 +199,6 @@ const v = {
         draw_circle_around_map : () => {
 
             let { w, h } = v.map.sizings;
-
-            console.log(w,h);
 
             h0 = h;
 
@@ -226,7 +223,6 @@ const v = {
             document.querySelectorAll('[data-map-regiao]').forEach(regiao => {
 
                 const regiao_name = regiao.dataset.mapRegiao;
-                console.log(regiao_name);
 
                 const { x, y, width, height } = regiao.getBBox();
 
@@ -250,14 +246,12 @@ const v = {
             // aqui vamos calcular as posicoes e tamanhos futuros dos bboxes das regioes
 
             const h_regioes = heights.reduce( (prev, curr) => prev + curr )
-            console.log(heights, h_regioes, regioes);
 
             const qde_regioes = regioes.length;
 
             const pad = 20;
             const h_svg = v.map.sizings.h;
             const h_util = h_svg - pad * (qde_regioes + 1); 
-            console.log(h_util, h_util / h_regioes);
 
             const ratio = h_util / h_regioes;
 
@@ -296,8 +290,6 @@ const v = {
 
             })
 
-            console.log(regioes);
-
 
         },*/
 
@@ -325,8 +317,6 @@ const v = {
                 const pos = posicoes[regiao_name];
 
                 regioes.push({ x, y, width, height, regiao_name, pos });
-
-                console.log(regiao_name, { x, y, width, height, regiao_name, pos });
 
             });
 
@@ -363,7 +353,6 @@ const v = {
             grupos.forEach(grupo => {
 
                 const regioes = grupo.data;
-                console.log(regioes);
                 const nome = grupo.nome;
 
                 const h_regioes = regioes.map(d => d.height).reduce( (prev, curr) => prev + curr )
@@ -406,7 +395,6 @@ const v = {
                     const tx = x - x_f / ratio;
                     const ty = y - y_f / ratio;
     
-                    console.log(nome, regiao_name);
                     v.map.future_positions[nome][regiao_name] = { x_f, y_f, width_f, height_f, tx, ty };
     
                     h_acum += (height * ratio) + pad
@@ -416,26 +404,19 @@ const v = {
                     const tx_linha = pad + w_max + 2 * pad;
                     const ty_linha = y_f + height_f/2 - h_min/2;
 
-                    console.log(regiao_name, tx_linha);
-
                     v.vis.line.translation_data[grupo.nome][regiao_name] = { tx_linha, ty_linha };
     
                 })
 
-                console.log(regioes);
-
             });
-
-            //console.log(grupos);
 
             v.map.translation_data_regioes = grupos;
 
         },
 
         color : d3.scaleThreshold()
-          .domain([10, 20, 30, 40])
-          .range(['#ffffe0', '#a5d5d8', '#73a2c6', '#4771b2', '#00429d'])
-
+          .domain([.10, .20, .30, .40])
+          .range(["#FFCCCE", "#FF9197", "#F84855", "#B71729", "#69000C"])
 
     },
 
@@ -699,8 +680,6 @@ const v = {
                     );
     
                     const h = Math.min(...heights_regioes);
-    
-                    //console.log(grupo, w, h);
 
                     v.vis.line.w[grupo] = w;
                     v.vis.line.h[grupo] = h;
@@ -708,8 +687,6 @@ const v = {
                     // scales 
                     
                     const ticks_x = v.utils.unique(v.vis.data[grupo], 'ano');
-
-                    //console.log(ticks_x);
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
@@ -782,17 +759,12 @@ const v = {
                 const cores = v.map.color.range();
                 //intervalos.push(50);
                 const margin = v.map.sizings.margin * 2;
-                console.log(intervalos, intervalos.length);
 
                 const g = svg.append('g').classed('color-axis', true);
-
-                console.log(g);
 
                 for (let i = 0; i <= intervalos.length; i++) {
 
                     let p = i == 4 ? 50 : intervalos[i];
-
-                    //console.log(i, p);
 
                     g
                       .append('rect')
@@ -823,8 +795,6 @@ const v = {
                     regioes.forEach(regiao => {
     
                         const data = data_grupo[regiao];
-
-                        console.log('desenhando', grupo, regiao);
     
                         const g = svg
                           .append('g')
@@ -834,8 +804,6 @@ const v = {
                         ;
     
                         ['urbano', 'rural', 'geral'].forEach(tipo => {
-    
-                            //console.log('desenhando', regiao, tipo, data);
     
                             // testa se existe o dado primeiro (pro Norte, rural, não existe)
                             if ( data[0].y1[tipo] ) {
@@ -950,7 +918,6 @@ const v = {
             set : () => {
 
                 const {w, h} = v.vis_intra_step.sizings;
-                console.log(w,h);
                 const svg = document.querySelector('svg.intra-step');
                 svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
 
@@ -1090,6 +1057,7 @@ const v = {
                                 d3
                                  .select('[data-map-regiao="' + regiao_do_centro_sul + '"]')
                                  .attr('transform', '')
+                                 //.attr('fill', 'transparent')
                                 ;
 
                             })
@@ -1097,8 +1065,6 @@ const v = {
                         }
 
                     }
-
-                    console.log(regiao, tx, ty, back_translation);
 
                     if (grupo == 'com_5_regioes') {
 
@@ -1121,26 +1087,63 @@ const v = {
                       ;
 
 
+                })
 
+            },
 
+            clear_paint : () => {
+                
+                d3.selectAll('[data-map-regiao]').attr('fill', 'darkgrey');
+                ['Centro Oeste', 'Sul', 'Sudeste'].forEach(regiao_do_centro_sul => {
+
+                    d3
+                     .select('[data-map-regiao="' + regiao_do_centro_sul + '"]')
+                     .attr('fill', '')
+                    ;
+
+                })
+
+            },
+
+            paint_regions : (ano, grupo, transicao = false) => {
+
+                const group_data = v.vis.data[grupo]
+                const regioes = v.utils.unique(group_data, 'regiao');
+
+                console.log(ano, grupo);
+
+                regioes.forEach(regiao => {
+
+                    const data = group_data.filter(d => d.regiao == regiao).filter(d => d.ano == ano)[0];
+
+                    const color = v.map.color(data.geral);
+
+                    if (transicao) {
+
+                        ['Centro Oeste', 'Sul', 'Sudeste'].forEach(regiao_do_centro_sul => {
+
+                            d3
+                             .select('[data-map-regiao="' + regiao_do_centro_sul + '"]')
+                             .attr('fill', '')
+                            ;
+
+                        })
+
+                    }
+
+                    d3.select('[data-map-regiao="' + regiao + '"]').attr('fill', color);
 
 
                 })
 
             },
 
-            reset_map : () => {
-
-
-            },
 
             toggle_opacity_all : (selector, forward) => {
 
                 //const current_opacity = d3.select(element).attr('opacity');
 
                 //const next_opacity = current_opacity + 1 % 2; // se for 0, vira 1, se for 1, vira 0
-
-                console.log(selector, forward, 'me chamara?')
 
                 d3.selectAll(selector).style('opacity', forward ? 1 : 0);
 
@@ -1164,17 +1167,15 @@ const v = {
 
                 "1" : (forward) => {
 
-                    console.log('oi nois aqui');
-
                     v.scroller.helpers.move_region(forward, 'com_3_regioes');
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes', forward);
 
+                    if (!forward) v.scroller.helpers.clear_paint();
 
                 },
 
                 "2" : (forward) => {
 
-                    console.log('oi nois aqui traveis.', forward);
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1975"]', forward);
 
                     // faz os círculos virarem pontos;
@@ -1182,14 +1183,12 @@ const v = {
 
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .labels-points-geral[data-label-ano="1975"]', forward);
 
+                    v.scroller.helpers.paint_regions(1975, 'com_3_regioes');
+
 
                 },
 
                 "3" : (forward) => {
-
-                    console.log('step 3', forward);
-
-                    console.log('oi nois aqui traveis.', forward);
 
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes .circle-points-geral[data-circle-ano="1989"]', forward);
 
@@ -1200,6 +1199,8 @@ const v = {
 
                     v.scroller.helpers.show_segment('.container-linha-regiao-com_3_regioes .line-segmentos-geral[data-line-ano="1989"]', forward);
 
+                    v.scroller.helpers.paint_regions(1989, 'com_3_regioes');
+
                 },
 
                 "4" : (forward) => {
@@ -1209,10 +1210,14 @@ const v = {
                     if (forward) {
 
                         v.scroller.helpers.move_region(forward, 'com_5_regioes');
+                        v.scroller.helpers.paint_regions(1996, 'com_5_regioes');
 
                     } else {
 
+                        console.log('aqui')
+
                         v.scroller.helpers.move_region(forward, 'com_3_regioes', transicao_5_3 = true);
+                        v.scroller.helpers.paint_regions(1989, 'com_3_regioes', transicao = true);
 
                     }
                     
@@ -1237,6 +1242,8 @@ const v = {
 
                     v.scroller.helpers.show_segment('.container-linha-regiao-com_5_regioes .line-segmentos-geral[data-line-ano="2006"]', forward);
 
+                    v.scroller.helpers.paint_regions(2006, 'com_5_regioes');
+
                 },
 
                 "6" : (forward) => {
@@ -1249,6 +1256,8 @@ const v = {
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_5_regioes .labels-points-geral[data-label-ano="2019"]', forward);
 
                     v.scroller.helpers.show_segment('.container-linha-regiao-com_5_regioes .line-segmentos-geral[data-line-ano="2019"]', forward);
+
+                    v.scroller.helpers.paint_regions(2019, 'com_5_regioes');
 
 
                 },
@@ -1277,14 +1286,10 @@ const v = {
 
                 const steps = document.querySelectorAll('.linechart-steps-regioes');
 
-                console.log('monitorando', steps)
-
                 steps.forEach(step => {
 
                     const step_name = step.dataset.linechartStep;
                     const selector = '[data-linechart-step="' + step_name + '"]';
-
-                    console.log(step_name, selector);
 
                     gsap.to(
 
@@ -1444,8 +1449,6 @@ const bar = {
 
             const categorias = Object.keys(temp).filter(d => d != 'fonte' & d != 'Segurança Alimentar');
 
-            console.log(Object.keys(temp));
-
             v.vis.data.summary_tree = categorias.map(cat => (
                 {
                     cat : cat,
@@ -1510,7 +1513,6 @@ const bar = {
         set : () => {
 
             const {w, h} = bar.sizings;
-            console.log(w,h);
             const svg = document.querySelector(bar.elems.svg);
             svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
             svg.width = w;
