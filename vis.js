@@ -1635,3 +1635,25 @@ const bar = {
 }
 
 bar.ctrl.init();
+
+pratos = {
+
+    set_div_height : () => {
+
+        const uma_imagem_qualquer = document.querySelector('img.item-prato');
+
+        const h = window.getComputedStyle(uma_imagem_qualquer).height;
+
+        document.querySelector('.vis-pratinhos-container').style.height = h;
+
+    },
+
+    init : () => {
+
+        pratos.set_div_height();
+
+    }
+
+}
+
+pratos.init();
