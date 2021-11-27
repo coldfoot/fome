@@ -1013,7 +1013,7 @@ const v = {
 
         },
 
-        linechart_3_regioes : {
+        linechart_regioes : {
 
             render : {
 
@@ -1126,15 +1126,11 @@ const v = {
 
                 }
 
-
-                
-
-
             },
 
             monitora_steps : () => {
 
-                const steps = document.querySelectorAll('.linechart-steps-3-regioes');
+                const steps = document.querySelectorAll('.linechart-steps-regioes');
 
                 console.log('monitorando', steps)
 
@@ -1158,10 +1154,10 @@ const v = {
                                 start: "25% 60%",
                                 end: "75% 40%", 
 
-                                onEnter : () => v.scroller.linechart_3_regioes.render[step_name](forward = true),
-                                onEnterBack : () => v.scroller.linechart_3_regioes.render[step_name](forward = false),
-                                onLeave : () => v.scroller.linechart_3_regioes.render[step_name](forward = true),
-                                onLeaveBack : () => v.scroller.linechart_3_regioes.render[step_name](forward = false)
+                                onEnter : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                                onEnterBack : () => v.scroller.linechart_regioes.render[step_name](forward = false),
+                                onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                                onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
 
                             }
         
@@ -1200,7 +1196,7 @@ const v = {
             //v.vis.line.draw_color_axis();
             //v.vis.points_brasil.draw();
 
-            v.scroller.linechart_3_regioes.monitora_steps();
+            v.scroller.linechart_regioes.monitora_steps();
 
         },
 
