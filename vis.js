@@ -231,9 +231,11 @@ const v = {
 
             regioes.sort( (a, b) => a.pos - b.pos );
 
-            let pad = 20;
             const h_svg = v.map.sizings.h;
             const w_svg = v.map.sizings.w;
+
+            let pad_h = 20;
+            let pad_w = w_svg < 400 ? 10: 20;
 
             // três regiões
 
@@ -266,7 +268,7 @@ const v = {
 
                 const qde_regioes = regioes.length;
 
-                let h_util = h_svg - pad * (qde_regioes + 1); 
+                let h_util = h_svg - pad_h * (qde_regioes + 1); 
     
                 let ratio = h_util / h_regioes;
                 let w_max = Math.max(...regioes.map(d => d.width)) * ratio;
@@ -278,15 +280,13 @@ const v = {
                     ratio = w_max / Math.max(...regioes.map(d => d.width));
 
                     h_util = ratio * h_regioes;
-                    pad = (h_svg - h_util) / (qde_regioes + 1);
+                    pad_h = (h_svg - h_util) / (qde_regioes + 1);
 
                 }
 
-                v.map.pad[grupo] = pad;
-
                 v.map.scale_ratio[nome] = ratio;
     
-                let h_acum = pad;
+                let h_acum = pad_h;
 
                 regioes.forEach(regiao => {
 
@@ -294,7 +294,7 @@ const v = {
                     const { x, y, width, height, regiao_name } = regiao
     
                     // posicoes futuras
-                    const x_f = pad + w_max/2 - (width * ratio)/2;
+                    const x_f = pad_w + w_max/2 - (width * ratio)/2;
                     const y_f = h_acum;
                     const width_f = width * ratio;
                     const height_f = height * ratio;
@@ -304,11 +304,11 @@ const v = {
     
                     v.map.future_positions[nome][regiao_name] = { x_f, y_f, width_f, height_f, tx, ty };
     
-                    h_acum += (height * ratio) + pad
+                    h_acum += (height * ratio) + pad_h
 
                     // posicoes dos graficos de linha
 
-                    const tx_linha = pad + w_max + 2 * pad;
+                    const tx_linha = pad_w + w_max + 2 * pad_w;
                     const ty_linha = y_f + height_f/2 - h_min/2;
 
                     v.vis.line.translation_data[grupo.nome][regiao_name] = { tx_linha, ty_linha };
@@ -562,7 +562,7 @@ const v = {
 
             prepare : () => {
 
-                const pad = 20;
+                let pad_w = 20;
 
                 ['com_3_regioes', 'com_5_regioes'].forEach(grupo => {
 
@@ -576,9 +576,11 @@ const v = {
 
                     const width_max = Math.max(...widths_regioes);
     
-                    const width_util = v.map.sizings.w - width_max + pad * 4;
+                    const width_util = v.map.sizings.w - width_max - pad_w * 3;
     
                     const w = width_util > 300 ? 300 : width_util;
+
+                    console.log(grupo, w, v.map.sizings.w, width_util, width_max);
     
                     // menor height do mapa, para determinar o height do gráfico
     
@@ -597,7 +599,7 @@ const v = {
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
-                      .range( [pad,w - 3*pad] )
+                      .range( [pad_w ,w - pad_w] )
                     ;
 
                     v.vis.line.y[grupo]
