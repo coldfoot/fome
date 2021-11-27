@@ -428,10 +428,10 @@ svg.intra-step {
 B A R C H A R T 
 * * * * * * * * */
 
-svg.vis-segalim {
+.vis-segalim-container {
 
     height: 300px;
-    border: none;
+    /*border: 2px solid var(--font-color);*/
 
 }
 
@@ -439,12 +439,6 @@ span.segalim {
 
     opacity: 0; 
     /* scroller vai "acendendo" */
-
-}
-
-.barchart-axis {
-
-    /*opacity: 0;*/
 
 }
 

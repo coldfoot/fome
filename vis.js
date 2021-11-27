@@ -1491,8 +1491,7 @@ const bar = {
 
     elems : {
 
-        cont : '.vis-segalim-container',
-        svg  : 'svg.vis-segalim'
+        cont : '.vis-segalim-container'
 
     },
 
@@ -1504,22 +1503,10 @@ const bar = {
 
         get : () => {
 
-            const svg = document.querySelector(bar.elems.svg);
+            const cont = document.querySelector(bar.elems.cont);
 
-            bar.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
-            bar.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
-
-        },
-
-        set : () => {
-
-            const {w, h} = bar.sizings;
-            const svg = document.querySelector(bar.elems.svg);
-            svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
-            svg.width = w;
-            svg.height = h;
-
-            //const menor = Math.min(w,h)
+            bar.sizings.w = +window.getComputedStyle(cont).width.slice(0,-2);
+            bar.sizings.h = +window.getComputedStyle(cont).height.slice(0,-2);
 
         }
 
@@ -1565,7 +1552,6 @@ const bar = {
 
     draw : () => {
 
-        const svg = d3.select(bar.elems.svg);
         const cont = d3.select(bar.elems.cont);
         const group_data = bar.data.stacked;
 
@@ -1583,23 +1569,6 @@ const bar = {
         // bars
 
         group_data.forEach(group => {
-
-            const g = svg.append('g').classed('barchart-group-container', true).attr('data-barchard-group', group.key);
-
-            /*
-            g.selectAll('rect.segalim')
-              .data(group)
-              .join('rect')
-              .classed('segalim', true)
-              .attr('data-bar-ano', d => d.data.ano)
-              .attr('data-bar-grupo', group.key)
-              .attr('y', d => y(d.data.ano) + y.bandwidth()/4)
-              .attr('x', d => x(d[0]))
-              .attr('width', d => x(d[1]) - x(d[0]))
-              .attr('height', y.bandwidth()/2)
-              .attr('fill', color(group.key))
-            ;
-            */
 
             cont.selectAll('span.segalim.rotulo-valor[data-bar-grupo="' + group.key + '"]')
             .data(group)
@@ -1637,29 +1606,6 @@ const bar = {
           .style('height', y.bandwidth()/2 + 'px')
           .text(d => d)
         ;
-
-        // axis
-        /*
-        const yAxis = d3.axisLeft()
-            .scale(y)
-            .tickFormat(d3.format(".0%"))
-        ;
-
-        const xAxis = d3.axisBottom()
-            .scale(x)
-        ;
-
-        svg.append("g") 
-            .attr("class", "barchart-axis axis x-axis")
-            .attr("transform", "translate(0," + (h-margin) + ")")
-            .call(xAxis)
-        ;
-
-        svg.append("g") 
-            .attr("class", "barchart-axis axis y-axis")
-            .attr("transform", `translate(${margin},0)`)
-            .call(yAxis)
-        ;*/
 
     },
 
@@ -1764,7 +1710,6 @@ const bar = {
         init : () => {
 
             bar.sizings.get();
-            bar.sizings.set();
 
             bar.data.prepare_stack();
             bar.scales.set();
