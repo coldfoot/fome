@@ -1650,7 +1650,7 @@ pratos = {
 
     init : () => {
 
-        pratos.set_div_height();
+        //pratos.set_div_height();
 
     }
 

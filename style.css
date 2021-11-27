@@ -479,6 +479,12 @@ img.item-prato {
 
 }
 
+img.item-prato.item-aleatorio-para-servir-de-referencia-para-a-altura-do-div {
+
+    position: relative;
+
+}
+
 .vis-pratinhos-container {
 
     position: relative;
