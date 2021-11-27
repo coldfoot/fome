@@ -80,6 +80,13 @@ const v = {
             
         },
 
+        pad : {
+
+            com_3_regioes : null,
+            com_5_regioes : null
+
+        },
+
         future_positions : {
 
             com_3_regioes : {},
@@ -327,8 +334,9 @@ const v = {
 
             regioes.sort( (a, b) => a.pos - b.pos );
 
-            const pad = 20;
+            let pad = 20;
             const h_svg = v.map.sizings.h;
+            const w_svg = v.map.sizings.w;
 
             // três regiões
 
@@ -362,14 +370,25 @@ const v = {
 
                 const qde_regioes = regioes.length;
 
-                const h_util = h_svg - pad * (qde_regioes + 1); 
+                let h_util = h_svg - pad * (qde_regioes + 1); 
     
-                const ratio = h_util / h_regioes;
+                let ratio = h_util / h_regioes;
+                let w_max = Math.max(...regioes.map(d => d.width)) * ratio;
+                let h_min = Math.min(...regioes.map(d => d.height)) * ratio;
+
+                if (w_max > 0.4 * w_svg) {
+
+                    w_max = 0.4 * w_svg;
+                    ratio = w_max / Math.max(...regioes.map(d => d.width));
+
+                    h_util = ratio * h_regioes;
+                    pad = (h_svg - h_util) / (qde_regioes + 1);
+
+                }
+
+                v.map.pad[grupo] = pad;
 
                 v.map.scale_ratio[nome] = ratio;
-    
-                const w_max = Math.max(...regioes.map(d => d.width)) * ratio;
-                const h_min = Math.min(...regioes.map(d => d.height)) * ratio;
     
                 let h_acum = pad;
 
@@ -694,7 +713,7 @@ const v = {
 
                     v.vis.line.x[grupo]
                       .domain(ticks_x)
-                      .range( [pad,w - 2*pad] )
+                      .range( [pad,w - 3*pad] )
                     ;
 
                     v.vis.line.y[grupo]
