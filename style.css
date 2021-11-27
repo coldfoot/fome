@@ -388,6 +388,16 @@ text.labels-points-geral {
 
 }
 
+/* * * * * * * *
+LINE DENTRO DO STEP
+* * * * * * * * */
+
+svg.intra-step {
+
+    height: 200px;
+
+}
+
 
 /* * * * * * * *
 B A R C H A R T 
