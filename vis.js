@@ -864,7 +864,7 @@ const v = {
                                   .attr('data-label-regiao', regiao)
                                   .attr('x', d => x(d.ano) + 3)
                                   .attr('y', d => y(d[tipo]) -5)
-                                  .text(d => d3.format(".0%")(d[tipo]))
+                                  .text(d => d3.format(".01%")(d[tipo]))
                                 ;
                                     
     
@@ -908,6 +908,38 @@ const v = {
             }
 
         }
+
+    },
+
+    vis_intra_step : {
+
+        sizings : {
+    
+            w : null,
+            h : null,
+            margin : 30,
+    
+            get : () => {
+    
+                const svg = document.querySelector('svg.intra-step');
+    
+                v.vis_intra_step.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                v.vis_intra_step.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+    
+            },
+
+            set : () => {
+
+                const {w, h} = v.vis_intra_step.sizings;
+                console.log(w,h);
+                const svg = document.querySelector('svg.intra-step');
+                svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
+
+            }
+    
+        },
+
+        data : [ { ano : 1996, valor : 0.134}, { ano : 2006, valor : 0.067 }, { ano: 2019, valor : 0.07 } ]
 
     },
 
