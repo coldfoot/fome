@@ -321,6 +321,18 @@ const v = {
 
         },
 
+        set_legenda_cor : () => {
+
+            document.querySelectorAll('[data-range-index]').forEach(li => {
+
+                const index = +li.dataset.rangeIndex;
+                console.log(index);
+                li.querySelector('span').style.backgroundColor = v.map.color.range()[index];
+
+            })
+
+        },
+
         color : d3.scaleThreshold()
           .domain([.10, .20, .30, .40])
           .range(["#FFCCCE", "#FF9197", "#F84855", "#B71729", "#69000C"])
@@ -1257,6 +1269,7 @@ const v = {
             v.data.map = JSON.parse(data.map);
             v.map.render();
             v.map.evaluate_future_positions();
+            v.map.set_legenda_cor();
 
             v.vis.line.prepare();
             v.vis.line.draw();

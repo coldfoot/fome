@@ -143,6 +143,69 @@ article .step-wrapper > p {
 
 }
 
+/* = = = = = = = = 
+   = LEGENDA COR =
+   = = = = = = = */
+
+ul.legenda-cor {
+
+    list-style: none;
+    display: flex;
+    padding-left: 0;
+    font-family: Lato;
+    font-size: .6em;
+    margin: 0;
+    margin-bottom: .5em;
+
+}
+
+ul.legenda-cor > li {
+
+    margin-right: 1.5em;
+    display: flex;
+    align-items: center;
+
+}
+
+ul.legenda-cor > li > span {
+
+    content: '';
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-color: pink;
+    margin-right: .5em;
+
+}
+
+@media (max-width: 400px) {
+
+    .sticky {
+        top: 5vh;
+    }
+
+    ul.legenda-cor {
+
+        font-size: .5em;
+
+    }
+
+    ul.legenda-cor > li {
+
+        margin-right: 1em;
+
+    }
+
+    ul.legenda-cor > li::before {
+
+        margin-right: .25em;
+
+    }
+    
+}
+
+
+
 /* = = = = =
    = VIS = =
    = = = = = */
