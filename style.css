@@ -164,22 +164,40 @@ header {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-color: black;
     margin: -1rem;
     margin-bottom: 2rem;
 
 }
 
-.wrapper-title {
+.hero {
 
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
     display: flex;
+    justify-content: center;
     align-items: center;
-    position: absolute;
-    left: 50vw;
-    top: 50vh;
-    transform: translate(-50%, -55%);
-    z-index: 1;
 
+}
+
+/*
+
+.hero--primary {
+    --clip: circle(30% at var(--x) var(--y));
+    -webkit-clip-path: var(--clip);
+    clip-path: var(--clip);
+}
+
+.hero--secondary {
+
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.hero--secondary .wrapper-title {
+    z-index: 0;
 }
 
 header > img {
@@ -191,7 +209,7 @@ header > img {
     z-index: 0;
     max-width: 100%;
 
-}
+} */
 
 h1 { 
 
