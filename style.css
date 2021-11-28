@@ -120,7 +120,7 @@ article .step-wrapper {
 }
 
 article .step-wrapper.step-wrapper-pratinhos {
-    min-height: 45vh;
+    /*min-height: 100vh;*/
 }
 
 article .step-wrapper > p {

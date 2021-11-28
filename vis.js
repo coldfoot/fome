@@ -1652,14 +1652,47 @@ pratos = {
 
         params : {
 
-            // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
-            '1' : '[data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_0"],[data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_1"], [data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_2"]',
+            'aparecer' : {
+
+                'guia-1' : 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
+
+                'guia-2' : 'img[data-prato="guia-alimentar"][data-hora="almoco"]',
+
+            },
+
+            'desaparecer' : {
+
+                //'guia-2' : 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
+
+            }
+
 
         },
 
-        set : () => {
+        valores_atributos_para_modo : {
 
-            const params = pratos.scroller.params;
+            'aparecer' : {
+
+                opacity : 1
+
+            },
+            /*
+            'desaparecer' : {
+
+                opacity : 0
+
+            }*/
+
+
+        },
+
+        set : (modo) => {
+
+            // modos: aparecer, desaparecer, ressaltar, esmaecer
+
+            const params = pratos.scroller.params[modo];
+
+            console.log(params, modo);
 
             const steps = Object.keys(params);
 
@@ -1671,20 +1704,20 @@ pratos = {
 
                 gsap.to(params[step], {
 
-                    opacity : 1,
+                    opacity : pratos.scroller.valores_atributos_para_modo[modo]['opacity'],
                     x : 0,
                     y : 0,
 
-                    stagger : 0.2,
+                    stagger : 0.1,
 
                     scrollTrigger: {
                         trigger: seletor_step,
-                        markers: false,
+                        markers: true,
                         toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
-                        start: "15% 85%", // 
-                        end: "75% 40%", // end after scrolling 500px beyond the start,
-                        toggleActions: 'play play reverse reverse'
+                        start: "5% 75%", // 
+                        end: "95% 75%", // end after scrolling 500px beyond the start,
+                        toggleActions: 'play reverse play reverse'
                     }
                 })
 
@@ -1697,7 +1730,9 @@ pratos = {
 
     init : () => {
 
-        pratos.scroller.set();
+        pratos.scroller.set('aparecer');
+        //pratos.scroller.set('desaparecer');
+
 
         //pratos.set_div_height();
 
