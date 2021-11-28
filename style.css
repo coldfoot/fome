@@ -258,7 +258,7 @@ g.main-container g {
 
 }
 
-g.container-linha-regiao line {
+g.container-linha-regiao line.line-segmentos-geral {
 
     stroke: #666;
     opacity: .3;
@@ -358,7 +358,7 @@ img[data-comida] {
 
 }*/
 
-.active {
+.active p {
 
     opacity: 1;
     /*outline: 10px solid dodgerblue;
@@ -388,13 +388,25 @@ circle {
 L I N E C H A R T
 * * * * * * * * */
 
-.axis line, .axis path, .tick line {
+.y-axis line, .axis path, .tick line {
+    stroke: none;
+}
+
+.primeiro-eixo.y-axis line, .primeiro-eixo.axis path, .primeiro-eixo .tick line, .axis path {
     stroke: #777;
 }
+
 
 .axis text {
 
     font-family: Lato;
+    display: none;
+
+}
+
+.primeiro-eixo.axis text {
+
+    display: unset;
 
 }
 

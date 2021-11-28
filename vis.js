@@ -680,6 +680,8 @@ const v = {
                     const data_grupo = v.vis.line.mini_data[grupo];
 
                     const regioes = v.utils.unique(v.vis.data[grupo], 'regiao');
+
+                    let contador_regiao = 1;
     
                     regioes.forEach(regiao => {
     
@@ -699,20 +701,24 @@ const v = {
                         const yAxis = d3.axisLeft()
                             .scale(v.vis.line.y[grupo])
                             .ticks(grupo == 'com_3_regioes' ? 4 : 2)
+                            .tickSizeOuter(0)
                             .tickFormat(d3.format(".0%"));
         
                         const xAxis = d3.axisBottom()
+                            .tickSizeOuter(0)
                             .scale(v.vis.line.x[grupo]);
 
                         const pad_left = v.vis.line.x[grupo].range()[0];
         
                         g.append("g") 
                             .attr("class", "linechart-axis axis x-axis")
+                            .classed('primeiro-eixo', contador_regiao == 1)
                             .attr("transform", "translate(0," + (h) + ")")
                             .call(xAxis);
         
                         g.append("g") 
                             .attr("class", "linechart-axis axis y-axis")
+                            .classed('primeiro-eixo', contador_regiao == 1)
                             .attr("transform", `translate(${pad_left},0)`)
                             .call(yAxis);
     
@@ -776,7 +782,9 @@ const v = {
     
                             }
     
-                        })               
+                        })  
+                        
+                        contador_regiao++
                           
                     })
 
@@ -873,21 +881,23 @@ const v = {
 
             const yAxis = d3.axisLeft()
                 .scale(v.vis_intra_step.scales.y)
+                .tickSizeOuter(0)
                 .tickFormat(d3.format(".0%"))
             ;
 
             const xAxis = d3.axisBottom()
                 .scale(v.vis_intra_step.scales.x)
+                .tickSizeOuter(0)
             ;
 
             svg.append("g") 
-                .attr("class", "intra-chart-axis axis")
+                .attr("class", "intra-chart-axis axis primeiro-eixo")
                 .attr("transform", "translate(0," + (h-margin) + ")")
                 .call(xAxis)
             ;
 
             svg.append("g") 
-                .attr("class", "intra-chart-axis axis")
+                .attr("class", "intra-chart-axis axis primeiro-eixo")
                 .attr("transform", `translate(${margin},0)`)
                 .call(yAxis)
             ;
