@@ -812,7 +812,7 @@ const v = {
     
             w : null,
             h : null,
-            margin : 30,
+            margin : 35,
     
             get : () => {
     
@@ -866,6 +866,8 @@ const v = {
 
             const svg = d3.select('svg.intra-step');
 
+            const {w, h, margin} = v.vis_intra_step.sizings;
+
             svg
               .append('path')
               .classed('line-brasil', true)
@@ -882,6 +884,30 @@ const v = {
               .attr('x', d => v.vis_intra_step.scales.x(d.ano) + 3)
               .attr('y', d => v.vis_intra_step.scales.y(d.valor) - 5)
               .text(d => d3.format('.01%')(d.valor))
+              //.attr('fill', d => v.map.color(d.valor))
+            ;
+
+            // axis
+
+            const yAxis = d3.axisLeft()
+                .scale(v.vis_intra_step.scales.y)
+                .tickFormat(d3.format(".0%"))
+            ;
+
+            const xAxis = d3.axisBottom()
+                .scale(v.vis_intra_step.scales.x)
+            ;
+
+            svg.append("g") 
+                .attr("class", "intra-chart-axis axis")
+                .attr("transform", "translate(0," + (h-margin) + ")")
+                .call(xAxis)
+            ;
+
+            svg.append("g") 
+                .attr("class", "intra-chart-axis axis")
+                .attr("transform", `translate(${margin},0)`)
+                .call(yAxis)
             ;
 
             svg
@@ -891,31 +917,7 @@ const v = {
               .classed('point-linha-brasil', true)
               .attr('cx', d => v.vis_intra_step.scales.x(d.ano))
               .attr('cy', d => v.vis_intra_step.scales.y(d.valor))
-            ;
-
-            // axis
-
-            const {w, h, margin} = v.vis_intra_step.sizings;
-
-            const yAxis = d3.axisLeft()
-              .scale(v.vis_intra_step.scales.y)
-              .tickFormat(d3.format(".0%"))
-            ;
-
-            const xAxis = d3.axisBottom()
-              .scale(v.vis_intra_step.scales.x)
-            ;
-
-            svg.append("g") 
-                .attr("class", "intra-chart-axis")
-                .attr("transform", "translate(0," + (h-margin) + ")")
-                .call(xAxis)
-            ;
-
-            svg.append("g") 
-                .attr("class", "intra-chart-axis")
-                .attr("transform", `translate(${margin},0)`)
-                .call(yAxis)
+              .attr('fill', d => v.map.color(d.valor))
             ;
 
         },

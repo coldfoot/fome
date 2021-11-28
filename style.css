@@ -340,6 +340,10 @@ circle {
 L I N E C H A R T
 * * * * * * * * */
 
+.axis line, .axis path, .tick line {
+    stroke: #777;
+}
+
 .container-linha-regiao {
 
     opacity : 0;
@@ -397,7 +401,9 @@ LINE DENTRO DO STEP
 svg.intra-step {
 
     height: 200px;
-    background-color: white;
+    /*background-color: white;*/
+    border: none;
+    margin-top: 1rem;
 
 }
 
