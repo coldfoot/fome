@@ -25,7 +25,7 @@ const v = {
               if (!response.ok) {
                   throw new Error(`HTTP error! status: ${response.status}`);
               }
-              console.log(response.status);
+              //console.log(response.status);
               return response.json()
 
             })
@@ -579,8 +579,6 @@ const v = {
                     const width_util = v.map.sizings.w - width_max - pad_w * 3;
     
                     const w = width_util > 300 ? 300 : width_util;
-
-                    console.log(grupo, w, v.map.sizings.w, width_util, width_max);
     
                     // menor height do mapa, para determinar o height do gráfico
     
@@ -1019,8 +1017,6 @@ const v = {
                 const group_data = v.vis.data[grupo]
                 const regioes = v.utils.unique(group_data, 'regiao');
 
-                console.log(ano, grupo);
-
                 regioes.forEach(regiao => {
 
                     const data = group_data.filter(d => d.regiao == regiao).filter(d => d.ano == ano)[0];
@@ -1122,8 +1118,6 @@ const v = {
                         v.scroller.helpers.paint_regions(1996, 'com_5_regioes');
 
                     } else {
-
-                        console.log('aqui')
 
                         v.scroller.helpers.move_region(forward, 'com_3_regioes', transicao_5_3 = true);
                         v.scroller.helpers.paint_regions(1989, 'com_3_regioes', transicao = true);
@@ -1260,6 +1254,8 @@ const v = {
         },
 
         init : () => {
+
+            console.log('Que legal que vc veio dar uma olhada aqui! \nSe preferir, o código está todo disponível aqui, ó: \nhttps://github.com/coldfoot/fome/. \n:)');
 
             //v.vis.sizings.get();
             v.map.sizings.get();
@@ -1838,8 +1834,6 @@ pratos = {
 
                 const seletor_step = `[data-pratinhos-step="${step}"]`;
 
-                console.log(seletor_step, params[step]);
-
                 gsap.to(params[step].seletor, {
 
                     opacity : 1,//pratos.scroller.valores_atributos_para_modo[modo]['opacity'],
@@ -1850,7 +1844,7 @@ pratos = {
 
                     scrollTrigger: {
                         trigger: seletor_step,
-                        markers: true,
+                        markers: false,
                         toggleClass: 'active',
                         pin: false,   // pin the trigger element while active
                         start: "5% 75%", // 
