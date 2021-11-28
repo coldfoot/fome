@@ -132,30 +132,6 @@ article .step-wrapper > p {
 
 }
 
-article .step {
-
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 1.5rem;
-    border: 3px solid #343434;
-
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.time {
-
-    font-weight: bold;
-
-}
-
-.description {
-    flex-grow: 1;
-    margin-left: 1rem;
-}
-
 .sticky {
 
     position: sticky;
