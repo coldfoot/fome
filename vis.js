@@ -1660,26 +1660,96 @@ pratos = {
 
         params : {
 
-            'guia-1' : {
+            'guia-cafe' : {
                 
                 seletor: 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
                 toggleActions : 'esconde_depois'
 
             },
 
-            'guia-2' : {
+            'guia-almoco' : {
                 
                 seletor : 'img[data-prato="guia-alimentar"][data-hora="almoco"]',
                 toggleActions : 'esconde_depois'
             
             },
 
-            'guia-3' : {
+            'guia-jantar' : {
                 
                 seletor: 'img[data-prato="guia-alimentar"][data-hora="jantar"]',
                 toggleActions : 'esconde_depois'
 
-            }
+            },
+
+            'excesso-11h' : {
+                
+                seletor: 'img[data-prato="excesso-calorico"][data-hora="11h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'excesso-16h' : {
+                
+                seletor: 'img[data-prato="excesso-calorico"][data-hora="16h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'excesso-18h' : {
+                
+                seletor: 'img[data-prato="excesso-calorico"][data-hora="18h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'excesso-23h' : {
+                
+                seletor: 'img[data-prato="excesso-calorico"][data-hora="23h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-7h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="7h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-9h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="9h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-12h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="12h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-13h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="13h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-21h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="21h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'ultra-22h' : {
+                
+                seletor: 'img[data-prato="ultraprocessados"][data-hora="22h"]',
+                toggleActions : 'esconde_depois'
+
+            },
 
         },
 
