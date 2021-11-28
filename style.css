@@ -215,6 +215,7 @@ path.line {
 g.container-linha-regiao line {
 
     stroke: #666;
+    opacity: .3;
 
 }
 
@@ -416,8 +417,9 @@ svg.intra-step {
 
 .line-brasil {
 
-    stroke: var(--font-color);
+    stroke: #666;
     stroke-width: 4;
+    opacity: .3;
 
 }
 
