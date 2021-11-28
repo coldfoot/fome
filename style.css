@@ -526,3 +526,31 @@ img.item-prato.item-aleatorio-para-servir-de-referencia-para-a-altura-do-div {
     background-color: khaki;
 
 }
+
+.step-wrapper.step-wrapper.step-wrapper-pratinhos[data-pratinhos-visao-geral] p {
+
+    background-color: lightpink;
+
+}
+
+/* para compor todos as refeições de um tipo de alimentação */
+
+.container-prato.flex-container {
+
+    width: 100%;
+    border: 2px solid green;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 1;
+
+}
+
+.container-hora.flex-item {
+
+    position: relative;
+    flex: 0 1 40%;
+    transition: opacity .3s;
+    opacity: 1;
+
+}

@@ -1647,7 +1647,7 @@ const bar = {
 
 bar.ctrl.init();
 
-pratos = {
+const pratos = {
 
     set_div_height : () => {
 
@@ -1871,13 +1871,57 @@ pratos = {
 
             })
 
-         }
+        },
+
+        render_visao_geral : (tipo_alimentacao) => {
+
+            console.log(tipo_alimentacao, 'ME CHAMOU!');
+            document.querySelector(`.container-prato[data-prato="${tipo_alimentacao}"]`).classList.toggle("flex-container");
+            document.querySelectorAll(`.container-hora[data-prato="${tipo_alimentacao}"]`).forEach(div => div.classList.toggle("flex-item"));
+            document.querySelectorAll(`img[data-prato="${tipo_alimentacao}"]`).forEach(img => img.style.opacity = 1);
+
+        },
+
+        set_visao_geral : () => {
+
+            // modos: aparecer, desaparecer, ressaltar, esmaecer
+
+            const tipos_alimentacao = ['guia-alimentar'] //, 'excesso-calorico', 'pouca-comida', 'ultraprocessados', 'monotonia'];
+
+            tipos_alimentacao.forEach(tipo => {
+
+                const seletor_trigger = `[data-pratinhos-visao-geral="${tipo}"]`;
+                const seletor_step = `img[data-prato="${tipo}"]`;
+                console.log(seletor_step);
+
+                gsap.set(seletor_trigger, {
+
+                    color: white,
+
+                    scrollTrigger: {
+                        trigger: seletor_trigger,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "5% 75%", // 
+                        end: "95% 75%", // end after scrolling 500px beyond the start,
+                        onEnter: () => pratos.scroller.render_visao_geral(tipo)
+                    }
+                })
+
+
+            })
+
+        },
+
+        
 
     },
 
     init : () => {
 
         pratos.scroller.set();
+        pratos.scroller.set_visao_geral();
         //pratos.scroller.set('desaparecer');
 
 
