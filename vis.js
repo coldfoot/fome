@@ -1772,6 +1772,41 @@ pratos = {
 
             },
 
+            'mono-7h' : {
+                
+                seletor: 'img[data-prato="monotonia"][data-hora="7h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'mono-9h' : {
+                
+                seletor: 'img[data-prato="monotonia"][data-hora="9h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'mono-12h' : {
+                
+                seletor: 'img[data-prato="monotonia"][data-hora="12h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'mono-16h' : {
+                
+                seletor: 'img[data-prato="monotonia"][data-hora="16h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'mono-19h' : {
+                
+                seletor: 'img[data-prato="monotonia"][data-hora="19h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
         },
 
         valores_atributos_para_modo : {
