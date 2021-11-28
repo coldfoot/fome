@@ -24,10 +24,11 @@
     src: url("fonts/GT-Sectra-Regular.woff") format('woff');
 }
 
+/*
 @font-face {
     font-family: "FaktPro";
     src: url("fonts/FaktPro-Bold.woff") format('woff');
-}
+}*/
 
 @font-face {
     font-family: "Rainer";
@@ -160,7 +161,7 @@ article .step {
     position: sticky;
     /*width: 100vw;*/
     /*background: repeating-linear-gradient(45deg, black, black 20px, white 20px, white 40px);*/
-    height: 60vh;
+    /*height: 60vh;*/
     top: 10vh; 
     left: 0;
 
@@ -387,7 +388,7 @@ text.labels-points-geral {
 
     color: var(--title-color);
     /*transform: translate(20%,-100%);*/
-    font-family: Arial;
+    font-family: Lato;
     font-size: .8rem;
     opacity: 0;
     transition: opacity .2s;
@@ -418,7 +419,7 @@ svg.intra-step {
 
     color: var(--title-color);
     /*transform: translate(20%,-100%);*/
-    font-family: Arial;
+    font-family: Lato;
     font-size: .8rem;
 
 }
@@ -459,7 +460,7 @@ span.segalim {
 .segalim.rotulo-eixo {
 
     position: absolute;
-    font-family: Arial;
+    font-family: Lato;
     font-size: .7em;
     transform: translateX(-100%);
     padding-right: .5em;
@@ -468,7 +469,7 @@ span.segalim {
 
 .segalim.rotulo-valor {
 
-    font-family: Arial;
+    font-family: Lato;
     font-size: .6em;
     position: absolute;
     text-align: center;
