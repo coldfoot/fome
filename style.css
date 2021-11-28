@@ -547,13 +547,18 @@ span.segalim {
 P R A T O S
 * * * * * * * * */
 
-img.item-prato {
+img.item-prato, img.item-completo {
 
     max-width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0;
+
+}
+
+img.item-prato {
+
     transform: translate(-10%,-10%);
 
 }

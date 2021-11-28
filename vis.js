@@ -1640,7 +1640,7 @@ const bar = {
 
 bar.ctrl.init();
 
-pratos = {
+const pratos = {
 
     set_div_height : () => {
 
@@ -1864,13 +1864,82 @@ pratos = {
 
             })
 
-         }
+        },
+
+        set_pratos_completos_entram : () => {
+
+            // modos: aparecer, desaparecer, ressaltar, esmaecer
+
+            const steps = Array.from(document.querySelectorAll('[data-entra-prato-completo]')).map(el => el.dataset.entraPratoCompleto);
+
+            console.log(steps);
+
+            steps.forEach(step => {
+
+                const seletor_trigger = `[data-entra-prato-completo="${step}"]`;
+                const seletor_elemento = `.item-completo[data-prato="${step}"]`;
+
+                gsap.to(seletor_elemento, {
+
+                    opacity : 1,
+
+                    scrollTrigger: {
+                        trigger: seletor_trigger,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "5% 75%", // 
+                        end: "95% 75%", // end after scrolling 500px beyond the start,
+                        toggleActions: 'play play reverse reverse'
+                    }
+                })
+
+
+            })
+
+        },
+
+        set_pratos_completos_saem : () => {
+
+            // modos: aparecer, desaparecer, ressaltar, esmaecer
+
+            const steps = Array.from(document.querySelectorAll('[data-sai-prato-completo]')).map(el => el.dataset.saiPratoCompleto);
+
+            console.log(steps);
+
+            steps.forEach(step => {
+
+                const seletor_trigger = `[data-sai-prato-completo="${step}"]`;
+                const seletor_elemento = `.item-completo[data-prato="${step}"]`;
+
+                gsap.to(seletor_elemento, {
+
+                    opacity : 1,
+
+                    scrollTrigger: {
+                        trigger: seletor_trigger,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "5% 75%", // 
+                        end: "95% 75%", // end after scrolling 500px beyond the start,
+                        toggleActions: 'reverse reverse play play'
+                    }
+                })
+
+
+            })
+
+        }
+
 
     },
 
     init : () => {
 
         pratos.scroller.set();
+        pratos.scroller.set_pratos_completos_entram();
+        pratos.scroller.set_pratos_completos_saem();
         //pratos.scroller.set('desaparecer');
 
 
