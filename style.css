@@ -182,7 +182,7 @@ svg {
 
     height: 400px;
     width: 100%;
-    border: 3px solid var(--font-color); 
+    /*border: 3px solid var(--font-color); */
 
 }
 
@@ -214,7 +214,7 @@ path.line {
 
 g.container-linha-regiao line {
 
-    stroke : var(--font-color);
+    stroke: #666;
 
 }
 
@@ -345,6 +345,12 @@ L I N E C H A R T
     stroke: #777;
 }
 
+.axis text {
+
+    font-family: Lato;
+
+}
+
 .container-linha-regiao {
 
     opacity : 0;
@@ -362,7 +368,7 @@ L I N E C H A R T
 
 .line-segmentos-geral {
 
-    stroke-width: 3;
+    stroke-width: 2;
 
 }
 
