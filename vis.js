@@ -709,8 +709,37 @@ const v = {
                           .classed('container-linha-regiao-' + grupo, true)
                           .attr('data-container-linha-regiao', regiao)
                         ;
+
+                        //eixos
+
+                        const h = v.vis.line.h[grupo];
+
+                        const yAxis = d3.axisLeft()
+                            .scale(v.vis.line.y[grupo])
+                            .ticks(grupo == 'com_3_regioes' ? 4 : 2)
+                            .tickFormat(d3.format(".0%"));
+        
+                        const xAxis = d3.axisBottom()
+                            .scale(v.vis.line.x[grupo]);
+
+                        const pad_left = v.vis.line.x[grupo].range()[0];
+        
+                        g.append("g") 
+                            .attr("class", "linechart-axis axis x-axis")
+                            .attr("transform", "translate(0," + (h) + ")")
+                            .call(xAxis);
+        
+                        g.append("g") 
+                            .attr("class", "linechart-axis axis y-axis")
+                            .attr("transform", `translate(${pad_left},0)`)
+                            .call(yAxis);
     
-                        ['urbano', 'rural', 'geral'].forEach(tipo => {
+                        const translation_data = v.vis.line.translation_data[grupo][regiao];
+                        const { tx_linha , ty_linha } = translation_data;
+    
+                        g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);   
+    
+                        ['geral'].forEach(tipo => {  // 'urbano', 'rural'
     
                             // testa se existe o dado primeiro (pro Norte, rural, não existe)
                             if ( data[0].y1[tipo] ) {
@@ -743,6 +772,7 @@ const v = {
                                   .attr('data-circle-regiao', regiao)
                                   .attr('cx', d => x(d.ano))
                                   .attr('cy', d => y(d[tipo]))
+                                  .attr('fill', d => v.map.color(d[tipo]))
                                   //.attr('r', 20);
                 
                                   // labels
@@ -764,36 +794,7 @@ const v = {
     
                             }
     
-                        })
-    
-                        //eixos
-    
-                        const h = v.vis.line.h[grupo];
-    
-                        const yAxis = d3.axisLeft()
-                          .scale(v.vis.line.y[grupo])
-                          .ticks(grupo == 'com_3_regioes' ? 4 : 2)
-                          .tickFormat(d3.format(".0%"));
-      
-                        const xAxis = d3.axisBottom()
-                          .scale(v.vis.line.x[grupo]);
-
-                        const pad_left = v.vis.line.x[grupo].range()[0];
-      
-                        g.append("g") 
-                          .attr("class", "linechart-axis axis x-axis")
-                          .attr("transform", "translate(0," + (h) + ")")
-                          .call(xAxis);
-      
-                        g.append("g") 
-                          .attr("class", "linechart-axis axis y-axis")
-                          .attr("transform", `translate(${pad_left},0)`)
-                          .call(yAxis);
-    
-                        const translation_data = v.vis.line.translation_data[grupo][regiao];
-                        const { tx_linha , ty_linha } = translation_data;
-    
-                        g.attr("transform", `translate( ${tx_linha}, ${ty_linha} )`);                  
+                        })               
                           
                     })
 

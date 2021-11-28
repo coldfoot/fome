@@ -364,9 +364,8 @@ L I N E C H A R T
 
 .circle-points-geral.visivel {
 
-    r : 4;
-    stroke-width: 3;
-    fill : var(--font-color);
+    r : 5;
+    stroke : none;
 
 }
 
@@ -374,8 +373,7 @@ L I N E C H A R T
 
     opacity: 0;
     /* vai ser alterado no scroll*/
-    fill: none;
-    stroke: var(--font-color);
+    stroke: none;
     r : 20;
     transition: all .5s;/*r .5s, stroke-width .5s;*/
 
