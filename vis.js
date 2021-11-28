@@ -1988,3 +1988,24 @@ const pratos = {
 }
 
 pratos.init();
+
+const opening = {
+
+    init: () => {
+
+        gsap.to('header>img', {
+
+            opacity: .8,
+            scale: 1.5,
+            duration: 2,
+            repeat: 3,
+            yoyo: true
+
+
+        })
+
+    }
+
+}
+
+//opening.init();

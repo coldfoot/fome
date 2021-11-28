@@ -8,10 +8,13 @@
 
     --title-color: #943a20;
     --h2-color: #993113;
-    --font-color: #2C2C2C;
+    --font-color: #202020;
+    --link-color: #4169e1;
+    --active-link-color: #4169e1;
 
     --analogous-color : #A11B3E;
     --compound-color : #C77118;
+
 
 }
 
@@ -45,6 +48,12 @@ body {
 
 }
 
+strong {
+
+    color: black;
+
+}
+
 .limited-width, h1 {
 
     max-width: 528px;
@@ -61,16 +70,6 @@ body {
 .section-intro {
 
     margin-bottom: 2rem;
-
-}
-
-h1 { 
-
-    text-align: center;
-    font-family: Rainer;
-    text-transform: uppercase;
-    font-size: 84px;
-    color: var(--title-color);
 
 }
 
@@ -142,6 +141,75 @@ article .step-wrapper > p {
     left: 0;
 
 }
+
+a:focus {
+    outline: thin dotted;
+}
+
+
+a:hover, a:focus, a:active {
+    color: var(--active-link-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+/* = = = = = = = = 
+   = H E A D E R =
+   = = = = = = = */
+
+header {
+
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    margin: -1rem;
+    margin-bottom: 2rem;
+
+}
+
+.wrapper-title {
+
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -55%);
+    z-index: 1;
+
+}
+
+header > img {
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 0;
+    max-width: 100%;
+
+}
+
+h1 { 
+
+    text-align: center;
+    font-family: Rainer;
+    text-transform: uppercase;
+    font-size: 84px;
+    color: white;/*var(--title-color);*/
+
+}
+
+.fome {
+
+    -webkit-text-stroke: 2px white;
+    color: transparent;
+
+}
+
 
 /* = = = = = = = = 
    = LEGENDA COR =
@@ -587,5 +655,5 @@ img.item-prato.item-aleatorio-para-servir-de-referencia-para-a-altura-do-div {
 [data-titulo-prato] {
 
     display: none;
-    
+
 }
