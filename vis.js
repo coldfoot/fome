@@ -671,36 +671,6 @@ const v = {
 
             },
 
-            draw_color_axis : () => {
-
-                const svg = d3.select(v.vis.elems.svg);
-                const intervalos = v.map.color.domain();
-                const cores = v.map.color.range();
-                //intervalos.push(50);
-                const margin = v.map.sizings.margin * 2;
-
-                const g = svg.append('g').classed('color-axis', true);
-
-                for (let i = 0; i <= intervalos.length; i++) {
-
-                    let p = i == 4 ? 50 : intervalos[i];
-
-                    g
-                      .append('rect')
-                      .classed('color-axis-key', true)
-                      .attr('x', margin - 3)
-                      .attr('y', v.vis.line.y(p))
-                      .attr('width', 6)
-                      .attr('height', v.vis.line.y(0)-v.vis.line.y(10))
-                      .attr('fill', cores[i])
-                    ;
-
-                }
-
-                //g.attr('transform', `translate(0, ${-margin})`);
-
-            },
-
             draw : () => {
 
                 const svg = d3.select(v.vis.elems.svg);
