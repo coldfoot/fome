@@ -1648,7 +1648,56 @@ pratos = {
 
     },
 
+    scroller : {
+
+        params : {
+
+            // 1 O primeiro segmento do gráfico de barras empilhadas é adicionado.
+            '1' : '[data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_0"],[data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_1"], [data-prato="excesso-calorico"][data-hora="16h"][data-item="ExcessoCalorico_16h_2"]',
+
+        },
+
+        set : () => {
+
+            const params = pratos.scroller.params;
+
+            const steps = Object.keys(params);
+
+            steps.forEach(step => {
+
+                const seletor_step = `[data-pratinhos-step="${step}"]`;
+
+                console.log(seletor_step, params[step]);
+
+                gsap.to(params[step], {
+
+                    opacity : 1,
+                    x : 0,
+                    y : 0,
+
+                    stagger : 0.2,
+
+                    scrollTrigger: {
+                        trigger: seletor_step,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,   // pin the trigger element while active
+                        start: "15% 85%", // 
+                        end: "75% 40%", // end after scrolling 500px beyond the start,
+                        toggleActions: 'play play reverse reverse'
+                    }
+                })
+
+
+            })
+
+         }
+
+    },
+
     init : () => {
+
+        pratos.scroller.set();
 
         //pratos.set_div_height();
 
