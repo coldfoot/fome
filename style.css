@@ -358,9 +358,10 @@ img[data-comida] {
 
 }*/
 
-.active p {
+article .step-wrapper.active p {
 
     opacity: 1;
+    background-color: white;
     /*outline: 10px solid dodgerblue;
     background-color: steelblue;
     color: white;
