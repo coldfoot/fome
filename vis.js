@@ -1650,22 +1650,36 @@ pratos = {
 
     scroller : {
 
+        toggle_actions : {
+
+            //  onEnter, onLeave, onEnterBack, onLeaveBack,
+            esconde_depois : 'play reverse play reverse',
+            mantem_depois : 'play none reverse none'
+
+        },
+
         params : {
 
-            'aparecer' : {
-
-                'guia-1' : 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
-
-                'guia-2' : 'img[data-prato="guia-alimentar"][data-hora="almoco"]',
+            'guia-1' : {
+                
+                seletor: 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
+                toggleActions : 'esconde_depois'
 
             },
 
-            'desaparecer' : {
+            'guia-2' : {
+                
+                seletor : 'img[data-prato="guia-alimentar"][data-hora="almoco"]',
+                toggleActions : 'esconde_depois'
+            
+            },
 
-                //'guia-2' : 'img[data-prato="guia-alimentar"][data-hora="cafe"]',
+            'guia-3' : {
+                
+                seletor: 'img[data-prato="guia-alimentar"][data-hora="jantar"]',
+                toggleActions : 'esconde_depois'
 
             }
-
 
         },
 
@@ -1686,13 +1700,11 @@ pratos = {
 
         },
 
-        set : (modo) => {
+        set : () => {
 
             // modos: aparecer, desaparecer, ressaltar, esmaecer
 
-            const params = pratos.scroller.params[modo];
-
-            console.log(params, modo);
+            const params = pratos.scroller.params;
 
             const steps = Object.keys(params);
 
@@ -1702,9 +1714,9 @@ pratos = {
 
                 console.log(seletor_step, params[step]);
 
-                gsap.to(params[step], {
+                gsap.to(params[step].seletor, {
 
-                    opacity : pratos.scroller.valores_atributos_para_modo[modo]['opacity'],
+                    opacity : 1,//pratos.scroller.valores_atributos_para_modo[modo]['opacity'],
                     x : 0,
                     y : 0,
 
@@ -1717,7 +1729,7 @@ pratos = {
                         pin: false,   // pin the trigger element while active
                         start: "5% 75%", // 
                         end: "95% 75%", // end after scrolling 500px beyond the start,
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: pratos.scroller.toggle_actions[params[step].toggleActions]
                     }
                 })
 
@@ -1730,7 +1742,7 @@ pratos = {
 
     init : () => {
 
-        pratos.scroller.set('aparecer');
+        pratos.scroller.set();
         //pratos.scroller.set('desaparecer');
 
 
