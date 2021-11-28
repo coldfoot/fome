@@ -1751,6 +1751,27 @@ pratos = {
 
             },
 
+            'pouca-8h' : {
+                
+                seletor: 'img[data-prato="pouca-comida"][data-hora="8h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'pouca-13h' : {
+                
+                seletor: 'img[data-prato="pouca-comida"][data-hora="13h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
+            'pouca-17h' : {
+                
+                seletor: 'img[data-prato="pouca-comida"][data-hora="17h"]',
+                toggleActions : 'esconde_depois'
+
+            },
+
         },
 
         valores_atributos_para_modo : {
