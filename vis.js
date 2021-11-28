@@ -1830,6 +1830,30 @@ const pratos = {
 
         },
 
+        helpers : {
+
+            ultimo_tipo_prato : '',
+
+            mostra_titulo : (tipo_prato) => {
+
+                if (tipo_prato) {
+
+                    pratos.scroller.helpers.ultimo_tipo_prato = tipo_prato;
+
+                    const titulos = document.querySelectorAll('[data-titulo-prato]');
+                    titulos.forEach(titulo => titulo.style.display = 'none');
+    
+                    const titulo_a_mostrar = document.querySelector(`[data-titulo-prato="${tipo_prato}"]`);
+                    console.log(tipo_prato, titulo_a_mostrar);
+                    titulo_a_mostrar.style.display = 'inline';
+
+                }
+
+            }
+
+
+        },
+
         set : () => {
 
             // modos: aparecer, desaparecer, ressaltar, esmaecer
@@ -1841,6 +1865,18 @@ const pratos = {
             steps.forEach(step => {
 
                 const seletor_step = `[data-pratinhos-step="${step}"]`;
+
+                // const disparadores_titulo = {
+
+                //     'guia-cafe' : 'guia-alimentar',
+                //     "excesso-11h" : 'excesso-calorico',
+                //     'ultra-7h' : 'ultraprocessados',
+                //     'pouca-8h' : 'pouca-comida',
+                //     'mono-7h' : 'monotonia'
+
+                // }
+
+                //const tipo_prato = disparadores_titulo[step];
 
                 gsap.to(params[step].seletor, {
 
@@ -1857,7 +1893,9 @@ const pratos = {
                         pin: false,   // pin the trigger element while active
                         start: "5% 75%", // 
                         end: "95% 75%", // end after scrolling 500px beyond the start,
-                        toggleActions: pratos.scroller.toggle_actions[params[step].toggleActions]
+                        toggleActions: pratos.scroller.toggle_actions[params[step].toggleActions],
+                        //onEnter : () => pratos.scroller.helpers.mostra_titulo(tipo_prato),
+                        //onEnterBack : () => pratos.scroller.helpers.mostra_titulo(pratos.scroller.helpers.ultimo_tipo_prato),
                     }
                 })
 

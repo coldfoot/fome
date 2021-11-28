@@ -583,3 +583,9 @@ img.item-prato.item-aleatorio-para-servir-de-referencia-para-a-altura-do-div {
     background-color: khaki;
 
 }
+
+[data-titulo-prato] {
+
+    display: none;
+    
+}
