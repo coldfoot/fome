@@ -207,9 +207,16 @@ g.main-container g {
 
 }
 
+[data-titulo-mapa="com_3_regioes"] {
 
-path.line {
-    /*transform-origin: 250px 200px;*/
+    display: inline;
+
+}
+
+[data-titulo-mapa="com_5_regioes"] {
+
+    display: none;
+
 }
 
 g.container-linha-regiao line {

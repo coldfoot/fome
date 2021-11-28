@@ -937,6 +937,16 @@ const v = {
 
         helpers : {
 
+            troca_titulo : (forward) => {
+
+                document.querySelector('[data-titulo-mapa="com_3_regioes"]')
+                  .style.display = forward ? 'none' : 'inline';
+
+                document.querySelector('[data-titulo-mapa="com_5_regioes"]')
+                  .style.display = forward ? 'inline' : 'none';
+
+            },
+
             move_region : (forward, grupo, transicao_5_3 = false) => {
 
                 const dados = v.map.translation_data_regioes.filter(d => d.nome == grupo)[0].data;
@@ -1112,6 +1122,8 @@ const v = {
                 },
 
                 "4" : (forward) => {
+
+                    v.scroller.helpers.troca_titulo(forward);
 
                     v.scroller.helpers.toggle_opacity_all('.container-linha-regiao-com_3_regioes', !forward);
 
