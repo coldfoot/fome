@@ -8,6 +8,8 @@ const v = {
 
         map : null,
 
+        map_br : null,
+
         path_data : null,
 
         info_from_data : {
@@ -1238,15 +1240,18 @@ const v = {
 
         loaded_data : (data) => {
 
-            v.data.raw = data.tabular;//.filter(d => d.metodologia == 'estatura x idade (NCHS/OMS 1987)');
-            v.data.raw.forEach(d => {
-                d.date = new Date(d.ano, 0, 1)
-            })
+            //v.data.raw = data.tabular;//.filter(d => d.metodologia == 'estatura x idade (NCHS/OMS 1987)');
+            //v.data.raw.forEach(d => {
+            //    d.date = new Date(d.ano, 0, 1)
+            //})
 
-            v.data.info_from_data.anos = v.utils.unique(v.data.raw, 'ano');
-            v.data.info_from_data.regioes = v.utils.unique(v.data.raw, 'region');
+            //v.data.info_from_data.anos = v.utils.unique(v.data.raw, 'ano');
+            //v.data.info_from_data.regioes = v.utils.unique(v.data.raw, 'region');
+
+            console.log(data);
                            
             v.data.map = JSON.parse(data.map);
+            //v.data.map_br = JSON.parse(data.br[0]);
             v.map.render();
             v.map.evaluate_future_positions();
             v.map.set_legenda_cor();
@@ -2017,10 +2022,86 @@ const opening = {
             
             hero.style.setProperty('--x', `${x}%`)
             hero.style.setProperty('--y', `${y}%`)
-})
+        })
+
+    },
+
+    mapa_br : {
+
+        init : () => {
+
+            fetch('./br.json')
+                .then(response => { 
+                    
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  //console.log(response.status);
+                  return response.json()
+    
+                })
+                .then(data => {
+    
+                    opening.mapa_br.sizings.get_set();
+                    opening.mapa_br.render(data);
+    
+                })
+            ;
+
+        },
+
+        sizings : {
+    
+            w : null,
+            h : null,
+            margin : 0,
+    
+            get_set : () => {
+    
+                const svg = document.querySelector('.mapa-br');
+    
+                opening.mapa_br.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                opening.mapa_br.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+
+                const {w, h} = opening.mapa_br.sizings;
+
+                svg.setAttribute("viewBox", `0 0 ${w} ${h}`); 
+
+            }
+    
+        },
+
+        proj : () => {
+
+            const {w, h} = opening.mapa_br.sizings;
+            
+            return d3.geoMercator()
+              .center([-55, -15])
+              //.rotate([10, 0])
+              .scale(400)
+              .translate([w / 2, h / 2])
+
+        },
+
+        render : (data) => {
+
+            console.log(data);
+
+            let proj = opening.mapa_br.proj();
+
+            let svg = d3.select('.mapa-br');
+
+            svg
+                .append('path')
+                .classed('contorno-mapa-br', true)
+                .attr("d", d3.geoPath().projection(proj)(data))
+                .attr('fill', 'none')
+            ;
+
+        }
 
     }
 
 }
 
-//opening.init2();
+//opening.mapa_br.init();

@@ -177,7 +177,23 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
+}
+
+.mapa-br {
+    stroke: white;
+    stroke-width: 2;
+    position: absolute;
+    width: 400px;
+    z-index: 0;
+    /*transform: translate(-50%,0);*/
+
+}
+
+.wrapper-title {
+    position: absolute;
+    z-index: 2;
 }
 
 /*
@@ -224,7 +240,7 @@ h1 {
 .fome {
 
     -webkit-text-stroke: 2px white;
-    color: transparent;
+    color: black; /*transparent;*/
 
 }
 
