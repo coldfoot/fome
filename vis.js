@@ -328,7 +328,6 @@ const v = {
             document.querySelectorAll('[data-range-index]').forEach(li => {
 
                 const index = +li.dataset.rangeIndex;
-                console.log(index);
                 li.querySelector('span').style.backgroundColor = v.map.color.range()[index];
 
             })
@@ -1247,8 +1246,6 @@ const v = {
 
             //v.data.info_from_data.anos = v.utils.unique(v.data.raw, 'ano');
             //v.data.info_from_data.regioes = v.utils.unique(v.data.raw, 'region');
-
-            console.log(data);
                            
             v.data.map = JSON.parse(data.map);
             //v.data.map_br = JSON.parse(data.br[0]);
@@ -1849,7 +1846,6 @@ const pratos = {
                     titulos.forEach(titulo => titulo.style.display = 'none');
     
                     const titulo_a_mostrar = document.querySelector(`[data-titulo-prato="${tipo_prato}"]`);
-                    console.log(tipo_prato, titulo_a_mostrar);
                     titulo_a_mostrar.style.display = 'inline';
 
                 }
@@ -1915,8 +1911,6 @@ const pratos = {
 
             const steps = Array.from(document.querySelectorAll('[data-entra-prato-completo]')).map(el => el.dataset.entraPratoCompleto);
 
-            console.log(steps);
-
             steps.forEach(step => {
 
                 const seletor_trigger = `[data-entra-prato-completo="${step}"]`;
@@ -1947,8 +1941,6 @@ const pratos = {
             // modos: aparecer, desaparecer, ressaltar, esmaecer
 
             const steps = Array.from(document.querySelectorAll('[data-sai-prato-completo]')).map(el => el.dataset.saiPratoCompleto);
-
-            console.log(steps);
 
             steps.forEach(step => {
 
@@ -2084,8 +2076,6 @@ const opening = {
         },
 
         render : (data) => {
-
-            console.log(data);
 
             let proj = opening.mapa_br.proj();
 
