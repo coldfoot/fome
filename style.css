@@ -175,6 +175,7 @@ header {
     height: 100vh;
     background-color: black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -183,17 +184,20 @@ header {
 
 .mapa-br {
     stroke: white;
-    stroke-width: 2;
-    position: absolute;
-    width: 400px;
-    z-index: 0;
+    stroke-width: 5;
+    /*position: absolute;*/
+    width: 300px;
+    height: 300px;
     /*transform: translate(-50%,0);*/
 
 }
 
 .wrapper-title {
-    position: absolute;
-    z-index: 2;
+    margin-top: -2rem;
+}
+
+.wrapper-creditos p {
+    font-size: 1rem;
 }
 
 /*
@@ -234,6 +238,7 @@ h1 {
     text-transform: uppercase;
     font-size: 84px;
     color: white;/*var(--title-color);*/
+    /*text-shadow: 0 0 10px black;*/
 
 }
 
@@ -242,6 +247,17 @@ h1 {
     -webkit-text-stroke: 2px white;
     color: black; /*transparent;*/
 
+}
+
+p.linha-fina {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    font-family: Lato;
+    font-weight: 100;
+    font-size: 1.1rem;
+    letter-spacing: .3px;
 }
 
 
@@ -302,6 +318,15 @@ ul.legenda-cor > li > span {
 
         margin-right: .25em;
 
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+    p.linha-fina {
+        font-size: .9rem;
+        max-width: 300px;
     }
     
 }
