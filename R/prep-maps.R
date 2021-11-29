@@ -132,3 +132,15 @@ output <- list(
 )
 
 write_json(output, '../data.json')
+
+br <- geobr::read_country()
+br$country <- 'Brasil'
+box <- c(xmin = -75, ymin = 8, xmax = -35, ymax = -35)
+br_limited <- st_crop(br, box)
+
+br_limited_simplified <- st_simplify(br_limited, dTolerance = 0.3)
+ggplot(br_limited_simplified) + geom_sf()
+
+br_geo <- sf_geojson(br_limited_simplified, simplify = TRUE, digits = 6)
+
+write_file(br_geo, '../br.json')
