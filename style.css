@@ -107,6 +107,7 @@ p {
 article {
 
     position: relative; /*faz ficar na frente*/
+    z-index: 1;
 
 }
 
