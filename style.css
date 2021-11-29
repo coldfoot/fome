@@ -296,7 +296,7 @@ ul.legenda-cor > li > span {
 
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
 
     .sticky {
         top: 5vh;
