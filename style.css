@@ -107,7 +107,7 @@ p {
 article {
 
     position: relative; /*faz ficar na frente*/
-    z-index: 1;
+    z-index: 2;
 
 }
 
@@ -140,6 +140,7 @@ article .step-wrapper > p {
     /*height: 60vh;*/
     top: 10vh; 
     left: 0;
+    z-index: -1;
 
 }
 
