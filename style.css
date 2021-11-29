@@ -643,6 +643,17 @@ img.item-prato, img.item-completo {
 
 }
 
+.mesa {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    border: 3px solid #884f26;
+    /*box-shadow: 2px 2px 2px 0px darkgray;*/
+
+}
+
 img.item-prato {
 
     transform: translate(-10%,-10%);
@@ -658,8 +669,6 @@ img.item-prato.item-aleatorio-para-servir-de-referencia-para-a-altura-do-div {
 .vis-pratinhos-container {
 
     position: relative;
-    border: 3px solid var(--font-color);
-    box-shadow: 2px 2px 2px 0px darkgray;
     height: auto;
 
 }
