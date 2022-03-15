@@ -603,7 +603,7 @@ svg.intra-step {
 
 .point-linha-brasil {
 
-    r : 5;
+    r : 5px;
 
 }
 
@@ -653,7 +653,7 @@ span.segalim {
 .segalim.rotulo-valor {
 
     font-family: Lato;
-    font-size: .6em;
+    font-size: .55em;
     position: absolute;
     text-align: center;
 

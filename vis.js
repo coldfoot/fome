@@ -1500,7 +1500,7 @@ const bar = {
             .style('height', y.bandwidth()/2 + 'px')
             .style('line-height', y.bandwidth()/2 + 'px')
             .style('background-color', color(group.key))
-            .text(d => d3.format(".0%")(d.data[group.key]))
+            .text(d => d3.format(".1%")(d.data[group.key]))
           ;
 
         });
